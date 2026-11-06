@@ -1,0 +1,1251 @@
+{
+  "version": 1,
+  "arbetsomraden": [
+    {
+      "id": "taluppfattning",
+      "namn": "Taluppfattning",
+      "delomraden": [
+        {
+          "id": "positionssystemet",
+          "namn": "Positionssystemet och avrundning",
+          "uppsattningar": [
+            {
+              "id": "storleksordning",
+              "namn": "Storleksordning och jämförelse",
+              "ordning": 1
+            },
+            {
+              "id": "avrundning",
+              "namn": "Avrundning och överslagsräkning",
+              "ordning": 2
+            }
+          ]
+        },
+        {
+          "id": "decimaltal-grunder",
+          "namn": "Decimaltal: grunder",
+          "uppsattningar": [
+            {
+              "id": "positionsvarde",
+              "namn": "Positionsvärde och decimaltal på tallinjen",
+              "ordning": 1
+            },
+            {
+              "id": "jamfora-decimaltal",
+              "namn": "Jämföra och storleksordna decimaltal",
+              "ordning": 2
+            },
+            {
+              "id": "avrundning-decimaler",
+              "namn": "Avrundning till given decimal",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "decimal-addition-subtraktion",
+          "namn": "Addition och subtraktion av decimaltal",
+          "uppsattningar": [
+            {
+              "id": "samma-antal-decimaler",
+              "namn": "Lika många decimaler",
+              "ordning": 1
+            },
+            {
+              "id": "olika-antal-decimaler",
+              "namn": "Olika många decimaler",
+              "ordning": 2
+            },
+            {
+              "id": "textuppgifter",
+              "namn": "Textuppgifter",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "decimal-multiplikation-division",
+          "namn": "Multiplikation och division av decimaltal",
+          "uppsattningar": [
+            {
+              "id": "ganger-delat-tiopotens",
+              "namn": "Gånger och delat med 10, 100 och 1000",
+              "ordning": 1
+            },
+            {
+              "id": "decimal-ganger-heltal",
+              "namn": "Decimaltal gånger heltal",
+              "ordning": 2
+            },
+            {
+              "id": "decimal-ganger-decimal",
+              "namn": "Decimaltal gånger decimaltal",
+              "ordning": 3
+            },
+            {
+              "id": "division-decimaltal",
+              "namn": "Division med decimaltal",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "negativa-tal",
+          "namn": "Negativa tal",
+          "uppsattningar": [
+            {
+              "id": "tallinjen",
+              "namn": "Negativa tal på tallinjen",
+              "ordning": 1
+            },
+            {
+              "id": "addition-subtraktion",
+              "namn": "Addition och subtraktion",
+              "ordning": 2
+            },
+            {
+              "id": "multiplikation-division",
+              "namn": "Multiplikation och division",
+              "ordning": 3
+            },
+            {
+              "id": "textuppgifter",
+              "namn": "Textuppgifter",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "rakneordning",
+          "namn": "Räkneordning och parenteser",
+          "uppsattningar": [
+            {
+              "id": "utan-parenteser",
+              "namn": "Räkneordning utan parenteser",
+              "ordning": 1
+            },
+            {
+              "id": "med-parenteser",
+              "namn": "Räkneordning med parenteser",
+              "ordning": 2
+            },
+            {
+              "id": "blandade-uttryck",
+              "namn": "Blandade uttryck med flera led",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "delbarhet-primtal",
+          "namn": "Delbarhet, primtal och faktorer",
+          "uppsattningar": [
+            {
+              "id": "delbarhetsregler",
+              "namn": "Delbarhetsregler",
+              "ordning": 1
+            },
+            {
+              "id": "primtalsfaktorisering",
+              "namn": "Primtalsfaktorisering",
+              "ordning": 2
+            },
+            {
+              "id": "sgd-mgm",
+              "namn": "Största gemensamma delare och minsta gemensamma multipel",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "brak-grunder",
+          "namn": "Bråk: grunder",
+          "uppsattningar": [
+            {
+              "id": "del-av-helhet",
+              "namn": "Bråk som del av helhet",
+              "ordning": 1
+            },
+            {
+              "id": "forlanga-forkorta",
+              "namn": "Förlänga och förkorta",
+              "ordning": 2
+            },
+            {
+              "id": "blandad-form",
+              "namn": "Blandad form och oäkta bråk",
+              "ordning": 3
+            },
+            {
+              "id": "jamfora-brak",
+              "namn": "Jämföra och storleksordna bråk",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "brak-addition-subtraktion",
+          "namn": "Addition och subtraktion av bråk",
+          "uppsattningar": [
+            {
+              "id": "samma-namnare",
+              "namn": "Samma nämnare",
+              "ordning": 1
+            },
+            {
+              "id": "multipel-namnare",
+              "namn": "Olika nämnare, en multipel av den andra",
+              "ordning": 2,
+              "beskrivning": "t.ex. tredjedelar och sjättedelar"
+            },
+            {
+              "id": "forlangning",
+              "namn": "Olika nämnare som kräver förlängning",
+              "ordning": 3,
+              "beskrivning": "gemensam nämnare behöver hittas"
+            },
+            {
+              "id": "blandad-form",
+              "namn": "Med blandad form",
+              "ordning": 4
+            },
+            {
+              "id": "textuppgifter",
+              "namn": "Textuppgifter",
+              "ordning": 5
+            }
+          ]
+        },
+        {
+          "id": "brak-multiplikation-division",
+          "namn": "Multiplikation och division av bråk",
+          "uppsattningar": [
+            {
+              "id": "heltal-ganger-brak",
+              "namn": "Heltal gånger bråk",
+              "ordning": 1
+            },
+            {
+              "id": "brak-ganger-brak",
+              "namn": "Bråk gånger bråk",
+              "ordning": 2
+            },
+            {
+              "id": "brak-delat-med-brak",
+              "namn": "Bråk delat med bråk",
+              "ordning": 3
+            },
+            {
+              "id": "brakdel-av-tal",
+              "namn": "Bråkdel av ett tal",
+              "ordning": 4
+            },
+            {
+              "id": "blandad-form",
+              "namn": "Med blandad form",
+              "ordning": 5
+            },
+            {
+              "id": "textuppgifter",
+              "namn": "Textuppgifter",
+              "ordning": 6
+            }
+          ]
+        },
+        {
+          "id": "tal-i-olika-former",
+          "namn": "Tal i olika former",
+          "uppsattningar": [
+            {
+              "id": "brak-decimal",
+              "namn": "Mellan bråk och decimalform",
+              "ordning": 1
+            },
+            {
+              "id": "brak-decimal-procent",
+              "namn": "Mellan bråk, decimalform och procent",
+              "ordning": 2
+            }
+          ]
+        },
+        {
+          "id": "potenser-standardform",
+          "namn": "Potenser och standardform",
+          "uppsattningar": [
+            {
+              "id": "potens-grunder",
+              "namn": "Potenser med heltalsbas",
+              "ordning": 1
+            },
+            {
+              "id": "potenslagar",
+              "namn": "Potenslagar",
+              "ordning": 2
+            },
+            {
+              "id": "tiopotenser",
+              "namn": "Tiopotenser",
+              "ordning": 3
+            },
+            {
+              "id": "standardform",
+              "namn": "Standardform",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "rotter",
+          "namn": "Kvadratrötter",
+          "uppsattningar": [
+            {
+              "id": "kvadrattal-rot",
+              "namn": "Kvadrattal och kvadratrot",
+              "ordning": 1
+            },
+            {
+              "id": "uppskatta-rot",
+              "namn": "Uppskatta och beräkna rötter",
+              "ordning": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "geometri",
+      "namn": "Geometri",
+      "delomraden": [
+        {
+          "id": "enheter-matt",
+          "namn": "Enheter och mätning",
+          "uppsattningar": [
+            {
+              "id": "langd",
+              "namn": "Längdenheter",
+              "ordning": 1
+            },
+            {
+              "id": "areaenheter",
+              "namn": "Areaenheter",
+              "ordning": 2
+            },
+            {
+              "id": "volymenheter",
+              "namn": "Volymenheter och liter",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "vinklar",
+          "namn": "Vinklar och geometriska begrepp",
+          "uppsattningar": [
+            {
+              "id": "vinkeltyper",
+              "namn": "Vinkeltyper och mätning",
+              "ordning": 1
+            },
+            {
+              "id": "vinkelsumma",
+              "namn": "Vinkelsumma i trianglar och månghörningar",
+              "ordning": 2
+            },
+            {
+              "id": "parallella-linjer",
+              "namn": "Vinklar vid parallella linjer",
+              "ordning": 3
+            },
+            {
+              "id": "symmetri",
+              "namn": "Symmetri och spegling",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "omkrets",
+          "namn": "Omkrets",
+          "uppsattningar": [
+            {
+              "id": "rektangel-kvadrat",
+              "namn": "Rektangel och kvadrat",
+              "ordning": 1
+            },
+            {
+              "id": "triangel-manghorning",
+              "namn": "Triangel och månghörning",
+              "ordning": 2
+            },
+            {
+              "id": "cirkel",
+              "namn": "Cirkelns omkrets",
+              "ordning": 3
+            },
+            {
+              "id": "sammansatta-figurer",
+              "namn": "Sammansatta figurer",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "area",
+          "namn": "Area",
+          "uppsattningar": [
+            {
+              "id": "rektangel",
+              "namn": "Rektangel och kvadrat",
+              "ordning": 1
+            },
+            {
+              "id": "parallellogram",
+              "namn": "Parallellogram",
+              "ordning": 2
+            },
+            {
+              "id": "triangel",
+              "namn": "Triangel",
+              "ordning": 3
+            },
+            {
+              "id": "trapets",
+              "namn": "Trapets",
+              "ordning": 4
+            },
+            {
+              "id": "sammansatta-figurer",
+              "namn": "Sammansatta figurer",
+              "ordning": 5
+            },
+            {
+              "id": "cirkel-diameter",
+              "namn": "Cirkel: diametern given",
+              "ordning": 6
+            },
+            {
+              "id": "cirkel-radie",
+              "namn": "Cirkel: radien given",
+              "ordning": 7
+            },
+            {
+              "id": "cirkel-ur-area",
+              "namn": "Cirkel: beräkna radien ur arean",
+              "ordning": 8
+            }
+          ]
+        },
+        {
+          "id": "pythagoras",
+          "namn": "Pythagoras sats",
+          "uppsattningar": [
+            {
+              "id": "hypotenusa",
+              "namn": "Beräkna hypotenusan",
+              "ordning": 1,
+              "beskrivning": "Givet de två kateterna"
+            },
+            {
+              "id": "katet",
+              "namn": "Beräkna en okänd katet",
+              "ordning": 2,
+              "beskrivning": "Givet hypotenusan och den andra kateten"
+            },
+            {
+              "id": "ratvinklig-kontroll",
+              "namn": "Kontrollera om triangeln är rätvinklig",
+              "ordning": 3,
+              "beskrivning": "Pythagoras sats gäller bara i rätvinkliga trianglar"
+            },
+            {
+              "id": "pythagoras-text",
+              "namn": "Pythagoras i textuppgifter och sammansatta figurer",
+              "ordning": 4
+            },
+            {
+              "id": "avstand-koordinatsystem",
+              "namn": "Avstånd mellan punkter i ett koordinatsystem",
+              "ordning": 5
+            }
+          ]
+        },
+        {
+          "id": "volym",
+          "namn": "Volym",
+          "uppsattningar": [
+            {
+              "id": "ratblock-kub",
+              "namn": "Rätblock och kub",
+              "ordning": 1
+            },
+            {
+              "id": "prisma-cylinder",
+              "namn": "Prisma och cylinder",
+              "ordning": 2
+            },
+            {
+              "id": "pyramid-kon",
+              "namn": "Pyramid och kon",
+              "ordning": 3
+            },
+            {
+              "id": "klot",
+              "namn": "Klot",
+              "ordning": 4
+            },
+            {
+              "id": "sammansatta-kroppar",
+              "namn": "Sammansatta kroppar",
+              "ordning": 5
+            }
+          ]
+        },
+        {
+          "id": "begransningsarea",
+          "namn": "Begränsningsarea",
+          "uppsattningar": [
+            {
+              "id": "ratblock-kub",
+              "namn": "Rätblock och kub",
+              "ordning": 1
+            },
+            {
+              "id": "prisma-cylinder",
+              "namn": "Prisma och cylinder",
+              "ordning": 2
+            },
+            {
+              "id": "pyramid-kon",
+              "namn": "Pyramid och kon",
+              "ordning": 3
+            },
+            {
+              "id": "klot",
+              "namn": "Klot",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "skala-likformighet",
+          "namn": "Skala och likformighet",
+          "uppsattningar": [
+            {
+              "id": "skala",
+              "namn": "Skala på kartor och ritningar",
+              "ordning": 1
+            },
+            {
+              "id": "likformiga-figurer",
+              "namn": "Likformiga figurer",
+              "ordning": 2
+            },
+            {
+              "id": "likformiga-trianglar",
+              "namn": "Likformiga trianglar",
+              "ordning": 3
+            },
+            {
+              "id": "area-volym-skala",
+              "namn": "Skala för area och volym",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "transformationer",
+          "namn": "Geometriska transformationer",
+          "uppsattningar": [
+            {
+              "id": "spegling",
+              "namn": "Spegling",
+              "ordning": 1
+            },
+            {
+              "id": "translation",
+              "namn": "Translation (parallellförflyttning)",
+              "ordning": 2
+            },
+            {
+              "id": "rotation",
+              "namn": "Rotation",
+              "ordning": 3
+            },
+            {
+              "id": "forstoring",
+              "namn": "Förstoring och förminskning",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "trigonometri",
+          "namn": "Trigonometri i rätvinkliga trianglar",
+          "uppsattningar": [
+            {
+              "id": "sin-cos-tan",
+              "namn": "Förstå sinus, cosinus och tangens",
+              "ordning": 1
+            },
+            {
+              "id": "berakna-sida",
+              "namn": "Beräkna en sida",
+              "ordning": 2
+            },
+            {
+              "id": "berakna-vinkel",
+              "namn": "Beräkna en vinkel",
+              "ordning": 3
+            },
+            {
+              "id": "trigonometri-text",
+              "namn": "Trigonometri i textuppgifter",
+              "ordning": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "algebra",
+      "namn": "Algebra",
+      "delomraden": [
+        {
+          "id": "uttryck-formler",
+          "namn": "Uttryck och formler",
+          "uppsattningar": [
+            {
+              "id": "skriva-uttryck",
+              "namn": "Skriva uttryck med variabler",
+              "ordning": 1
+            },
+            {
+              "id": "satta-in-varde",
+              "namn": "Beräkna värdet av ett uttryck",
+              "ordning": 2
+            },
+            {
+              "id": "formler",
+              "namn": "Använda och ställa upp formler",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "forenkla-uttryck",
+          "namn": "Förenkla uttryck",
+          "uppsattningar": [
+            {
+              "id": "samla-termer",
+              "namn": "Samla lika termer",
+              "ordning": 1
+            },
+            {
+              "id": "multiplicera-parentes",
+              "namn": "Multiplicera in i parentes",
+              "ordning": 2
+            },
+            {
+              "id": "faktorisera",
+              "namn": "Bryta ut gemensam faktor",
+              "ordning": 3
+            },
+            {
+              "id": "kvadreringsregler",
+              "namn": "Kvadreringsreglerna",
+              "ordning": 4
+            },
+            {
+              "id": "konjugatregeln",
+              "namn": "Konjugatregeln",
+              "ordning": 5
+            }
+          ]
+        },
+        {
+          "id": "ekvationer",
+          "namn": "Ekvationer",
+          "uppsattningar": [
+            {
+              "id": "ett-steg",
+              "namn": "Ekvationer i ett steg",
+              "ordning": 1
+            },
+            {
+              "id": "tva-steg",
+              "namn": "Ekvationer i två steg",
+              "ordning": 2
+            },
+            {
+              "id": "variabel-bada-led",
+              "namn": "Variabel i båda led",
+              "ordning": 3
+            },
+            {
+              "id": "parenteser",
+              "namn": "Ekvationer med parenteser",
+              "ordning": 4
+            },
+            {
+              "id": "brak-i-ekvationer",
+              "namn": "Ekvationer med bråk",
+              "ordning": 5
+            },
+            {
+              "id": "ekvation-ur-text",
+              "namn": "Ställa upp ekvation ur text",
+              "ordning": 6
+            },
+            {
+              "id": "x-kvadrat",
+              "namn": "Enkla ekvationer med x²",
+              "ordning": 7
+            }
+          ]
+        },
+        {
+          "id": "ekvationssystem",
+          "namn": "Ekvationssystem",
+          "uppsattningar": [
+            {
+              "id": "substitution",
+              "namn": "Substitutionsmetoden",
+              "ordning": 1
+            },
+            {
+              "id": "additionsmetoden",
+              "namn": "Additionsmetoden",
+              "ordning": 2
+            },
+            {
+              "id": "grafisk-losning",
+              "namn": "Grafisk lösning",
+              "ordning": 3
+            },
+            {
+              "id": "system-ur-text",
+              "namn": "Ställa upp ekvationssystem ur text",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "monster-talfoljder",
+          "namn": "Mönster och talföljder",
+          "uppsattningar": [
+            {
+              "id": "figurmonster",
+              "namn": "Figurmönster",
+              "ordning": 1
+            },
+            {
+              "id": "talfoljder",
+              "namn": "Talföljder",
+              "ordning": 2
+            },
+            {
+              "id": "allmanna-termen",
+              "namn": "Formel för mönster (n:te termen)",
+              "ordning": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "samband-forandring",
+      "namn": "Samband och förändring",
+      "delomraden": [
+        {
+          "id": "proportionalitet",
+          "namn": "Proportionalitet",
+          "uppsattningar": [
+            {
+              "id": "proportionella-samband",
+              "namn": "Känna igen proportionella samband",
+              "ordning": 1
+            },
+            {
+              "id": "proportionalitet-tabell",
+              "namn": "Proportionalitet i tabeller",
+              "ordning": 2
+            },
+            {
+              "id": "enhetspris",
+              "namn": "Enhetspris och jämförpris",
+              "ordning": 3
+            },
+            {
+              "id": "recept-skala",
+              "namn": "Ändra mängder (recept, blandningar)",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "koordinatsystem",
+          "namn": "Koordinatsystem",
+          "uppsattningar": [
+            {
+              "id": "avlasa-punkter",
+              "namn": "Avläsa punkter",
+              "ordning": 1
+            },
+            {
+              "id": "rita-punkter",
+              "namn": "Rita punkter och figurer",
+              "ordning": 2
+            },
+            {
+              "id": "fyra-kvadranter",
+              "namn": "Koordinatsystem med negativa tal",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "funktioner-grunder",
+          "namn": "Funktioner och samband",
+          "uppsattningar": [
+            {
+              "id": "tabell-formel-graf",
+              "namn": "Tabell, formel och graf",
+              "ordning": 1
+            },
+            {
+              "id": "funktionsvarde",
+              "namn": "Beräkna funktionsvärden",
+              "ordning": 2
+            },
+            {
+              "id": "tolka-grafer",
+              "namn": "Tolka grafer i vardagssituationer",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "linjara-funktioner",
+          "namn": "Linjära funktioner",
+          "uppsattningar": [
+            {
+              "id": "lasa-av-k-m",
+              "namn": "Läsa av k och m",
+              "ordning": 1
+            },
+            {
+              "id": "rita-graf",
+              "namn": "Rita en linje",
+              "ordning": 2
+            },
+            {
+              "id": "stalla-upp-funktion",
+              "namn": "Ställa upp en linjär funktion",
+              "ordning": 3
+            },
+            {
+              "id": "skarning",
+              "namn": "Skärningspunkter",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "hastighet-tid-strackan",
+          "namn": "Hastighet, tid och sträcka",
+          "uppsattningar": [
+            {
+              "id": "berakna-v-s-t",
+              "namn": "Beräkna hastighet, tid eller sträcka",
+              "ordning": 1
+            },
+            {
+              "id": "omvandla-hastighet",
+              "namn": "Omvandla hastighetsenheter",
+              "ordning": 2
+            },
+            {
+              "id": "medelhastighet",
+              "namn": "Medelhastighet",
+              "ordning": 3
+            },
+            {
+              "id": "rorelsegrafer",
+              "namn": "Grafer för rörelse",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "andra-funktioner",
+          "namn": "Andra typer av samband",
+          "uppsattningar": [
+            {
+              "id": "kvadratiska-samband",
+              "namn": "Kvadratiska samband",
+              "ordning": 1
+            },
+            {
+              "id": "exponentiella-samband",
+              "namn": "Exponentiella samband",
+              "ordning": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "procent",
+      "namn": "Procent",
+      "delomraden": [
+        {
+          "id": "procent-grunder",
+          "namn": "Procent som del av helhet",
+          "uppsattningar": [
+            {
+              "id": "tolka-procent",
+              "namn": "Tolka procent och skriva i bråk- och decimalform",
+              "ordning": 1
+            },
+            {
+              "id": "procent-bilder",
+              "namn": "Procent i bilder och diagram",
+              "ordning": 2
+            }
+          ]
+        },
+        {
+          "id": "procent-av-tal",
+          "namn": "Procent av ett tal",
+          "uppsattningar": [
+            {
+              "id": "enkla-procentsatser",
+              "namn": "Enkla procentsatser",
+              "ordning": 1,
+              "beskrivning": "10, 20, 25, 50 och 75 %"
+            },
+            {
+              "id": "valfria-procentsatser",
+              "namn": "Valfria procentsatser",
+              "ordning": 2
+            },
+            {
+              "id": "textuppgifter",
+              "namn": "Textuppgifter",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "andel-procent",
+          "namn": "Andel i procent",
+          "uppsattningar": [
+            {
+              "id": "berakna-andel",
+              "namn": "Beräkna andelen i procent",
+              "ordning": 1
+            },
+            {
+              "id": "berakna-helhet",
+              "namn": "Beräkna helheten när delen är känd",
+              "ordning": 2
+            }
+          ]
+        },
+        {
+          "id": "procentuell-forandring",
+          "namn": "Procentuell förändring",
+          "uppsattningar": [
+            {
+              "id": "okning",
+              "namn": "Öka med ett antal procent",
+              "ordning": 1
+            },
+            {
+              "id": "minskning",
+              "namn": "Minska med ett antal procent",
+              "ordning": 2
+            },
+            {
+              "id": "forandring-i-procent",
+              "namn": "Beräkna förändringen i procent",
+              "ordning": 3
+            },
+            {
+              "id": "forandringsfaktor",
+              "namn": "Förändringsfaktor",
+              "ordning": 4
+            },
+            {
+              "id": "flera-forandringar",
+              "namn": "Flera förändringar i följd",
+              "ordning": 5
+            }
+          ]
+        },
+        {
+          "id": "procent-vardagen",
+          "namn": "Procent i vardagen",
+          "uppsattningar": [
+            {
+              "id": "rabatt-paslag-moms",
+              "namn": "Rabatt, påslag och moms",
+              "ordning": 1
+            },
+            {
+              "id": "ranta",
+              "namn": "Ränta och sparande",
+              "ordning": 2
+            },
+            {
+              "id": "ranta-pa-ranta",
+              "namn": "Ränta på ränta",
+              "ordning": 3
+            },
+            {
+              "id": "procentenheter",
+              "namn": "Procentenheter och promille",
+              "ordning": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sannolikhet",
+      "namn": "Sannolikhetslära",
+      "delomraden": [
+        {
+          "id": "sannolikhet-grunder",
+          "namn": "Sannolikhet: grunder",
+          "uppsattningar": [
+            {
+              "id": "sannolikhetsskalan",
+              "namn": "Sannolikhetsskalan",
+              "ordning": 1
+            },
+            {
+              "id": "enkla-slumpforsok",
+              "namn": "Enkla slumpförsök (tärning, mynt, kulor)",
+              "ordning": 2
+            },
+            {
+              "id": "sannolikhet-i-olika-former",
+              "namn": "Sannolikhet som bråk, decimaltal och procent",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "kombinatorik",
+          "namn": "Kombinatorik",
+          "uppsattningar": [
+            {
+              "id": "produktregeln",
+              "namn": "Antal kombinationer (produktregeln)",
+              "ordning": 1
+            },
+            {
+              "id": "traddiagram-tabeller",
+              "namn": "Träddiagram och tabeller",
+              "ordning": 2
+            },
+            {
+              "id": "ordning-urval",
+              "namn": "Ordning och urval",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "flera-handelser",
+          "namn": "Sannolikhet vid flera händelser",
+          "uppsattningar": [
+            {
+              "id": "oberoende-handelser",
+              "namn": "Oberoende händelser (och)",
+              "ordning": 1
+            },
+            {
+              "id": "beroende-handelser",
+              "namn": "Beroende händelser (utan återläggning)",
+              "ordning": 2
+            },
+            {
+              "id": "komplementhandelse",
+              "namn": "Komplementhändelse",
+              "ordning": 3
+            },
+            {
+              "id": "eller-handelser",
+              "namn": "Eller-händelser",
+              "ordning": 4
+            }
+          ]
+        },
+        {
+          "id": "experiment-teori",
+          "namn": "Experimentell och teoretisk sannolikhet",
+          "uppsattningar": [
+            {
+              "id": "relativ-frekvens",
+              "namn": "Relativ frekvens",
+              "ordning": 1
+            },
+            {
+              "id": "jamfora-experiment-teori",
+              "namn": "Jämföra försök och teori",
+              "ordning": 2
+            },
+            {
+              "id": "forvantat-antal",
+              "namn": "Förväntat antal utfall",
+              "ordning": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "statistik",
+      "namn": "Statistik",
+      "delomraden": [
+        {
+          "id": "lasa-diagram",
+          "namn": "Läsa och tolka diagram",
+          "uppsattningar": [
+            {
+              "id": "tabeller-frekvens",
+              "namn": "Tabeller och frekvenstabeller",
+              "ordning": 1
+            },
+            {
+              "id": "stapeldiagram",
+              "namn": "Stapeldiagram och histogram",
+              "ordning": 2
+            },
+            {
+              "id": "linjediagram",
+              "namn": "Linjediagram",
+              "ordning": 3
+            },
+            {
+              "id": "cirkeldiagram",
+              "namn": "Cirkeldiagram",
+              "ordning": 4
+            },
+            {
+              "id": "vilseledande-diagram",
+              "namn": "Vilseledande diagram",
+              "ordning": 5
+            }
+          ]
+        },
+        {
+          "id": "rita-diagram",
+          "namn": "Rita diagram",
+          "uppsattningar": [
+            {
+              "id": "rita-stapel",
+              "namn": "Stapeldiagram och histogram",
+              "ordning": 1
+            },
+            {
+              "id": "rita-linje",
+              "namn": "Linjediagram",
+              "ordning": 2
+            },
+            {
+              "id": "rita-cirkel",
+              "namn": "Cirkeldiagram och vinklar",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "lagesmatt",
+          "namn": "Lägesmått",
+          "uppsattningar": [
+            {
+              "id": "medelvarde",
+              "namn": "Medelvärde",
+              "ordning": 1
+            },
+            {
+              "id": "median",
+              "namn": "Median",
+              "ordning": 2
+            },
+            {
+              "id": "typvarde",
+              "namn": "Typvärde",
+              "ordning": 3
+            },
+            {
+              "id": "saknat-varde",
+              "namn": "Hitta ett saknat värde",
+              "ordning": 4
+            },
+            {
+              "id": "lagesmatt-frekvenstabell",
+              "namn": "Lägesmått ur frekvenstabell",
+              "ordning": 5
+            },
+            {
+              "id": "valja-lagesmatt",
+              "namn": "Jämföra och välja lägesmått",
+              "ordning": 6
+            }
+          ]
+        },
+        {
+          "id": "spridningsmatt",
+          "namn": "Spridningsmått",
+          "uppsattningar": [
+            {
+              "id": "variationsbredd",
+              "namn": "Variationsbredd",
+              "ordning": 1
+            },
+            {
+              "id": "kvartiler-ladagram",
+              "namn": "Kvartiler och lådagram",
+              "ordning": 2
+            },
+            {
+              "id": "jamfora-spridning",
+              "namn": "Jämföra spridning",
+              "ordning": 3
+            }
+          ]
+        },
+        {
+          "id": "statistiska-undersokningar",
+          "namn": "Statistiska undersökningar",
+          "uppsattningar": [
+            {
+              "id": "urval-population",
+              "namn": "Urval och population",
+              "ordning": 1
+            },
+            {
+              "id": "fragor-enkater",
+              "namn": "Frågor och enkäter",
+              "ordning": 2
+            },
+            {
+              "id": "spridningsdiagram",
+              "namn": "Spridningsdiagram och samband",
+              "ordning": 3
+            },
+            {
+              "id": "granska-statistik",
+              "namn": "Granska statistik och slutsatser",
+              "ordning": 4
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

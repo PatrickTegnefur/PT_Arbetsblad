@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "namn": "Uppgiftsbanken",
+  "kategorier": "kategorier.json",
+  "uppgiftsfiler": [
+    "uppgifter/taluppfattning/brak-addition-subtraktion.json",
+    "uppgifter/taluppfattning/negativa-tal.json",
+    "uppgifter/geometri/area.json"
+  ],
+  "arbetsblad": [
+    "arbetsblad/exempel-negativa-tal.json"
+  ],
+  "samlingar": [
+    "samlingar/exempel-samling.json"
+  ],
+  "generatorer": [
+    "generatorer/gen-brak-samma-namnare.json",
+    "generatorer/gen-brak-multipel.json",
+    "generatorer/gen-brak-forlangning.json",
+    "generatorer/gen-brak-heltal-ganger.json",
+    "generatorer/gen-brak-ganger-brak.json",
+    "generatorer/gen-brak-delat-med-brak.json",
+    "generatorer/gen-neg-addsub.json",
+    "generatorer/gen-neg-ganger.json",
+    "generatorer/gen-neg-delat.json",
+    "generatorer/gen-decimal-lika.json",
+    "generatorer/gen-decimal-olika.json",
+    "generatorer/gen-procent-enkla.json",
+    "generatorer/gen-procent-valfria.json",
+    "generatorer/gen-ekv-addition.json",
+    "generatorer/gen-ekv-multiplikation.json",
+    "generatorer/gen-ekv-tva-steg.json",
+    "generatorer/gen-area-cirkel-d.json",
+    "generatorer/gen-area-cirkel-r.json"
+  ],
+  "figurverktyg": [
+    {
+      "id": "2dfigurer",
+      "namn": "Matematikfigurer (2D)",
+      "url": "https://patricktegnefur.github.io/PPTools/ritafigurer/2dfigurer/index.html"
+    },
+    {
+      "id": "sammansatta2d",
+      "namn": "Sammansatta figurer (2D)",
+      "url": "https://patricktegnefur.github.io/PPTools/ritafigurer/sammansatta2d/index.html"
+    },
+    {
+      "id": "sammansatta3d",
+      "namn": "Sammansatta kroppar (3D)",
+      "url": "https://patricktegnefur.github.io/PPTools/ritafigurer/sammansatta3d/index.html"
+    }
+  ]
+}

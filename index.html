@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Uppgiftsbanken – prototyp</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Serif+4:wght@400;600&family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef0f3;--s:#fff;--s2:#e7eaee;--bd:#d3d7de;--tx:#1b1d21;--mu:#5b616b;--ac:#16706c;--on:#fff;--hd:linear-gradient(90deg,#66C7C2,#F4A261,#EC6095);--ht:#fff;--ln:transparent;--a7:#66C7C2;--a8:#F4A261;--a9:#EC6095;--a7t:#2a9490;--a8t:#b5621a;--a9t:#b03070;--a7bg:#e8f7f7;--a8bg:#fef3e8;--a9bg:#fde8f1;--l1:#BFD3F2;--l2:#8FAEE6;--l3:#4A6FC4;--l1t:#1b1d21;--l2t:#1b1d21;--l3t:#ffffff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#272727;--s:#383838;--s2:#444;--bd:#575757;--tx:#E6E5E1;--mu:#a7a6a2;--ac:#66C7C2;--on:#1b1b1b;--hd:#212121;--ht:#D7D6D3;--ln:linear-gradient(90deg,#66C7C2,#F4A261,#EC6095);--a7t:#66C7C2;--a8t:#F4A261;--a9t:#EC6095;--a7bg:rgba(102,199,194,.16);--a8bg:rgba(244,162,97,.16);--a9bg:rgba(236,96,149,.16);--l1:#2f4468;--l2:#46659b;--l3:#6f93d6;--l1t:#dbe6fa;--l2t:#ffffff;--l3t:#10131a}}
+:root[data-theme="dark"]{--bg:#272727;--s:#383838;--s2:#444;--bd:#575757;--tx:#E6E5E1;--mu:#a7a6a2;--ac:#66C7C2;--on:#1b1b1b;--hd:#212121;--ht:#D7D6D3;--ln:linear-gradient(90deg,#66C7C2,#F4A261,#EC6095);--a7t:#66C7C2;--a8t:#F4A261;--a9t:#EC6095;--a7bg:rgba(102,199,194,.16);--a8bg:rgba(244,162,97,.16);--a9bg:rgba(236,96,149,.16);--l1:#2f4468;--l2:#46659b;--l3:#6f93d6;--l1t:#dbe6fa;--l2t:#ffffff;--l3t:#10131a}
+[hidden]{display:none!important}*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:15px/1.4 Inter,system-ui,sans-serif}
+#app{height:100%;display:flex;flex-direction:column}
+header{background:var(--hd);color:var(--ht);flex:none}
+.hb{min-height:56px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{margin:0;font:600 22px 'Source Serif 4',Georgia,serif;text-shadow:0 1px 2px rgba(0,0,0,.18)}
+.ln{height:3px;background:var(--ln)}
+.cols{flex:1;min-height:0;display:grid;grid-template-columns:300px minmax(0,1fr) 280px}
+.pn{padding:16px;overflow:auto;display:flex;flex-direction:column;gap:10px;border-right:1px solid var(--bd)}
+.pn.r{border-right:0;border-left:1px solid var(--bd)}
+main{overflow:auto;padding:16px 20px}
+.tb{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}.tb b{min-width:48px;text-align:center}
+#pages{--z:.5;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}#pages.st{flex-direction:column}
+.lb{font:600 12px Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--mu)}
+.mu{color:var(--mu);font-size:13px;margin:0}
+.bt,.nv,summary{min-height:44px;border:1px solid var(--bd);border-radius:5px;background:var(--s2);color:var(--tx);font:600 14px Inter,sans-serif;padding:0 12px;cursor:pointer}
+.bt.on,.nv.on{background:var(--ac);color:var(--on);border-color:var(--ac)}
+.bt:disabled{opacity:.4;cursor:default}
+.hb .bt{background:transparent;color:inherit;border-color:currentColor}.hb .bt.act{background:rgba(255,255,255,.28);font-weight:700}
+.cp{display:inline-block;border:0;padding:1px 10px;border-radius:99px;font:600 11px Inter,sans-serif;color:#1b1d21;line-height:1.7}button.cp{cursor:pointer;min-height:32px;padding:0 12px}
+.sc{position:absolute;top:-3mm;right:3mm;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:9px;padding:0 8px;line-height:1.6;pointer-events:none}
+.dragging{opacity:.4}.ins-l{box-shadow:-5px 0 0 #16706c}.ins-r{box-shadow:5px 0 0 #16706c}.ins-t{box-shadow:0 -5px 0 #16706c}.ins-b{box-shadow:0 5px 0 #16706c}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#1b1d21;color:#fff;padding:10px 16px;border-radius:6px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%;z-index:9}#toast.on{opacity:1}
+select{width:100%;min-height:44px;border:1px solid var(--bd);border-radius:5px;padding:0 10px;background:var(--s);color:var(--tx);font:15px Inter,sans-serif}.row>input[type=text]{flex:1;min-width:0}.row>input[type=number]{width:76px;flex:none}
+.ed{flex:1;min-height:0;display:grid;grid-template-columns:minmax(340px,520px) minmax(0,1fr)}.pvp{width:178mm;zoom:.6;background:#fff;color:#1b1d21;padding:6mm;border:1px solid var(--bd);font-family:var(--ff)}
+.pg.ls{width:297mm;height:210mm;padding:10mm 12mm}.pg.fl{display:flex;flex-direction:column}#meas.ls{width:297mm;padding:10mm 12mm}
+.fgrid{flex:1;min-height:0;display:grid;margin:1mm 1.5px 0 0}.fgrid .q{display:flex;flex-direction:column;overflow:hidden;border-radius:0;margin:0 -1.5px -1.5px 0}
+.fgrid .q .sp{flex:1;min-height:0!important;height:auto!important;margin-top:2mm;border-color:transparent}.fgrid .q .g{flex:1;min-height:0;grid-auto-rows:1fr;margin-top:1mm}.fgrid .q .g .sp{margin-top:0}.fgrid .sc{top:1mm}
+.nk.fgrid .q.has-r{border-right-color:#8A94A0}.nk.fgrid .q.has-b{border-bottom-color:#8A94A0}
+#ht{width:auto;min-width:30mm;max-width:50%;white-space:nowrap;overflow:hidden;outline:none}
+#figov{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center}#figov>div{background:var(--s);width:min(1240px,96vw);height:min(840px,92vh);display:flex;flex-direction:column;border-radius:8px;overflow:hidden}
+.ft{font:600 22px 'Source Serif 4',Georgia,serif}.pg.fa{height:auto;min-height:297mm;overflow:visible}.pg.fa.ls{min-height:210mm}
+.fk{display:flex;gap:3mm;margin:0 0 4mm;break-inside:avoid}.fb{flex:1;min-width:0}.fd{margin:0 0 1.5mm}.lo{margin:1mm 0 2mm 2mm;padding-left:3mm;border-left:2px solid #b9bfc7;font-size:.92em}
+.q ul,.tx ul,.card ul,.lo ul{margin:1mm 0;padding-left:5mm}.q li{margin:.5mm 0}.tx{flex:1;min-width:0}
+.bi{display:block;width:var(--bw,45mm);max-width:100%;height:auto;margin-top:2mm;border-radius:1mm}.bi.hoger{float:right;margin:0 0 2mm 3mm;max-width:50%}.tx::after{content:"";display:block;clear:both}
+.th2 img{max-width:150px;max-height:110px;margin-top:6px;border-radius:4px}
+.bk.home{grid-template-columns:minmax(0,1fr)}.bk.home #bside{display:none}
+.chip{flex:1;min-height:44px;border:1px solid var(--bd);border-radius:5px;background:var(--s2);color:var(--tx);font:600 14px Inter,sans-serif;cursor:pointer}.chip.on{background:var(--ac);color:var(--on);border-color:var(--ac)}
+.ct{margin-left:auto;font-size:12px;font-weight:600;color:var(--mu);padding-left:8px}
+.ar{margin-top:10px;border:1px solid var(--bd);border-radius:8px;overflow:hidden;background:var(--s)}
+.ah{display:flex;align-items:center;background:var(--s2);border-left:6px solid var(--ac2,var(--bd));padding-right:10px}
+.chv{flex:none;width:40px;min-height:44px;border:0;background:transparent;color:var(--tx);font-size:16px;cursor:pointer}
+.an{flex:1;min-height:44px;border:0;background:transparent;color:var(--tx);font:700 15px Inter,sans-serif;text-align:left;cursor:pointer;padding:0 4px}
+.ah.on{background:var(--ac)}.ah.on .an,.ah.on .chv,.ah.on .ct{color:var(--on)}
+.ab{border-top:1px solid var(--bd);border-left:6px solid var(--ac2,var(--bd));padding:4px 10px 12px 18px;display:flex;flex-direction:column;gap:2px;background:var(--bg)}
+.dg{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.dn{display:flex;align-items:center;min-height:36px;border:0;background:transparent;color:var(--tx);font:700 12px Inter,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-align:left;cursor:pointer;padding:0 6px;border-radius:5px}.dn.on{background:var(--ac);color:var(--on)}.dn.on .ct{color:var(--on)}
+.un{display:flex;align-items:center;gap:8px;min-height:40px;margin-left:10px;border:1px solid var(--bd);border-radius:5px;background:var(--s);color:var(--tx);font:400 14px Inter,sans-serif;text-align:left;cursor:pointer;padding:0 8px}.un i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--uc,#ccc)}.un.on{background:var(--ac);color:var(--on);border-color:var(--ac)}.un.on .ct{color:var(--on)}
+.nv.all{display:flex;align-items:center;margin-top:10px}
+.gh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding-bottom:8px;border-bottom:1px solid var(--bd)}.gh .bt{margin-left:auto}
+.hero{max-width:1100px}.hero h2{margin:0 0 6px;font:600 32px 'Source Serif 4',Georgia,serif}
+.areas{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.acard{display:flex;flex-direction:column;gap:6px;text-align:left;border:1px solid var(--bd);border-top:6px solid var(--ac2,var(--bd));border-radius:8px;background:var(--s);color:var(--tx);padding:14px;cursor:pointer;font:400 14px Inter,sans-serif;min-height:150px}.acard b{font:700 18px Inter,sans-serif}
+.tiles{display:flex;flex-wrap:wrap;gap:10px}.tile{flex:1 1 220px;text-align:left;border:1px solid var(--bd);border-radius:8px;background:var(--s);color:var(--tx);padding:12px 14px;cursor:pointer;min-height:64px;font:400 14px Inter,sans-serif}.tile b{display:block;font-size:15px}
+.sec{margin:26px 0 10px;font:700 12px Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--mu)}
+.rc{display:flex;flex-direction:column;gap:6px;text-align:left;border:1px solid var(--bd);border-radius:8px;background:var(--s);color:var(--tx);padding:12px;cursor:pointer;font:400 14px Inter,sans-serif}
+.g7{--c:var(--a7);--t:var(--a7t);--b:var(--a7bg)}.g8{--c:var(--a8);--t:var(--a8t);--b:var(--a8bg)}.g9{--c:var(--a9);--t:var(--a9t);--b:var(--a9bg)}
+.k1{--c:var(--l1);--t:var(--l1t)}.k2{--c:var(--l2);--t:var(--l2t)}.k3{--c:var(--l3);--t:var(--l3t)}
+.gb{display:inline-block;padding:1px 8px;border-radius:99px;font:600 11px Inter,sans-serif;border:1px solid var(--c);color:var(--t);background:var(--b);line-height:1.6}
+.nb{display:inline-block;padding:1px 8px;border-radius:99px;font:600 11px Inter,sans-serif;background:var(--c);color:var(--t);line-height:1.6;border:1px solid transparent}
+.bdg{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.chip.g7,.chip.g8,.chip.g9,.chip.k1,.chip.k2,.chip.k3,.bt.k1,.bt.k2,.bt.k3{border-bottom:4px solid var(--c)}
+.chip.g7.on,.chip.g8.on,.chip.g9.on{background:var(--c);color:#1b1d21;border-color:var(--c)}
+.chip.k1.on,.chip.k2.on,.chip.k3.on,.bt.k1.on,.bt.k2.on,.bt.k3.on{background:var(--c);color:var(--t);border-color:var(--c)}
+.bk{flex:1;min-height:0;display:grid;grid-template-columns:300px minmax(0,1fr)}#vs{flex:1;min-height:0;overflow:auto}
+.gd{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;align-items:start}.dp{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:4px}.dp em,.fc{color:var(--ac);font-style:normal;font-size:13px}.th svg{max-width:150px;height:auto;margin-top:6px}
+.nv{display:block;width:100%;text-align:left;margin-top:4px;font-weight:400}
+.nv.on{font-weight:600}
+summary{display:flex;align-items:center;font-weight:600}
+.dl{margin:8px 0 0;font-size:12px;color:var(--mu)}
+input[type=search],input[type=text],input[type=number],textarea{width:100%;min-height:44px;border:1px solid var(--bd);border-radius:5px;padding:8px 12px;background:var(--s);color:var(--tx);font:15px Inter,sans-serif}
+.card{background:var(--s);border:1px solid var(--bd);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.tag{font-size:12px;color:var(--mu);display:flex;justify-content:space-between}
+.row{display:flex;gap:8px;align-items:center}.row .bt{flex:1}
+.ck{display:flex;align-items:center;gap:10px;min-height:44px}.ck input{width:20px;height:20px}
+hr{border:0;border-top:1px solid var(--bd);width:100%;margin:4px 0}
+.pg{zoom:var(--z);width:210mm;height:297mm;overflow:hidden;flex:none;padding:14mm 16mm;background:#fff;color:#1b1d21;border:1px solid var(--bd);font-family:var(--ff,Inter,sans-serif);position:relative}
+.nk .q{border-color:transparent}.nf{--l:2mm}.nl{--r:2mm}.sk .rs::before{content:"";position:absolute;top:calc(-2mm - 1.5px);left:calc(-1.5px - var(--l,0mm));right:calc(-1.5px - var(--r,0mm));border-top:1.2px solid #8A94A0}
+#mm{position:absolute;left:-99999px;height:100mm;width:1px}#meas{position:absolute;left:-99999px;top:0;width:210mm;padding:14mm 16mm;visibility:hidden;font-family:var(--ff,Inter,sans-serif);color:#1b1d21}
+.hr{display:flex;align-items:flex-end;gap:5mm;margin-bottom:2mm}
+#ti{flex:1;min-width:0;white-space:nowrap;overflow:hidden;font:600 28px 'Source Serif 4',Georgia,serif;outline:none}
+.nm{flex:none;width:50mm;font-size:12pt}
+.bn{height:5px;border-radius:3px;background:linear-gradient(90deg,#66C7C2,#F4A261,#EC6095);margin-bottom:4mm}
+.gr{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4mm;align-items:start}
+.q{position:relative;border:1.5px solid #8A94A0;border-radius:2mm;padding:3mm;break-inside:avoid;font-size:var(--fs,12pt);line-height:1.4;cursor:grab}
+.q.sel{outline:2px solid #16706c;outline-offset:2px}
+.hd{display:flex;gap:2mm;align-items:flex-start}
+.nr{flex:none;width:6mm;height:6mm;border-radius:50%;background:#1b1d21;color:#fff;font:600 10pt Inter,sans-serif;display:flex;align-items:center;justify-content:center}
+.n-ring .nr{background:none;color:#1b1d21;border:1.5px solid #1b1d21}.n-ruta .nr{border-radius:1.2mm}.n-punkt .nr,.n-parentes .nr{background:none;color:#1b1d21;width:auto;height:auto;border-radius:0;font:700 12pt Inter,sans-serif}.n-punkt .nr::after{content:"."}.n-parentes .nr::after{content:")"}.n-flik .q{position:relative;padding-top:9mm}.n-flik .nr{position:absolute;top:-1.5px;left:-1.5px;width:8mm;height:6.5mm;border-radius:2mm 0 2mm 0}.n-flik .hd{gap:0}.n-ingen .nr{display:none}
+.sp{border:1.5px dashed #b9bfc7;border-radius:1.5mm;margin-top:2mm;padding:1mm 2mm}
+.sp em{display:block;color:#16706c;font-size:10pt}
+.g{display:grid;gap:2mm}
+.fg svg{max-width:var(--fw,55mm);height:auto;margin-top:2mm}
+.fr{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;line-height:1.15;margin:0 1px}
+.fr i{font-style:normal;border-bottom:1.5px solid;padding:0 3px}.fr b{font-weight:400;padding:0 3px}
+@media (max-width:1000px){.cols,.bk,.ed{display:block;overflow:auto}.pn{border:0}}
+@media print{@page{size:A4;margin:0}html,body{height:auto;background:#fff}:root{padding:0}header,.pn,.tb,#meas,#mm,.pf,.sc,#vb,#vs,#ve,#figov{display:none!important}.cols,#app{display:block;height:auto}main{display:block;padding:0;overflow:visible}#pages{display:block}.pg{zoom:1;border:0;break-after:page}.pg:last-child{break-after:auto}.q{cursor:auto}.q.sel{outline:0}.sp{border-color:transparent}}
+</style></head><body>
+<div id="app">
+<header><div class="hb"><h1>Uppgiftsbanken · prototyp</h1><nav class="row" aria-label="Vyer"><button class="bt" data-v="bank">Bank</button><button class="bt" data-v="coll" id="tc">Samling</button><button class="bt" data-v="blad">Arbetsblad</button><button class="bt" data-v="edit">Skapa</button></nav><div class="row"><button class="bt" data-act="open">Öppna…</button><button class="bt" data-act="theme">Växla tema</button><button class="bt" data-act="print">Skriv ut</button></div></div><div class="ln"></div></header>
+<div class="cols v" id="vp" hidden>
+<aside class="pn" aria-label="Samling"><div class="lb">Samling</div><div id="list" style="display:flex;flex-direction:column;gap:10px"></div></aside>
+<main><div class="tb"><button class="bt" data-z="-.1" aria-label="Zooma ut">−</button><b id="zl"></b><button class="bt" data-z=".1" aria-label="Zooma in">+</button><button class="bt" data-act="lay" id="lay"></button><button class="bt" data-act="fv" id="fvb"></button></div><div id="pages"></div></main>
+<aside class="pn r" id="insp" aria-label="Inställningar"></aside>
+</div>
+<div class="bk v home" id="vb"><aside class="pn" id="bside" aria-label="Filter"><input type="search" id="q" placeholder="Sök uppgift" aria-label="Sök uppgift"><div class="lb">Årskurs</div><div class="row" id="f-ak"></div><div class="lb">Nivå</div><div class="row" id="f-nv"></div><div class="row" style="flex:none;margin-top:4px"><button class="bt" data-act="opall" id="opb">Fäll ut alla</button></div><div id="tree"></div></aside>
+<div class="pn" id="bmain" style="border:0"><div id="bhome"></div><div id="bbr" hidden><div class="row" style="flex:none;flex-wrap:wrap"><button class="bt" data-act="home" style="flex:none">← Översikt</button><b id="bsum" style="margin-right:auto"></b><label class="ck"><input type="checkbox" id="bf">Visa facit</label><button class="bt" data-act="allv">Lägg alla visade i samlingen</button><button class="bt" data-act="newt">Ny uppgift</button><button class="bt" data-v="coll">Gå till samlingen</button></div><div id="bchips" class="row" style="flex-wrap:wrap;margin:10px 0"></div><div id="bgrid" class="gd"></div></div></div></div>
+<div class="ed v" id="ve" hidden>
+<div class="pn" id="edf" style="gap:12px">
+<div class="row" style="flex:none"><b id="edt" style="margin-right:auto">Ny uppgift</b><button class="bt" data-act="ecancel" style="flex:none">Stäng</button></div>
+<details id="gend"><summary>Generera rutinuppgifter</summary><div style="display:flex;flex-direction:column;gap:10px;padding-top:10px"><select id="g-sel" aria-label="Generator"></select><div class="row"><label class="mu" for="g-k" style="flex:none">Antal uppgifter</label><input type="number" id="g-k" min="1" max="12" value="3"><label class="mu" for="g-n" style="flex:none">Deluppgifter</label><input type="number" id="g-n" min="1" max="8" value="4"></div><button class="bt on" data-act="gen">Generera</button><div id="g-out" style="display:flex;flex-direction:column;gap:10px"></div></div></details>
+<div class="lb">Typ</div><div class="row"><button class="bt" data-et="enkel">Enkel uppgift</button><button class="bt" data-et="grupp">Gruppuppgift (a, b, c…)</button></div>
+<div class="lb">Kategori</div>
+<select id="e-a" aria-label="Arbetsområde"></select><select id="e-d" aria-label="Delområde"></select><select id="e-u" aria-label="Uppsättning"></select>
+<div class="row"><input type="text" id="e-nd" placeholder="Nytt delområde" aria-label="Nytt delområde"><button class="bt" data-act="ndd" style="flex:none">Lägg till</button></div>
+<div class="row"><input type="text" id="e-nu" placeholder="Ny uppsättning" aria-label="Ny uppsättning"><button class="bt" data-act="ndu" style="flex:none">Lägg till</button></div>
+<div id="e-enkel"><div class="lb">Uppgiftstext</div><textarea id="e-text" rows="4"></textarea><div class="lb" style="margin-top:10px">Facit</div><input type="text" id="e-facit" aria-label="Facit" style="width:100%;min-height:44px;border:1px solid var(--bd);border-radius:5px;padding:0 12px;background:var(--s);color:var(--tx);font:15px Inter,sans-serif"></div>
+<div id="e-grupp" hidden><div class="lb">Instruktion</div><input type="text" id="e-instr" aria-label="Instruktion" style="width:100%;min-height:44px;border:1px solid var(--bd);border-radius:5px;padding:0 12px;background:var(--s);color:var(--tx);font:15px Inter,sans-serif"><div class="lb" style="margin:10px 0 6px">Deluppgifter</div><div id="e-delar" style="display:flex;flex-direction:column;gap:8px"></div><button class="bt" data-act="adddel" style="margin-top:8px">+ Deluppgift</button></div>
+<div id="e-losw"><div class="lb">Lösningsförslag (valfritt)</div><textarea id="e-los" rows="5" placeholder="En beräkning per rad, till exempel&#10;3x + 4 = 19&#10;3x = 15&#10;x = 5"></textarea></div>
+<div class="row" style="flex-wrap:wrap"><span class="lb">Infoga</span><button class="bt" data-ins="frac" style="flex:none">Bråk</button><button class="bt" data-ins="ul" style="flex:none">• Lista</button><button class="bt" data-ins="minus" style="flex:none" aria-label="Minustecken">−</button><button class="bt" data-ins="sq" style="flex:none" aria-label="Upphöjt till två">²</button><button class="bt" data-ins="pi" style="flex:none">π</button><button class="bt" data-ins="dot" style="flex:none" aria-label="Gånger">·</button><button class="bt" data-ins="sqrt" style="flex:none" aria-label="Rotenur">√</button></div>
+<div class="lb">Årskurs</div><div class="row"><label class="ck"><input type="checkbox" id="e-k7"><span class="gb g7">Åk 7</span></label><label class="ck"><input type="checkbox" id="e-k8"><span class="gb g8">Åk 8</span></label><label class="ck"><input type="checkbox" id="e-k9"><span class="gb g9">Åk 9</span></label></div>
+<div class="lb">Svårighet</div><div class="row"><button class="bt k1" data-sv="1">Nivå 1 ●○○</button><button class="bt k2" data-sv="2">Nivå 2 ●●○</button><button class="bt k3" data-sv="3">Nivå 3 ●●●</button></div>
+<input type="text" id="e-tag" placeholder="Taggar, kommaseparerade" aria-label="Taggar" style="width:100%;min-height:44px;border:1px solid var(--bd);border-radius:5px;padding:0 12px;background:var(--s);color:var(--tx);font:15px Inter,sans-serif">
+<div id="e-figw"><div class="lb">Figur</div><select id="e-ftool" aria-label="Figurverktyg"></select><div class="row" style="margin-top:8px"><button class="bt on" data-act="figo" id="figo">Rita figur…</button><button class="bt" data-act="figr" id="figr" hidden>Ta bort figur</button></div><div class="row"><span class="mu" style="flex:none;width:90px">Figurbredd</span><button class="bt" data-fw="-5" aria-label="Smalare figur">−</button><b id="efw" style="min-width:56px;text-align:center"></b><button class="bt" data-fw="5" aria-label="Bredare figur">+</button></div><div class="lb" style="margin-top:6px">Eller klistra in SVG-kod</div><textarea id="e-svg" rows="3" placeholder="Klistra in SVG-kod"></textarea></div>
+<div id="e-imgw"><div class="lb">Tematisk bild</div><div class="row"><button class="bt on" data-act="imgo">Lägg till bild…</button><button class="bt" data-act="imgr" id="imgr" hidden>Ta bort bild</button></div><input type="file" id="e-file" accept=".svg,image/png,image/jpeg,image/webp,image/gif" hidden><p class="mu" id="imgi">Ingen bild</p><input type="text" id="e-alt" placeholder="Bildtext (beskriv bilden kort)" aria-label="Bildtext"><input type="text" id="e-bk" placeholder="Källa eller licens (valfritt)" aria-label="Källa eller licens" style="margin-top:8px"><div class="row" style="margin-top:8px"><button class="bt" data-bp="under">Under texten</button><button class="bt" data-bp="hoger">Till höger</button></div><div class="row" style="margin-top:8px"><span class="mu" style="flex:none;width:90px">Bildbredd</span><button class="bt" data-bw="-5" aria-label="Smalare bild">−</button><b id="ebw" style="min-width:56px;text-align:center"></b><button class="bt" data-bw="5" aria-label="Bredare bild">+</button></div></div>
+<div class="lb">Utgångsmått på arbetsblad</div>
+<div class="row"><span class="mu" style="flex:none;width:90px">Bredd</span><button class="bt" data-eb="3">3</button><button class="bt" data-eb="4">4</button><button class="bt" data-eb="6">6</button><button class="bt" data-eb="12">12</button></div>
+<div class="row"><span class="mu" style="flex:none;width:90px">Minsta bredd</span><button class="bt" data-em="3">3</button><button class="bt" data-em="4">4</button><button class="bt" data-em="6">6</button><button class="bt" data-em="8">8</button></div>
+<div class="row"><span class="mu" style="flex:none;width:90px">Skrivutrymme</span><button class="bt" data-ee="-5" aria-label="Minska">−</button><b id="emm" style="min-width:56px;text-align:center"></b><button class="bt" data-ee="5" aria-label="Öka">+</button></div>
+<div class="row"><input type="text" id="e-id" aria-label="Id"><input type="text" id="e-fa" aria-label="Författare" placeholder="Författare"></div>
+<div class="row"><button class="bt on" data-act="esave">Spara uppgift</button><button class="bt" data-act="esaven">Spara och ny</button><button class="bt" data-act="esavenew" id="esn" hidden>Spara som kopia</button></div>
+</div>
+<div class="pn r"><div class="lb">Så här ser den ut på arbetsbladet</div><div id="e-pv1"></div><hr><div id="e-files"></div></div>
+</div>
+<div class="v" id="vs" hidden><div class="pn" style="border:0"><div class="row" style="flex:none;flex-wrap:wrap"><b id="csum" style="margin-right:auto"></b><input type="text" id="cn" aria-label="Samlingens namn" style="max-width:240px"><button class="bt" data-act="svc">Spara samling</button><button class="bt" data-act="alls">Lägg alla i arbetsbladet</button><button class="bt" data-act="clc">Töm samlingen</button><button class="bt on" data-v="blad">Till arbetsbladet</button></div><div id="cgrid" class="gd"></div></div></div>
+</div>
+<div id="figov" hidden><div><div class="row" style="flex:none;padding:8px 12px"><b id="figtt" style="margin-right:auto">Rita figur</b><button class="bt" data-act="figc" style="flex:none">Stäng</button></div><iframe id="figf" title="Figurverktyg" style="flex:1;border:0;background:#fff"></iframe></div></div><style id="pgsz"></style><input type="file" id="fo" accept=".json,application/json" hidden><div id="toast" role="status" aria-live="polite"></div><div id="mm"></div><div id="meas" aria-hidden="true"></div>
+<div id="boot" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--tx);font:16px Inter,system-ui,sans-serif;z-index:20;padding:24px;text-align:center">Laddar uppgiftsbanken …</div>
+<script type="text/plain" id="app-src">const D=window.__D,T={};
+let U;try{U=JSON.parse(localStorage.getItem('ub-user-1'))}catch(e){}
+U=U||{};U.tasks=U.tasks||{};U.figs=U.figs||{};U.imgs=U.imgs||{};U.kat=U.kat||{delomraden:[],uppsattningar:[]};U.dirty=U.dirty||{files:[],figs:[],imgs:[],kat:false,idx:false};U.dirty.imgs=U.dirty.imgs||[];
+const saveU=()=>{try{localStorage.setItem('ub-user-1',JSON.stringify(U))}catch(e){toast('Varning: webbläsarens lagring är full. Spara filerna nu.')}};
+U.kat.delomraden.forEach(x=>{const a=D.kat.arbetsomraden.find(y=>y.id==x.a);if(a&&!a.delomraden.some(d=>d.id==x.id))a.delomraden.push({id:x.id,namn:x.namn,uppsattningar:[]})});
+U.kat.uppsattningar.forEach(x=>{const q=x.path.split('/'),a=D.kat.arbetsomraden.find(y=>y.id==q[0]),d=a&&a.delomraden.find(y=>y.id==q[1]);if(d&&!d.uppsattningar.some(u=>u.id==x.id))d.uppsattningar.push({id:x.id,namn:x.namn,ordning:x.ordning})});
+Object.keys(U.figs).forEach(k=>{D.fig[k]=U.figs[k]});Object.keys(U.imgs).forEach(k=>{D.img[k]=U.imgs[k]});
+Object.keys(U.tasks).forEach(id=>{const i=D.tasks.findIndex(t=>t.id==id);if(i>=0)D.tasks[i]=U.tasks[id];else D.tasks.push(U.tasks[id])});
+D.tasks.forEach(t=>{T[t.id]=t});
+const $=i=>document.getElementById(i);
+const cleanSvg=s=>String(s).replace(/<script[\s\S]*?<\/script>/gi,'').replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi,'').replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*')/gi,'').replace(/(xlink:)?href\s*=\s*("|')\s*javascript:[^"']*\2/gi,'');
+let FUID=0;const uniq=s=>{const p='f'+(++FUID)+'-',ids=[];s.replace(/\sid="([^"]+)"/g,(m,i)=>{ids.push(i);return m});ids.forEach(i=>{const e=i.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');s=s.replace(new RegExp('id="'+e+'"','g'),'id="'+p+i+'"').replace(new RegExp('url\\(#'+e+'\\)','g'),'url(#'+p+i+')').replace(new RegExp('href="#'+e+'"','g'),'href="#'+p+i+'"')});return s};
+const figH=s=>uniq(cleanSvg(s));
+const imgH=t=>'<img class="bi'+(t.bildPlats=='hoger'?' hoger':'')+'" src="'+esc(D.img[t.bild]||t.bild)+'" alt="'+esc(t.bildAlt||'')+'" style="--bw:'+((t.layout&&t.layout.bildBreddMm)||45)+'mm">';
+const FW=t=>t.layout&&t.layout.figurBreddMm?' style="--fw:'+t.layout.figurBreddMm+'mm"':'';
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const M=s=>esc(s).replace(/\$([^$]+)\$/g,(m,x)=>x.replace(/\\frac\{([^}]*)\}\{([^}]*)\}/g,'<span class="fr"><i>$1</i><b>$2</b></span>'));
+const RT=s=>{let h='',ul=0;String(s).split('\n').forEach(l=>{const m=l.match(/^\s*(?:[*•]|-(?=\s))\s*(.+)$/);if(m){if(!ul){h+='<ul>';ul=1}h+='<li>'+M(m[1])+'</li>'}else{if(ul){h+='</ul>';ul=0}h+='<div>'+(M(l)||'&nbsp;')+'</div>'}});return h+(ul?'</ul>':'')};
+const fkEntry=(t,n,ls)=>{const lo=x=>x?'<div class="lo">'+RT(x)+'</div>':'';let h='<div class="fk"><span class="nr">'+n+'</span><div class="fb">';if(t.typ=='grupp')h+=t.delar.map((d,j)=>'<div class="fd"><b>'+'abcdefgh'[j]+')</b> '+M(d.text)+' &nbsp;→&nbsp; <b>'+M(d.facit)+'</b>'+(ls?lo(d.losning):'')+'</div>').join('')+(ls?lo(t.losning):'');else h+='<div class="fd"><b>Svar:</b> '+M(t.facit||'')+'</div>'+(ls?lo(t.losning):'');return h+'</div></div>'};
+function facitHTML(L){let n=0;const it=[];S.b.forEach(b=>{if(b.t=='u'){n++;it.push(fkEntry(T[b.ref],n,S.fl))}});return '<div class="pg fa'+(L?' ls':'')+'"><div class="hr"><div class="ft">Facit – '+esc(S.titel)+'</div></div>'+(S.bn?'<div class="bn"></div>':'<div style="height:4mm"></div>')+(it.join('')||'<p class="mu">Inga uppgifter på arbetsbladet.</p>')+'</div>'}
+let S={titel:D.demo.titel,facit:false,num:'cirkel',fv:0,fl:1,ts:21,bn:1,hr:'namn',ht:'Namn:',hdr:1,ori:'p',mode:'flode',fr:2,fc:2,fs:12,ff:'Inter',dm:45,kant:1,skilj:0,zoom:1,side:1,cn:'Min samling',coll:Array.from(new Set(D.demo.block.filter(x=>x.ref).map(x=>x.ref))),bf:false,chips:1,sel:-1,cat:'',fsel:[],fa:[],fn:[],open:[],bv:'home',q:'',b:D.demo.block.map(x=>x.typ=='uppgift'?{t:'u',ref:x.ref,w:x.bredd,mm:x.skrivutrymmeMm}:{t:'x',text:x.text,w:x.bredd,mm:0})};
+try{const x=JSON.parse(localStorage.getItem('ub-proto-1'));if(x&&x.b)S=Object.assign(S,x)}catch(e){}
+S.zoom=1;S.coll=(S.coll||[]).filter(id=>T[id]);
+const save=()=>{try{localStorage.setItem('ub-proto-1',JSON.stringify({titel:S.titel,facit:S.facit,num:S.num,fl:S.fl,ts:S.ts,bn:S.bn,hr:S.hr,ht:S.ht,hdr:S.hdr,ori:S.ori,mode:S.mode,fr:S.fr,fc:S.fc,fs:S.fs,ff:S.ff,dm:S.dm,cn:S.cn,coll:S.coll,chips:S.chips,kant:S.kant,skilj:S.skilj,side:S.side,b:S.b}))}catch(e){}};
+function rFilt(){$('f-ak').innerHTML=[7,8,9].map(a=>'<button class="chip g'+a+(S.fa.indexOf(a)>=0?' on':'')+'" data-fak="'+a+'">Åk '+a+'</button>').join('');$('f-nv').innerHTML=[1,2,3].map(n=>'<button class="chip k'+n+(S.fn.indexOf(n)>=0?' on':'')+'" data-fnv="'+n+'" title="Nivå '+n+' av 3" aria-label="Nivå '+n+'">'+n+' '+lv(n)+'</button>').join('')}
+function rTree(){const base=filt(true),c=p=>base.filter(t=>mt(t,p)).length,sel=p=>S.fsel.indexOf(p)>=0;
+$('tree').innerHTML='<button class="nv all'+(S.fsel.length?'':' on')+'" data-fp="">Alla uppgifter<span class="ct">'+base.length+'</span></button>'+D.kat.arbetsomraden.map((a,ai)=>{const pa=a.id+'/',o=S.open.indexOf(a.id)>=0;
+return '<section class="ar" style="--ac2:'+AC(ai)+'"><div class="ah'+(sel(pa)?' on':'')+'"><button class="chv" data-op="'+a.id+'" aria-expanded="'+o+'" aria-label="'+(o?'Fäll ihop ':'Fäll ut ')+esc(a.namn)+'">'+(o?'▾':'▸')+'</button><button class="an" data-fp="'+pa+'">'+esc(a.namn)+'</button><span class="ct">'+c(pa)+'</span></div>'+(o?'<div class="ab">'+(a.delomraden.length?a.delomraden.map(d=>{const pd=pa+d.id+'/';return '<div class="dg"><button class="dn'+(sel(pd)?' on':'')+'" data-fp="'+pd+'">'+esc(d.namn)+'<span class="ct">'+c(pd)+'</span></button>'+d.uppsattningar.map(u=>{const pu=pd+u.id+'/';return '<button class="un'+(sel(pu)?' on':'')+'" data-fp="'+pu+'" style="--uc:'+UC(a.id+'/'+d.id+'/'+u.id)+'"><i></i>'+esc(u.namn)+'<span class="ct">'+c(pu)+'</span></button>'}).join('')+'</div>'}).join(''):'<p class="mu">Inga delområden ännu.</p>')+'</div>':'')+'</section>'}).join('')}
+const LV=[];const rebuildLV=()=>{LV.length=0;D.kat.arbetsomraden.forEach(a=>a.delomraden.forEach(d=>d.uppsattningar.forEach(u=>LV.push(a.id+'/'+d.id+'/'+u.id))))};rebuildLV();
+const PAL=['#BFE3E0','#F9D2B0','#F6BCD2','#D6D0F0','#CDE6B3','#F3E3A0','#B9D4F2','#E8C5B5','#C9E3D2','#DCCCE8'];
+const UC=p=>LV.indexOf(p)<0?'#d3d7de':PAL[LV.indexOf(p)%PAL.length];
+const PQ=p=>{const q=p.split('/'),A=D.kat.arbetsomraden.find(x=>x.id==q[0]),Dm=A&&A.delomraden.find(x=>x.id==q[1]),U=Dm&&Dm.uppsattningar.find(x=>x.id==q[2]);return{d:Dm?Dm.namn:'',u:U?U.namn:p}};
+const UN=p=>esc(PQ(p).u),DN=p=>esc(PQ(p).d);
+const bdg=t=>t.arskurs.map(a=>'<span class="gb g'+a+'">Åk '+a+'</span>').join('')+'<span class="nb k'+t.svarighet+'">Nivå '+t.svarighet+'</span>';
+const AC=i=>PAL[(i+4)%PAL.length],lv=n=>'●'.repeat(n)+'○'.repeat(Math.max(0,3-n)),mt=(t,p)=>[t.kategori].concat(t.ocksa||[]).some(k=>(k+'/').indexOf(p)==0);
+const PN=p=>{const q=p.split('/').filter(Boolean),a=D.kat.arbetsomraden.find(x=>x.id==q[0]),d=a&&a.delomraden.find(x=>x.id==q[1]),u=d&&d.uppsattningar.find(x=>x.id==q[2]);return (u||d||a||{namn:p}).namn};
+const pc=p=>{const q=p.split('/').filter(Boolean);return q.length==3?UC(q.join('/')):AC(Math.max(0,D.kat.arbetsomraden.findIndex(a=>a.id==q[0])))};
+const CN=p=>{const q=p.split('/'),A=D.kat.arbetsomraden.find(x=>x.id==q[0]),Dm=A&&A.delomraden.find(x=>x.id==q[1]),U=Dm&&Dm.uppsattningar.find(x=>x.id==q[2]);return U?esc(Dm.namn)+' › '+esc(U.namn):esc(p)};
+const pv=(t,f)=>t.typ=='grupp'?'<b>'+M(t.instruktion)+'</b><div class="dp">'+t.delar.map((d,j)=>'<span>'+'abcdefgh'[j]+') '+M(d.text)+(f?' <em>'+M(d.facit)+'</em>':'')+'</span>').join('')+'</div>'+(f&&t.losning?'<div class="lo">'+RT(t.losning)+'</div>':''):RT(t.text)+(t.bild?'<div class="th2"><img src="'+esc(D.img[t.bild]||t.bild)+'" alt="'+esc(t.bildAlt||'')+'"></div>':'')+(t.figur&&D.fig[t.figur]?'<div class="th">'+figH(D.fig[t.figur])+'</div>':'')+(f?'<div class="fc">Facit: '+M(t.facit||'')+'</div>'+(t.losning?'<div class="lo">'+RT(t.losning)+'</div>':''):'');
+const tc=(t,btns)=>'<div class="card" draggable="true" data-dr="'+t.id+'"><div class="tag"><span>'+t.id+(t.typ=='grupp'?' · grupp':'')+'</span><span class="bdg">'+bdg(t)+'</span></div><div><button class="cp" style="background:'+UC(t.kategori)+'" data-cat="'+t.kategori+'" title="Visa liknande uppgifter i banken">'+UN(t.kategori)+'</button> <span class="mu">'+DN(t.kategori)+'</span></div><div>'+pv(t,S.bf)+'</div><div class="row" style="flex-wrap:wrap">'+btns+'</div></div>';
+function filt(skip){const q=S.q.toLowerCase();return D.tasks.filter(t=>(skip||!S.fsel.length||S.fsel.some(p=>mt(t,p)))&&(!S.fa.length||t.arskurs.some(a=>S.fa.indexOf(a)>=0))&&(!S.fn.length||S.fn.indexOf(t.svarighet)>=0)&&(!q||(t.id+' '+(t.text||t.instruktion)).toLowerCase().indexOf(q)>=0))}
+function rBank(){const L=filt().sort((a,b)=>(LV.indexOf(a.kategori)-LV.indexOf(b.kategori))||a.id.localeCompare(b.id));let h='',last='';
+L.forEach(t=>{if(t.kategori!=last){last=t.kategori;const n=L.filter(x=>x.kategori==last).length;h+='<div class="gh" style="grid-column:1/-1"><button class="cp" style="background:'+UC(last)+'" data-fsx="'+last+'/" title="Visa bara denna uppsättning">'+UN(last)+'</button><span class="mu">'+DN(last)+' · '+n+' uppgifter</span><button class="bt" data-gg="'+last+'">Lägg gruppen i samlingen</button></div>'}
+const i=S.coll.indexOf(t.id)>=0;h+=tc(t,'<button class="bt'+(i?' on':'')+'" data-tg="'+t.id+'">'+(i?'✓ I samlingen':'Lägg i samling')+'</button><button class="bt" data-ed="'+t.id+'">Redigera</button>')});
+$('bgrid').innerHTML=h||'<p class="mu">Inga uppgifter matchar filtren.</p>';$('bsum').textContent=L.length+' uppgifter · '+S.coll.length+' i samlingen';
+$('bchips').innerHTML=S.fsel.map(p=>'<button class="cp" style="background:'+pc(p)+'" data-rmf="'+p+'" aria-label="Ta bort filtret '+esc(PN(p))+'">'+esc(PN(p))+' ×</button>').join('')}
+function rHome(){const A=D.kat.arbetsomraden,tot=D.tasks.length,recent=D.tasks.slice().sort((a,b)=>String(b.skapad||'').localeCompare(String(a.skapad||''))).slice(0,6);
+$('bhome').innerHTML='<div class="hero"><h2>Uppgiftsbanken</h2><p class="mu">Välj ett arbetsområde för att bläddra bland moment och varianter, eller sök bland alla uppgifter.</p><div class="row" style="margin-top:12px"><input type="search" id="hq" placeholder="Sök bland '+tot+' uppgifter" aria-label="Sök uppgift"><button class="bt" data-act="allt" style="flex:none">Alla uppgifter</button></div></div>'
++'<div class="sec">Arbetsområden</div><div class="gd areas">'+A.map((a,i)=>{const n=D.tasks.filter(t=>mt(t,a.id+'/')).length,ds=a.delomraden;return '<button class="acard" style="--ac2:'+AC(i)+'" data-fsx="'+a.id+'/"><b>'+esc(a.namn)+'</b><span class="mu">'+n+' uppgifter · '+ds.length+' delområden</span><span class="mu">'+(ds.length?esc(ds.slice(0,4).map(d=>d.namn).join(' · '))+(ds.length>4?' …':''):'Inga delområden ännu')+'</span></button>'}).join('')+'</div>'
++'<div class="sec">Fortsätt</div><div class="tiles"><button class="tile" data-v="blad"><b>Arbetsbladet</b><span class="mu">'+esc(S.titel)+' · '+S.b.filter(x=>x.t=='u').length+' uppgifter</span></button><button class="tile" data-v="coll"><b>Samlingen</b><span class="mu">'+esc(S.cn)+' · '+S.coll.length+' uppgifter</span></button><button class="tile" data-act="newt"><b>Ny uppgift</b><span class="mu">Skriv eller generera</span></button><button class="tile" data-act="open"><b>Öppna fil…</b><span class="mu">Arbetsblad eller samling</span></button></div>'
++(recent.length?'<div class="sec">Senast tillagda</div><div class="gd areas">'+recent.map(t=>'<button class="rc" data-fsx="'+t.kategori+'/"><span class="tag"><span>'+t.id+'</span><span class="bdg">'+bdg(t)+'</span></span><span><span class="cp" style="background:'+UC(t.kategori)+'">'+UN(t.kategori)+'</span></span><span>'+(t.typ=='grupp'?M(t.instruktion||'')+' '+t.delar.slice(0,2).map(d=>M(d.text)).join(' · ')+' …':M((t.text||'').split('\n')[0]))+'</span></button>').join('')+'</div>':'')}
+function rBankAll(){const h=S.bv=='home';$('vb').classList.toggle('home',h);$('bhome').hidden=!h;$('bbr').hidden=h;rFilt();rTree();rBank();if(h)rHome();if(document.activeElement!==$('q'))$('q').value=S.q;$('opb').textContent=S.open.length?'Fäll ihop alla':'Fäll ut alla'}
+function selX(p){S.fsel=p?[p]:[];if(p){const a=p.split('/')[0];if(S.open.indexOf(a)<0)S.open.push(a)}S.bv='browse';if(S.view!='bank')setView('bank');rBankAll()}
+function rColl(){const L=S.coll.map(id=>T[id]).filter(Boolean);$('cgrid').innerHTML=L.map(t=>{const n=S.b.filter(x=>x.ref==t.id).length;return tc(t,'<button class="bt" data-mc="-1" data-id="'+t.id+'" aria-label="Flytta tidigare">◀</button><button class="bt" data-mc="1" data-id="'+t.id+'" aria-label="Flytta senare">▶</button><button class="bt" data-rm="'+t.id+'">Ta bort</button><button class="bt'+(n?'':' on')+'" data-add="'+t.id+'">'+(n?'✓ På bladet · igen':'Lägg i arbetsblad')+'</button>')}).join('')||'<p class="mu">Samlingen är tom. Gå till Bank och lägg i uppgifter.</p>';$('csum').textContent=L.length+' i samlingen · '+new Set(S.b.filter(x=>x.t=='u').map(x=>x.ref)).size+' på arbetsbladet'}
+function rList(){const L=S.coll.map(id=>T[id]).filter(Boolean);$('list').innerHTML=L.map(t=>{const n=S.b.filter(x=>x.ref==t.id).length;return '<div class="card" draggable="true" data-dr="'+t.id+'"><div class="tag"><span>'+t.id+'</span><span>'+(n?'✓ på bladet':'')+'</span></div><div><span class="cp" style="background:'+UC(t.kategori)+'">'+UN(t.kategori)+'</span></div><div>'+M(t.typ=='grupp'?t.instruktion+' '+t.delar.slice(0,2).map(d=>d.text).join(' · ')+' …':t.text)+'</div><button class="bt" data-add="'+t.id+'">'+(n?'Lägg till igen':'Lägg till')+'</button></div>'}).join('')||'<p class="mu">Samlingen är tom.</p><button class="bt" data-v="bank">Öppna banken</button>'}
+function setView(v){S.view=v;[['bank','vb'],['coll','vs'],['blad','vp'],['edit','ve']].forEach(x=>$(x[1]).hidden=x[0]!=v);document.querySelectorAll('.hb [data-v]').forEach(b=>b.classList.toggle('act',b.dataset.v==v));if(v=='blad'){rSheet();pg()}if(v=='edit'){if(!E)edNew();else{rSel();rFiles()}}}
+function gc(b,t){const n=t.delar.length;if(b.c&&b.c!='a')return Math.min(+b.c,n);const CW=S.ori=='l'?273:178,mx=Math.max(1,Math.floor(((S.mode=='falt'?CW*Math.min(b.cs||1,S.fc)/S.fc-6.8:b.w*(CW+4)/12-10.8)+2)/(S.dm+2))),r=Math.ceil(n/mx);return Math.ceil(n/r)}
+const FF=()=>"'"+S.ff+"',"+(S.ff.indexOf('Serif')>=0?'Georgia,serif':'system-ui,sans-serif');
+function blk(b,i,x,nn,pl){const sel=(i==S.sel?' sel':'')+(x||''),st=' data-i="'+i+'" draggable="true" style="'+(pl||'grid-column:span '+b.w)+'"';
+if(b.t=='x')return '<div class="q'+sel+'"'+st+'>'+RT(b.text)+(b.mm?'<div class="sp" style="height:'+b.mm+'mm"></div>':'')+'</div>';
+const n=nn||S.b.slice(0,i).filter(x=>x.t=='u').length+1,t=T[b.ref];let h;
+if(t.typ=='grupp')h='<div class="hd"><span class="nr">'+n+'</span><b>'+M(t.instruktion)+'</b></div><div class="g" style="grid-template-columns:repeat('+gc(b,t)+',minmax(0,1fr))">'+t.delar.map((d,j)=>'<div class="sp" style="min-height:'+b.mm+'mm">'+'abcdefgh'[j]+') '+M(d.text)+(S.facit?'<em>'+M(d.facit)+'</em>':'')+'</div>').join('')+'</div>';
+else h='<div class="hd"><span class="nr">'+n+'</span><div class="tx">'+(t.bild&&t.bildPlats=='hoger'?imgH(t):'')+RT(t.text)+'</div></div>'+(t.bild&&t.bildPlats!='hoger'?imgH(t):'')+(t.figur&&D.fig[t.figur]?'<div class="fg"'+FW(t)+'>'+figH(D.fig[t.figur])+'</div>':'')+'<div class="sp" style="min-height:'+b.mm+'mm">'+(S.facit?'<em>'+M(t.facit)+'</em>':'')+'</div>';
+return '<div class="q'+sel+'"'+st+'>'+(S.chips?'<span class="cp sc" style="background:'+UC(t.kategori)+'">'+UN(t.kategori)+'</span>':'')+h+'</div>'}
+let NP=1;
+function tbLab(){$('lay').textContent=S.side?'Sidor bredvid varandra':'Sidor under varandra';$('fvb').textContent=S.fv?'Visar: Facitblad':'Visar: Arbetsblad'}
+function rSheet(){[$('pages'),$('meas')].forEach(e=>{e.style.setProperty('--fs',S.fs+'pt');e.style.setProperty('--ff',FF())});const L=S.ori=='l',F=S.mode=='falt',px=$('mm').offsetHeight/100,empty='<p class="mu" style="grid-column:span 12">Tomt arbetsblad. Lägg till uppgifter från banken.</p>',hd=S.hdr?'<div class="hr"><div id="ti" contenteditable="true" spellcheck="false" role="textbox" aria-label="Rubrik">'+esc(S.titel)+'</div>'+(S.hr=='namn'?'<div class="nm">Namn:</div>':S.hr=='egen'?'<div class="nm" id="ht" contenteditable="true" spellcheck="false" role="textbox" aria-label="Egen text i rubrikraden">'+esc(S.ht)+'</div>':'')+'</div>'+(S.bn?'<div class="bn"></div>':'<div style="height:4mm"></div>'):'',cl='gr n-'+S.num+(S.skilj?' sk':'')+(S.kant?'':' nk');
+$('meas').className=L?'ls':'';$('pgsz').textContent=S.fv?'@media print{@page{size:A4 '+(L?'landscape':'portrait')+';margin:14mm 16mm}.pg.fa{padding:0!important;height:auto!important;min-height:0!important;width:auto!important}}':'@media print{@page{size:A4 '+(L?'landscape':'portrait')+';margin:0}}';
+if(S.fv){$('pages').innerHTML=facitHTML(L);NP=1;$('pages').className=S.side?'':'st';$('pages').style.setProperty('--z',S.zoom);$('zl').textContent=Math.round(S.zoom*100)+' %';tbLab();return}
+let pages=[S.b.map((x,i)=>[i])];
+if(F){const R=S.fr,C=S.fc;pages=[[]];let r=0,c=0;S.b.forEach((b,i)=>{const cs=Math.min(b.cs||1,C);if(c+cs>C){c=0;r++}if(r>=R){pages.push([]);r=0;c=0}pages[pages.length-1].push({i:i,r:r,c:c,cs:cs});c+=cs})}
+else if(S.b.length&&px){const m=$('meas');m.innerHTML=hd.replace(' id="ti"','').replace(' id="ht"','')+'<div class="'+cl+'">'+S.b.map((b,i)=>blk(b,i)).join('')+'</div>';const base=(L?10:14)*px,cap=(L?190:269)*px,k=m.lastChild.children;pages=[[]];let ps=0,rt=-1,rb=0,row=[];
+const flush=()=>{if(!row.length)return;if(pages[pages.length-1].length&&rb-ps>cap){pages.push([]);ps=rt}pages[pages.length-1].push(row);row=[]};
+for(let i=0;i<k.length;i++){const t=k[i].offsetTop-base,b=t+k[i].offsetHeight;if(rt<0||Math.abs(t-rt)>2){flush();rt=t;rb=b}else rb=Math.max(rb,b);row.push(i)}flush()}
+NP=pages.length;
+$('pages').innerHTML=pages.map((rows,p)=>F?'<div class="pg'+(L?' ls':'')+' fl">'+(p?'':hd)+'<div class="fgrid n-'+S.num+(S.kant?'':' nk')+'" style="grid-template-columns:repeat('+S.fc+',minmax(0,1fr));grid-template-rows:repeat('+S.fr+',minmax(0,1fr))">'+(S.b.length?rows.map(x=>blk(S.b[x.i],x.i,(x.c+x.cs<S.fc?' has-r':'')+(x.r+1<S.fr?' has-b':''),0,'grid-column:'+(x.c+1)+' / span '+x.cs+';grid-row:'+(x.r+1))).join(''):'<p class="mu" style="grid-column:1/-1">Tomt arbetsblad. Lägg till uppgifter från banken.</p>')+'</div></div>':'<div class="pg'+(L?' ls':'')+'">'+(p?'':hd)+'<div class="'+cl+'">'+(rows.length?rows.map((r,ri)=>r.map((j,c)=>blk(S.b[j],j,(ri?' rs':'')+(c?' nf':'')+(c<r.length-1?' nl':''))).join('')).join(''):empty)+'</div></div>').join('');
+$('pages').className=S.side?'':'st';$('pages').style.setProperty('--z',S.zoom);$('zl').textContent=Math.round(S.zoom*100)+' %';tbLab();fit()}
+const FG=[[2,2,'Fyrfält 2×2'],[2,3,'Sexfält 2×3'],[3,2,'Sexfält 3×2'],[3,3,'Niofält 3×3']];
+const LAYH=()=>'<div class="lb">Sida</div><div class="row"><button class="bt'+(S.ori=='p'?' on':'')+'" data-ori="p">Stående</button><button class="bt'+(S.ori=='l'?' on':'')+'" data-ori="l">Liggande</button></div><div class="row"><button class="bt'+(S.mode=='flode'?' on':'')+'" data-md="flode">Fritt flöde</button><button class="bt'+(S.mode=='falt'?' on':'')+'" data-md="falt">Fält</button></div>'+(S.mode=='falt'?'<div class="row" style="flex-wrap:wrap">'+FG.map(x=>'<button class="bt'+(S.fr==x[0]&&S.fc==x[1]?' on':'')+'" style="flex:1 1 45%" data-fg="'+x[0]+','+x[1]+'">'+x[2]+'</button>').join('')+'</div><p class="mu">Rader × kolumner. Varje uppgift får ett eget fält.</p>':'');
+const CSH=b=>'<div class="lb">Fält per uppgift</div><div class="row">'+Array.from({length:S.fc},(_,k)=>'<button class="bt'+((b.cs||1)==k+1?' on':'')+'" data-cs="'+(k+1)+'">'+(k+1)+'</button>').join('')+'</div><p class="mu">Skrivutrymmet fyller resten av fältet.</p>';
+const HDRH=()=>'<div class="lb">Rubrikrad</div><label class="ck"><input type="checkbox" id="hd1"'+(S.hdr?' checked':'')+'>Visa rubrikrad</label>'+(S.hdr?'<input type="text" id="tt" aria-label="Rubrik" value="'+esc(S.titel)+'"><div class="row"><button class="bt" data-ts="-1" aria-label="Mindre rubrik">A−</button><b>'+S.ts+' pt</b><button class="bt" data-ts="1" aria-label="Större rubrik">A+</button></div><label class="ck"><input type="checkbox" id="bn1"'+(S.bn?' checked':'')+'>Färgbanner</label><div class="row"><button class="bt'+(S.hr=='namn'?' on':'')+'" data-hr="namn">Namn:</button><button class="bt'+(S.hr=='egen'?' on':'')+'" data-hr="egen">Egen text</button><button class="bt'+(S.hr=='ingen'?' on':'')+'" data-hr="ingen">Inget</button></div>'+(S.hr=='egen'?'<input type="text" id="htx" aria-label="Egen text" value="'+esc(S.ht)+'">':'')+'<p class="mu">Rubriken krymper om den inte ryms på en rad.</p>':'');
+const NUMS=[['cirkel','● Cirkel'],['ring','○ Ring'],['ruta','■ Ruta'],['punkt','1. Punkt'],['parentes','1) Parentes'],['flik','Flik'],['ingen','Ingen']];
+const FONTS=[['Inter','Inter'],['Source Serif 4','Serif'],['Atkinson Hyperlegible','Atkinson'],['Lexend','Lexend']];
+function grp(b){return '<div class="lb">Deluppgifter per rad</div><div class="row">'+['a','1','2','3','4'].map(c=>'<button class="bt'+((b.c||'a')==c?' on':'')+'" data-c="'+c+'">'+(c=='a'?'Auto':c)+'</button>').join('')+'</div><div class="row"><button class="bt" data-dm="-5" aria-label="Smalare">−</button><b>'+S.dm+' mm</b><button class="bt" data-dm="5" aria-label="Bredare">+</button></div><p class="mu">Minsta bredd per deluppgift när Auto är valt.</p>'}
+function rInsp(){const b=S.b[S.sel];let h='<button class="bt on" data-act="sv">Spara arbetsblad</button><div class="lb">Arbetsblad</div><label class="ck"><input type="checkbox" id="fa"'+(S.facit?' checked':'')+'>Visa facit</label><label class="ck"><input type="checkbox" id="fl"'+(S.fl?' checked':'')+'>Lösningar på facitbladet</label><div class="mu" id="pgs"></div>'+LAYH()+HDRH()+'<div class="lb">Numrering</div><div class="row" style="flex-wrap:wrap">'+NUMS.map(x=>'<button class="bt'+(S.num==x[0]?' on':'')+'" style="flex:1 1 30%" data-n="'+x[0]+'">'+x[1]+'</button>').join('')+'</div><div class="lb">Teckensnitt och storlek</div><div class="row" style="flex-wrap:wrap">'+FONTS.map(x=>'<button class="bt'+(S.ff==x[0]?' on':'')+'" style="flex:1 1 45%" data-f="'+x[0]+'">'+x[1]+'</button>').join('')+'</div><div class="row"><button class="bt" data-fs="-1" aria-label="Mindre text">A−</button><b>'+S.fs+' pt</b><button class="bt" data-fs="1" aria-label="Större text">A+</button></div><label class="ck"><input type="checkbox" id="kt"'+(S.kant?' checked':'')+'>Kanter runt uppgifter</label><label class="ck"><input type="checkbox" id="sk"'+(S.skilj?' checked':'')+'>Skiljelinjer mellan rader</label><label class="ck"><input type="checkbox" id="ch"'+(S.chips?' checked':'')+'>Kategorifärger på skärmen</label><button class="bt" data-act="addx">Lägg till textblock</button><button class="bt" data-act="clear">Töm arbetsblad</button><hr>';
+if(!b)h+='<p class="mu">Välj en ruta på arbetsbladet för att ändra den.</p>';
+else{const min=b.t=='u'?T[b.ref].layout.minBredd:3;h+='<div class="lb">Vald ruta · '+(b.t=='u'?esc(b.ref):'Text')+'</div>'+(S.mode=='falt'?CSH(b):'<div class="lb">Bredd (kolumner)</div><div class="row">'+[3,4,6,12].map(w=>'<button class="bt'+(b.w==w?' on':'')+'" data-w="'+w+'"'+(w<min?' disabled':'')+'>'+w+'</button>').join('')+'</div><p class="mu">Minsta bredd: '+min+'</p><div class="lb">Skrivutrymme</div><div class="row"><button class="bt" data-mm="-5" aria-label="Minska">−</button><b>'+b.mm+' mm</b><button class="bt" data-mm="5" aria-label="Öka">+</button></div>')+(b.t=='u'&&T[b.ref].typ=='grupp'?grp(b):'')+(b.t=='x'?'<div class="lb">Text</div><textarea id="tx" rows="4">'+esc(b.text)+'</textarea>':'')+'<div class="row"><button class="bt" data-mv="-1">↑ Upp</button><button class="bt" data-mv="1">↓ Ner</button></div><button class="bt" data-act="del">Ta bort</button>'}
+$('insp').innerHTML=h}
+function pg(){const e=$('pgs');if(e)e.textContent=NP+(NP==1?' A4-sida':' A4-sidor')}
+function fit(){const e=$('ti');if(!e)return;let s=Math.round(S.ts*4/3);e.style.fontSize=s+'px';while(e.scrollWidth>e.clientWidth&&s>9){s--;e.style.fontSize=s+'px'}}
+function all(){if(document.activeElement!==$('cn'))$('cn').value=S.cn;rSheet();rInsp();rList();rBankAll();rColl();$('tc').textContent='Samling ('+S.coll.length+')';pg();save()}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-ge],[data-gs],[data-gx],[data-ed],[data-et],[data-sv],[data-eb],[data-em],[data-ee],[data-ins],[data-rd],[data-sf],[data-fp],[data-fsx],[data-op],[data-fak],[data-fnv],[data-rmf],[data-gg],[data-v],[data-tg],[data-mc],[data-rm],[data-cat],[data-add],[data-w],[data-mm],[data-mv],[data-act],[data-i],[data-n],[data-z],[data-bp],[data-bw],[data-fw],[data-ts],[data-hr],[data-ori],[data-md],[data-fg],[data-cs],[data-f],[data-fs],[data-dm],[data-c]');if(!t)return;const d=t.dataset,b=S.b[S.sel];
+if('cat' in d)selX(d.cat?d.cat+'/':'')
+else if(d.fsx!==undefined)selX(d.fsx)
+else if(d.fp!==undefined){if(d.fp==='')S.fsel=[];else{const k=S.fsel.indexOf(d.fp);if(k<0){S.fsel.push(d.fp);const a=d.fp.split('/')[0];if(S.open.indexOf(a)<0)S.open.push(a)}else S.fsel.splice(k,1)}S.bv='browse';rBankAll()}
+else if(d.op){const k=S.open.indexOf(d.op);if(k<0)S.open.push(d.op);else S.open.splice(k,1);rBankAll()}
+else if(d.fak){const a=+d.fak,k=S.fa.indexOf(a);if(k<0)S.fa.push(a);else S.fa.splice(k,1);rBankAll()}
+else if(d.fnv){const a=+d.fnv,k=S.fn.indexOf(a);if(k<0)S.fn.push(a);else S.fn.splice(k,1);rBankAll()}
+else if(d.rmf){S.fsel=S.fsel.filter(x=>x!=d.rmf);rBankAll()}
+else if(d.gg){filt().filter(t=>t.kategori==d.gg).forEach(t=>{if(S.coll.indexOf(t.id)<0)S.coll.push(t.id)});all()}
+else if(d.ge)edDraft(+d.ge)
+else if(d.gs)gsave(+d.gs)
+else if(d.gx){GD.splice(+d.gx,1);rGen()}
+else if(d.ed){edLoad(d.ed);setView('edit')}
+else if(d.et){E.typ=d.et;rOpt();rPrev()}
+else if(d.sv){E.sv=+d.sv;rOpt()}
+else if(d.eb){E.w=+d.eb;if(E.mw>E.w)E.mw=E.w;rOpt();rPrev()}
+else if(d.em){E.mw=Math.min(+d.em,E.w);rOpt();rPrev()}
+else if(d.ee){E.mm=Math.max(0,E.mm+ +d.ee);rOpt();rPrev()}
+else if(d.ins)insTxt(d.ins)
+else if(d.rd){E.delar.splice(+d.rd,1);if(!E.delar.length)E.delar.push({text:'',facit:''});rDel();rPrev()}
+else if(d.sf)sf(d.sf)
+else if(d.v)setView(d.v)
+else if(d.tg){const k=S.coll.indexOf(d.tg);if(k<0)S.coll.push(d.tg);else S.coll.splice(k,1);all()}
+else if(d.mc){const i=S.coll.indexOf(d.id),j=i+ +d.mc;if(i>=0&&j>=0&&j<S.coll.length){const x=S.coll[i];S.coll[i]=S.coll[j];S.coll[j]=x;all()}}
+else if(d.rm){S.coll.splice(S.coll.indexOf(d.rm),1);all()}
+else if(d.add){const l=T[d.add].layout;S.b.push({t:'u',ref:d.add,w:l.foredragenBredd,mm:l.skrivutrymmeMm});S.sel=S.b.length-1;all()}
+else if(d.w&&b){b.w=+d.w;all()}
+else if(d.mm&&b){b.mm=Math.max(0,b.mm+ +d.mm);all()}
+else if(d.mv&&b){const j=S.sel+ +d.mv;if(j>=0&&j<S.b.length){S.b[S.sel]=S.b[j];S.b[j]=b;S.sel=j;all()}}
+else if(d.act=='del'&&b){S.b.splice(S.sel,1);S.sel=-1;all()}
+else if(d.act=='addx'){S.b.push({t:'x',text:'Skriv text här.',w:12,mm:0});S.sel=S.b.length-1;all()}
+else if(d.act=='clear'){S.b=[];S.sel=-1;all()}
+else if(d.bp){E.bp=d.bp;rOpt();rPrev()}
+else if(d.bw){E.bw=Math.max(20,Math.min(120,E.bw+ +d.bw));rOpt();rPrev()}
+else if(d.fw){E.fw=Math.max(20,Math.min(150,E.fw+ +d.fw));rOpt();rPrev()}
+else if(d.ts){S.ts=Math.min(40,Math.max(10,S.ts+ +d.ts));all()}
+else if(d.hr){S.hr=d.hr;all()}
+else if(d.ori){S.ori=d.ori;all()}
+else if(d.md){S.mode=d.md;all()}
+else if(d.fg){const q=d.fg.split(',');S.fr=+q[0];S.fc=+q[1];all()}
+else if(d.cs&&b){b.cs=+d.cs;all()}
+else if(d.n){S.num=d.n;all()}
+else if(d.f){S.ff=d.f;all();if(document.fonts)document.fonts.load('12pt "'+S.ff+'"').then(()=>{rSheet();pg()})}
+else if(d.fs){S.fs=Math.min(16,Math.max(9,S.fs+ +d.fs));all()}
+else if(d.dm){S.dm=Math.min(80,Math.max(30,S.dm+ +d.dm));all()}
+else if(d.c&&b){b.c=d.c;all()}
+else if(d.z){S.zoom=Math.min(1.5,Math.max(.3,Math.round((S.zoom+ +d.z)*10)/10));all()}
+else if(d.act=='lay'){S.side=S.side?0:1;all()}
+else if(d.act=='gen'){const g=D.gens[+$('g-sel').value];if(!g)return;const K=Math.max(1,Math.min(12,+$('g-k').value||1)),N=Math.max(1,Math.min(8,+$('g-n').value||4)),seen=new Set();GD=[];for(let i=0;i<K;i++){const t=genTask(g,N,seen);if(t)GD.push(t)}rGen();if(!GD.length)toast('Kunde inte generera tillräckligt många olika uppgifter.');else if(GD.length<K)toast('Fick fram '+GD.length+' av '+K+' olika uppgifter.')}
+else if(d.act=='gsall'){const n=GD.length;while(GD.length)gsave(0,1);rTree();all();rFiles();rGen();toast('Sparade '+n+' uppgifter')}
+else if(d.act=='fv'){S.fv=S.fv?0:1;all()}
+else if(d.act=='imgo')$('e-file').click()
+else if(d.act=='imgr'){E.bild='';E.img=null;E.alt='';E.bk='';$('e-alt').value='';$('e-bk').value='';rOpt();rPrev()}
+else if(d.act=='figo')figOpen()
+else if(d.act=='figc')figClose()
+else if(d.act=='figr'){E.svg='';E.fk=null;$('e-svg').value='';rOpt();rPrev()}
+else if(d.act=='newt'){edNew();setView('edit')}
+else if(d.act=='esave')edSave(false)
+else if(d.act=='esavenew')edSave(true)
+else if(d.act=='esaven'){if(edSave(false))edNext()}
+else if(d.act=='ecancel')setView('bank')
+else if(d.act=='adddel'){E.delar.push({text:'',facit:''});rDel()}
+else if(d.act=='ndd')addDel()
+else if(d.act=='ndu')addUp()
+else if(d.act=='open')$('fo').click()
+else if(d.act=='sv')saveJSON('arbetsblad-'+slug(S.titel)+'.json',WS(),'ub-blad')
+else if(d.act=='svc')saveJSON('samling-'+slug(S.cn)+'.json',CS(),'ub-samling')
+else if(d.act=='home'){S.bv='home';rBankAll()}
+else if(d.act=='allt'){S.fsel=[];S.bv='browse';rBankAll()}
+else if(d.act=='opall'){S.open=S.open.length?[]:D.kat.arbetsomraden.map(a=>a.id);rBankAll()}
+else if(d.act=='allv'){filt().forEach(t=>{if(S.coll.indexOf(t.id)<0)S.coll.push(t.id)});all()}
+else if(d.act=='alls'){S.coll.forEach(id=>{if(!S.b.some(x=>x.ref==id)){const l=T[id].layout;S.b.push({t:'u',ref:id,w:l.foredragenBredd,mm:l.skrivutrymmeMm})}});all()}
+else if(d.act=='clc'){S.coll=[];all()}
+else if(d.act=='print'){setView('blad');setTimeout(()=>window.print(),80)}
+else if(d.act=='theme'){const r=document.documentElement,c=r.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');r.dataset.theme=c=='dark'?'light':'dark'}
+else if(d.i!==undefined){S.sel=+d.i;rSheet();rInsp();pg()}});
+document.addEventListener('input',e=>{const t=e.target;
+if(E&&t.dataset&&t.dataset.di!==undefined){E.delar[+t.dataset.di][t.dataset.k]=t.value;rPrev();return}
+if(E&&t.id&&t.id.indexOf('e-')==0){const m={'e-text':'text','e-facit':'facit','e-instr':'instr','e-tag':'tag','e-svg':'svg','e-los':'los','e-alt':'alt','e-bk':'bk','e-id':'id','e-fa':'fa'}[t.id];if(m){E[m]=t.value;if(m=='svg'){E.fk=null;rOpt()}rPrev()}return}
+if(t.id=='q'){S.q=t.value;rBankAll()}
+else if(t.id=='hq'){S.q=t.value;S.fsel=[];S.bv='browse';rBankAll();const q=$('q');q.value=S.q;q.focus();try{q.setSelectionRange(q.value.length,q.value.length)}catch(x){}}
+else if(t.id=='cn'){S.cn=t.value;save()}
+else if(t.id=='ti'){S.titel=t.textContent.replace(/\n/g,' ');fit();save();const x=$('tt');if(x&&document.activeElement!==x)x.value=S.titel}
+else if(t.id=='ht'){S.ht=t.textContent.replace(/\n/g,' ');save();const x=$('htx');if(x&&document.activeElement!==x)x.value=S.ht}
+else if(t.id=='tt'){S.titel=t.value;const e=$('ti');if(e){e.textContent=S.titel;fit()}save()}
+else if(t.id=='htx'){S.ht=t.value;const e=$('ht');if(e)e.textContent=S.ht;save()}
+else if(t.id=='tx'){S.b[S.sel].text=t.value;rSheet();pg();save()}});
+document.addEventListener('change',e=>{const i=e.target.id,c=e.target.checked;if(i=='fo'){const f=e.target.files[0];if(f){(f.text?f.text():new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsText(f)})).then(x=>{try{loadObj(JSON.parse(x))}catch(z){toast('Kunde inte läsa filen.')}})}e.target.value='';return}
+if(E&&i=='e-file'){const f=e.target.files[0];e.target.value='';if(f)addImg(f);return}
+if(E&&i=='e-a'){E.a=e.target.value;E.d='';E.u='';rSel();if(!E.orig){E.id=sugId();$('e-id').value=E.id}rPrev();return}
+if(E&&i=='e-d'){E.d=e.target.value;E.u='';rSel();if(!E.orig){E.id=sugId();$('e-id').value=E.id}rPrev();return}
+if(E&&i=='e-u'){E.u=e.target.value;rPrev();return}
+if(E&&/^e-k\d$/.test(i)){const k=+i.slice(3);E.ak=E.ak.filter(x=>x!=k);if(c)E.ak.push(k);rPrev();return}if(i=='fa'){S.facit=c;all()}else if(i=='bf'){S.bf=c;rBank()}else if(i=='ch'){S.chips=c?1:0;all()}else if(i=='fl'){S.fl=c?1:0;all()}else if(i=='hd1'){S.hdr=c?1:0;all()}else if(i=='bn1'){S.bn=c?1:0;all()}else if(i=='kt'){S.kant=c?1:0;if(!c)S.skilj=1;all()}else if(i=='sk'){S.skilj=c?1:0;all()}});
+const slug=x=>(String(x||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60))||'fil';
+function toast(m){const e=$('toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3800)}
+async function saveRaw(name,txt,id){const ext=name.split('.').pop().toLowerCase(),isB=typeof txt!='string',mime=isB?(txt.type||'application/octet-stream'):ext=='svg'?'image/svg+xml':'application/json';
+if(window.showSaveFilePicker){try{const h=await showSaveFilePicker({suggestedName:name,id:id,types:[{description:ext.toUpperCase(),accept:{[mime]:['.'+ext]}}]});const w=await h.createWritable();await w.write(txt);await w.close();toast('Sparade '+h.name);return true}catch(e){if(e&&e.name=='AbortError')return false}}
+try{if(window.claude&&claude.use){const dl=await claude.use('downloads');if(dl){await dl.save({filename:name,data:isB?new Uint8Array(await txt.arrayBuffer()):txt});toast('Sparade '+name);return true}}}catch(e){if(e&&e.code=='declined')return false}
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:mime}));a.download=name;document.body.appendChild(a);a.click();a.remove();toast('Laddade ner '+name);return true}
+const saveJSON=(name,obj,id)=>saveRaw(name,JSON.stringify(obj,null,2)+'\n',id);
+const WS=()=>({version:1,titel:S.titel,banner:!!S.bn,visaFacit:!!S.facit,installningar:{numrering:S.num,kanter:!!S.kant,skiljelinjer:!!S.skilj,typsnitt:S.ff,textstorlekPt:S.fs,minBreddDeluppgiftMm:S.dm,orientering:S.ori=='l'?'liggande':'staende',layout:S.mode=='falt'?'falt':'flode',faltRader:S.fr,faltKolumner:S.fc,facitblad:{losningar:!!S.fl},rubrik:{visa:!!S.hdr,storlekPt:S.ts,banner:!!S.bn,hogerfalt:S.hr,hogerText:S.ht}},block:S.b.map(b=>b.t=='u'?Object.assign({typ:'uppgift',ref:b.ref,bredd:b.w,skrivutrymmeMm:b.mm},b.c&&b.c!='a'?{kolumner:+b.c}:{},b.cs>1?{faltBredd:b.cs}:{}):Object.assign({typ:'text',text:b.text,bredd:b.w,skrivutrymmeMm:b.mm},b.cs>1?{faltBredd:b.cs}:{}))});
+const CS=()=>({version:1,namn:S.cn,uppgifter:S.coll.slice()});
+function loadObj(o){
+if(o&&Array.isArray(o.block)){const I=o.installningar||{};S.titel=o.titel||'Arbetsblad';S.facit=!!o.visaFacit;if(I.numrering)S.num=I.numrering;if('kanter' in I)S.kant=I.kanter?1:0;if('skiljelinjer' in I)S.skilj=I.skiljelinjer?1:0;if(I.typsnitt)S.ff=I.typsnitt;if(I.textstorlekPt)S.fs=I.textstorlekPt;if(I.minBreddDeluppgiftMm)S.dm=I.minBreddDeluppgiftMm;if(I.orientering)S.ori=I.orientering=='liggande'?'l':'p';if(I.layout)S.mode=I.layout=='falt'?'falt':'flode';if(I.faltRader)S.fr=I.faltRader;if(I.faltKolumner)S.fc=I.faltKolumner;if(I.facitblad&&'losningar' in I.facitblad)S.fl=I.facitblad.losningar?1:0;if('banner' in o)S.bn=o.banner?1:0;const R=I.rubrik||{};if('visa' in R)S.hdr=R.visa?1:0;if(R.storlekPt)S.ts=R.storlekPt;if('banner' in R)S.bn=R.banner?1:0;if(R.hogerfalt)S.hr=R.hogerfalt;if(R.hogerText!=null)S.ht=R.hogerText;
+let miss=0;S.b=[];o.block.forEach(x=>{if(x.typ=='uppgift'){if(!T[x.ref]){miss++;return}const l=T[x.ref].layout,b={t:'u',ref:x.ref,w:x.bredd||l.foredragenBredd,mm:x.skrivutrymmeMm!=null?x.skrivutrymmeMm:l.skrivutrymmeMm};if(x.kolumner)b.c=String(x.kolumner);if(x.faltBredd)b.cs=x.faltBredd;S.b.push(b);if(S.coll.indexOf(x.ref)<0)S.coll.push(x.ref)}else if(x.typ=='text'){const b={t:'x',text:x.text||'',w:x.bredd||12,mm:x.skrivutrymmeMm||x.hojdMm||0};if(x.faltBredd)b.cs=x.faltBredd;S.b.push(b)}});
+S.sel=-1;all();setView('blad');toast('Öppnade arbetsblad'+(miss?' ('+miss+' okända uppgifter hoppades över)':''));return true}
+if(o&&Array.isArray(o.uppgifter)&&o.uppgifter.every(x=>typeof x=='string')){const ok=o.uppgifter.filter(id=>T[id]);S.coll=ok;S.cn=o.namn||S.cn;all();setView('coll');toast('Öppnade samling ('+ok.length+' uppgifter'+(ok.length<o.uppgifter.length?', '+(o.uppgifter.length-ok.length)+' okända':'')+')');return true}
+toast('Filen känns inte igen som arbetsblad eller samling.');return false}
+const gcdI=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t}return a};
+const Q=(n,d)=>{d=d===undefined?1:d;if(!isFinite(n)||!isFinite(d)||!d)throw'nan';if(d<0){n=-n;d=-d}const g=gcdI(n,d)||1;return{n:n/g,d:d/g}};
+const isQ=x=>x&&typeof x=='object'&&'n' in x,fl=x=>x.n/x.d,MINUS='\u2212';
+const qadd=(x,y)=>Q(x.n*y.d+y.n*x.d,x.d*y.d),qsub=(x,y)=>Q(x.n*y.d-y.n*x.d,x.d*y.d),qmul=(x,y)=>Q(x.n*y.n,x.d*y.d),qdiv=(x,y)=>Q(x.n*y.d,x.d*y.n),qcmp=(x,y)=>Math.sign(x.n*y.d-y.n*x.d);
+const fmtInt=n=>(n<0?MINUS:'')+Math.abs(n);
+function fmtDec(x,k){const v=fl(x),m=Math.round(Math.abs(v)*Math.pow(10,k)+1e-9),t=String(m).padStart(k+1,'0'),ip=t.slice(0,t.length-k),fp=k?t.slice(t.length-k):'';return(v<0&&m?MINUS:'')+ip+(k?','+fp:'')}
+function fmtN(x){if(x.d==1)return fmtInt(x.n);let d=x.d;[2,5].forEach(p=>{while(d%p==0)d/=p});if(d!=1)throw'ej decimal';let k=0;while((Math.abs(x.n)*Math.pow(10,k))%x.d)k++;return fmtDec(x,k)}
+const fmtR=x=>x.d==1?fmtInt(x.n):(x.n<0?MINUS:'')+'$\\frac{'+Math.abs(x.n)+'}{'+x.d+'}$';
+const FN={gcd:a=>Q(gcdI(a[0].n,a[1].n)),lcm:a=>Q(Math.abs(a[0].n*a[1].n)/gcdI(a[0].n,a[1].n)),abs:a=>Q(Math.abs(a[0].n),a[0].d),min:a=>qcmp(a[0],a[1])<=0?a[0]:a[1],max:a=>qcmp(a[0],a[1])>=0?a[0]:a[1],floor:a=>Q(Math.floor(fl(a[0]))),sign:a=>Q(Math.sign(a[0].n)),'if':a=>a[0].n?a[1]:a[2],
+n:a=>fmtN(a[0]),p:a=>a[0].n<0?'('+fmtN(a[0])+')':fmtN(a[0]),r:a=>fmtR(a[0]),f:a=>'$\\frac{'+a[0].n+'}{'+a[1].n+'}$',dec:a=>fmtDec(a[0],a[1].n),sym:a=>a[0].n<0?MINUS:'+'};
+function ev(src,env){const tk=src.match(/\d+(?:\.\d+)?|[A-Za-z_åäöÅÄÖ]\w*|&&|\|\||==|!=|<=|>=|[-+*\/^%(),<>]/g)||[];let i=0;const pk=()=>tk[i],nx=()=>tk[i++],B=v=>Q(v?1:0);
+const num=t=>{const q=t.split('.');return q[1]?Q(+(q[0]+q[1]),Math.pow(10,q[1].length)):Q(+q[0])};
+function or(){let v=and();while(pk()=='||'){nx();const w=and();v=B(v.n||w.n)}return v}
+function and(){let v=cmp();while(pk()=='&&'){nx();const w=cmp();v=B(v.n&&w.n)}return v}
+function cmp(){let v=add();while(['==','!=','<','<=','>','>='].indexOf(pk())>=0){const o=nx(),w=add(),c=qcmp(v,w);v=B({'==':c==0,'!=':c!=0,'<':c<0,'<=':c<=0,'>':c>0,'>=':c>=0}[o])}return v}
+function add(){let v=mul();while(pk()=='+'||pk()=='-'){const o=nx(),w=mul();v=o=='+'?qadd(v,w):qsub(v,w)}return v}
+function mul(){let v=un();while(pk()=='*'||pk()=='/'||pk()=='%'){const o=nx(),w=un();if(o=='*')v=qmul(v,w);else if(o=='/')v=qdiv(v,w);else v=Q(((v.n%w.n)+w.n)%w.n)}return v}
+function un(){if(pk()=='-'){nx();const v=un();return Q(-v.n,v.d)}if(pk()=='+'){nx();return un()}return pw()}
+function pw(){const b=pr();if(pk()=='^'){nx();const e=un();if(e.d!=1)throw'exp';let r=Q(1);for(let k=0;k<Math.abs(e.n);k++)r=qmul(r,b);return e.n<0?qdiv(Q(1),r):r}return b}
+function pr(){const t=nx();if(t===undefined)throw'slut';if(t=='('){const v=or();if(nx()!=')')throw'parentes';return v}
+if(/^\d/.test(t))return num(t);
+if(pk()=='('){nx();const a=[];if(pk()!=')'){do{a.push(or())}while(pk()==','&&nx())}if(nx()!=')')throw'parentes';const f=FN[t];if(!f)throw'funktion '+t;return f(a)}
+if(t=='pi')return Q(314159,100000);const v=env[t];if(v===undefined)throw'variabel '+t;return v}
+const v=or();if(i<tk.length)throw'rest';return v}
+const fill=(tpl,env)=>tpl.replace(/\{([^{}]+)\}/g,(m,x)=>{const v=ev(x,env);return typeof v=='string'?v:isQ(v)?(v.d==1?fmtInt(v.n):fmtR(v)):''});
+const pickOf=a=>a[Math.floor(Math.random()*a.length)];
+function gen1(g){for(let t=0;t<400;t++){try{const env={};for(const k in g.parametrar){const p=g.parametrar[k];if(p.heltal){const lo=ev(''+p.heltal[0],env).n,hi=ev(''+p.heltal[1],env).n;if(hi<lo)throw'intervall';env[k]=Q(lo+Math.floor(Math.random()*(hi-lo+1)))}else if(p.valj)env[k]=Q(pickOf(p.valj));else if(p.texter)env[k]=pickOf(p.texter);else if(p.uttryck)env[k]=ev(p.uttryck,env)}
+if((g.villkor||[]).every(c=>ev(c,env).n))return{text:fill(g.text,env),facit:fill(g.facit,env),los:g.losning?fill(g.losning,env):''}}catch(e){}}return null}
+const authorName=()=>{try{return localStorage.getItem('ub-author')||'Patrick'}catch(e){return 'Patrick'}};
+function genTask(g,nd,seen){const o={id:'',typ:g.typ,kategori:g.kategori,ocksa:[],arskurs:(g.arskurs||[8]).slice(),svarighet:g.svarighet||1,taggar:(g.taggar||[]).slice()};
+if(g.typ=='grupp'){o.instruktion=g.instruktion||'Beräkna.';o.delar=[];let n=0;while(o.delar.length<nd&&n++<600){const r=gen1(g);if(!r||seen.has(r.text))continue;seen.add(r.text);o.delar.push(r.los?{text:r.text,facit:r.facit,losning:r.los}:{text:r.text,facit:r.facit})}if(o.delar.length<nd)return null}
+else{let r=null,n=0;while(n++<600){r=gen1(g);if(r&&!seen.has(r.text))break;r=null}if(!r)return null;seen.add(r.text);o.text=r.text;o.figur=null;o.figurPlats='under';o.facit=r.facit;if(r.los)o.losning=r.los}
+o.layout=Object.assign(g.typ=='grupp'?{foredragenBredd:12,minBredd:6,skrivutrymmeMm:28,kolumner:4}:{foredragenBredd:6,minBredd:3,skrivutrymmeMm:25},g.layout||{});
+o.forfattare=authorName();o.skapad=new Date().toISOString().slice(0,10);o.genereradAv=g.id;return o}
+let GD=[];
+const rGenSel=()=>{$('g-sel').innerHTML=D.gens.map((g,i)=>'<option value="'+i+'">'+esc(g.namn)+'</option>').join('')};
+function rGen(){$('g-out').innerHTML=GD.length?GD.map((t,i)=>'<div class="card"><div class="tag"><span>'+esc(t.kategori.split('/')[1])+'</span><span>utkast '+(i+1)+'</span></div><div><span class="cp" style="background:'+UC(t.kategori)+'">'+UN(t.kategori)+'</span></div><div>'+pv(t,true)+'</div><div class="row" style="flex-wrap:wrap"><button class="bt" data-ge="'+i+'">Redigera</button><button class="bt on" data-gs="'+i+'">Spara</button><button class="bt" data-gx="'+i+'">Kasta</button></div></div>').join('')+'<button class="bt" data-act="gsall">Spara alla utkast</button>':''}
+function gsave(i,q){const o=GD.splice(i,1)[0];o.id=nextId(o.kategori.split('/')[1]);commit(o,null,'');if(!q){rTree();all();rFiles();rGen();toast('Sparade '+o.id)}}
+function edDraft(i){const t=GD.splice(i,1)[0],q=t.kategori.split('/');E=Object.assign(EDEF(),{typ:t.typ,a:q[0],d:q[1],u:q[2],text:t.text||'',facit:t.facit||'',instr:t.instruktion||'Beräkna.',delar:t.delar?t.delar.map(x=>({text:x.text,facit:x.facit,los:l2i(x.losning)})):[{text:'',facit:''}],ak:t.arskurs.slice(),sv:t.svarighet,tag:t.taggar.join(', '),w:t.layout.foredragenBredd,mw:t.layout.minBredd,mm:t.layout.skrivutrymmeMm,los:t.losning||'',gen:t.genereradAv});rSel();E.id=sugId();sync();rGen()}
+function commit(o,old,svg,img){if(old){D.tasks[D.tasks.findIndex(t=>t.id==old.id)]=o}else D.tasks.push(o);T[o.id]=o;U.tasks[o.id]=o;
+if(o.figur){D.fig[o.figur]=svg;U.figs[o.figur]=svg;if(U.dirty.figs.indexOf(o.id)<0)U.dirty.figs.push(o.id)}
+if(img&&o.bild){D.img[o.bild]=img.dataUrl;U.imgs[o.bild]=img.dataUrl;if(U.dirty.imgs.indexOf(o.id)<0)U.dirty.imgs.push(o.id)}
+const k2=q=>q.split('/').slice(0,2).join('/'),mark=p=>{if(U.dirty.files.indexOf(p)<0)U.dirty.files.push(p)};mark(k2(o.kategori));if(old&&k2(old.kategori)!=k2(o.kategori))mark(k2(old.kategori));
+if(D.index.uppgiftsfiler.indexOf('uppgifter/'+k2(o.kategori)+'.json')<0)U.dirty.idx=true;saveU()}
+let E=null,EF=null;
+const l2i=s=>String(s||'').split('\n').join(' ; '),i2l=s=>String(s||'').split(/\s*;\s*/).map(x=>x.trim()).filter(Boolean).join('\n');
+const EDEF=()=>{const A=D.kat.arbetsomraden,q=(S.fsel[0]||'').replace(/\/$/,'').split('/'),a=A.find(x=>x.id==q[0]&&x.delomraden.length)||A.find(x=>x.delomraden.length)||A[0];let fa='Patrick';try{fa=localStorage.getItem('ub-author')||fa}catch(e){}return{orig:null,typ:'enkel',a:a.id,d:q[1]||'',u:q[2]||'',text:'',facit:'',instr:'Beräkna.',delar:[{text:'',facit:''},{text:'',facit:''},{text:'',facit:''},{text:'',facit:''}],ak:[8],sv:1,tag:'',svg:'',los:'',bild:'',img:null,alt:'',bk:'',bp:'under',bw:45,fk:null,fw:55,w:6,mw:3,mm:25,id:'',fa:fa}};
+function nextId(b){let m=0;D.tasks.forEach(t=>{const x=t.id.match(/^(.*)-(\d+)$/);if(x&&x[1]==b)m=Math.max(m,+x[2])});return b+'-'+String(m+1).padStart(4,'0')}
+function sugId(){return nextId(E.d||'ny')}
+function rSel(){const A=D.kat.arbetsomraden,op=(v,n,sel)=>'<option value="'+v+'"'+(sel?' selected':'')+'>'+esc(n)+'</option>';
+const a=A.find(x=>x.id==E.a)||A[0];E.a=a.id;$('e-a').innerHTML=A.map(x=>op(x.id,x.namn,x.id==E.a)).join('');
+const Ds=a.delomraden;if(!Ds.some(x=>x.id==E.d))E.d=Ds.length?Ds[0].id:'';$('e-d').innerHTML=Ds.map(x=>op(x.id,x.namn,x.id==E.d)).join('')||'<option value="">(inga delområden – lägg till nedan)</option>';
+const dm=Ds.find(x=>x.id==E.d),Us=dm?dm.uppsattningar:[];if(!Us.some(x=>x.id==E.u))E.u=Us.length?Us[0].id:'';$('e-u').innerHTML=Us.map(x=>op(x.id,x.namn,x.id==E.u)).join('')||'<option value="">(inga uppsättningar – lägg till nedan)</option>'}
+const FOR=id=>{const l=D.index.figurverktyg||[];return l.find(t=>t.id==id)||l[0]||null};let FT=0;
+const rFtSel=()=>{$('e-ftool').innerHTML=(D.index.figurverktyg||[]).map(t=>'<option value="'+esc(t.id)+'">'+esc(t.namn)+'</option>').join('')};
+function figOpen(){const t=FOR(E&&E.fk?E.fk.verktyg:$('e-ftool').value);if(!t){toast('Inget figurverktyg är angivet i index.json.');return}$('figtt').textContent=t.namn;$('figf').src=t.url+(t.url.indexOf('?')<0?'?':'&')+'embed=1';$('figov').hidden=false;clearTimeout(FT);FT=setTimeout(()=>toast('Verktyget svarar inte. Saknar det inbäddningsstödet (UB-EMBED)? Se docs/inbaddning.md.'),7000)}
+function figClose(){clearTimeout(FT);$('figov').hidden=true;$('figf').src='about:blank'}
+window.addEventListener('message',e=>{const m=e.data;if(!m||(m.type!='ub-figur'&&m.type!='ub-redo'))return;let ok=false;try{ok=(D.index.figurverktyg||[]).some(t=>new URL(t.url).origin==e.origin)}catch(x){}if(!ok)return;
+if(m.type=='ub-redo'){clearTimeout(FT);if(E&&E.fk&&E.fk.verktyg==m.verktyg&&e.source)e.source.postMessage({type:'ub-ladda',kalla:E.fk},e.origin);return}
+if(E&&typeof m.svg=='string'){E.svg=cleanSvg(m.svg);E.fk=m.kalla||null;$('e-svg').value=E.svg;figClose();rOpt();rPrev();toast('Figuren lades in i uppgiften')}});
+async function imgToBlob(file,max){const bmp=await createImageBitmap(file),k=Math.min(1,max/Math.max(bmp.width,bmp.height)),w=Math.round(bmp.width*k),h=Math.round(bmp.height*k),c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d'),png=/png|gif|webp/.test(file.type);if(!png){x.fillStyle='#fff';x.fillRect(0,0,w,h)}x.drawImage(bmp,0,0,w,h);const blob=await new Promise(r=>c.toBlob(r,png?'image/png':'image/jpeg',.85)),dataUrl=await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)});return{blob:blob,ext:png?'png':'jpg',dataUrl:dataUrl,w:w,h:h}}
+async function addImg(f){try{if(/svg/.test(f.type)||/\.svg$/i.test(f.name)){const x=cleanSvg(await f.text());E.svg=x;E.fk=null;$('e-svg').value=x;rOpt();rPrev();toast('SVG-filen lades in som figur');return}
+const r=await imgToBlob(f,1000);E.img=r;E.bild='';rOpt();rPrev();toast('Bilden lades in ('+Math.round(r.blob.size/1024)+' kB)')}catch(x){toast('Kunde inte läsa bilden.')}}
+function edNew(){E=EDEF();rSel();E.id=sugId();sync()}
+function edLoad(id){const t=T[id],q=t.kategori.split('/');E={orig:id,typ:t.typ,a:q[0],d:q[1],u:q[2],text:t.text||'',facit:t.facit||'',instr:t.instruktion||'Beräkna.',delar:t.delar?t.delar.map(x=>({text:x.text,facit:x.facit,los:l2i(x.losning)})):[{text:'',facit:''}],ak:t.arskurs.slice(),sv:t.svarighet,tag:(t.taggar||[]).join(', '),svg:t.figur?(D.fig[t.figur]||''):'',los:t.losning||'',bild:t.bild||'',img:null,alt:t.bildAlt||'',bk:t.bildKalla||'',bp:t.bildPlats||'under',bw:(t.layout&&t.layout.bildBreddMm)||45,fk:t.figurKalla||null,fw:t.layout.figurBreddMm||55,w:t.layout.foredragenBredd,mw:t.layout.minBredd,mm:t.layout.skrivutrymmeMm,id:id,fa:t.forfattare||''};rSel();sync()}
+function sync(){$('e-text').value=E.text;$('e-facit').value=E.facit;$('e-instr').value=E.instr;$('e-tag').value=E.tag;$('e-svg').value=E.svg;$('e-los').value=E.los;$('e-alt').value=E.alt;$('e-bk').value=E.bk;$('e-id').value=E.id;$('e-id').readOnly=!!E.orig;$('e-fa').value=E.fa;[7,8,9].forEach(k=>{$('e-k'+k).checked=E.ak.indexOf(k)>=0});$('edt').textContent=E.orig?'Redigerar '+E.orig:'Ny uppgift';$('esn').hidden=!E.orig;rDel();rOpt();rPrev();rFiles()}
+function rOpt(){const f=(a,fn)=>document.querySelectorAll('['+a+']').forEach(b=>b.classList.toggle('on',fn(b.getAttribute(a))));f('data-et',v=>v==E.typ);f('data-sv',v=>+v==E.sv);f('data-eb',v=>+v==E.w);f('data-em',v=>+v==E.mw);$('e-enkel').hidden=E.typ!='enkel';$('e-figw').hidden=E.typ!='enkel';$('e-imgw').hidden=E.typ!='enkel';$('e-grupp').hidden=E.typ!='grupp';$('emm').textContent=E.mm+' mm';$('efw').textContent=E.fw+' mm';$('figo').textContent=E.fk?'Redigera figur…':'Rita figur…';$('figr').hidden=!E.svg.trim();if($('e-ftool')){if(E.fk)$('e-ftool').value=E.fk.verktyg;$('e-ftool').disabled=!!E.fk}$('ebw').textContent=E.bw+' mm';$('imgr').hidden=!(E.img||E.bild);$('imgi').textContent=E.img?E.img.ext.toUpperCase()+' · '+E.img.w+'×'+E.img.h+' px · '+Math.round(E.img.blob.size/1024)+' kB':E.bild?E.bild:'Ingen bild';f('data-bp',v=>v==E.bp)}
+function rDel(){$('e-delar').innerHTML=E.delar.map((d,i)=>'<div style="display:flex;flex-direction:column;gap:4px"><div class="row"><span style="width:20px;flex:none">'+'abcdefgh'[i]+')</span><input type="text" class="dd" data-di="'+i+'" data-k="text" placeholder="Uppgift" aria-label="Deluppgift '+(i+1)+'" value="'+esc(d.text)+'"><input type="text" class="dd" data-di="'+i+'" data-k="facit" placeholder="Facit" aria-label="Facit '+(i+1)+'" value="'+esc(d.facit)+'"><button class="bt" data-rd="'+i+'" aria-label="Ta bort deluppgift" style="flex:none">×</button></div><div class="row"><span style="width:20px;flex:none"></span><input type="text" class="dd" data-di="'+i+'" data-k="los" placeholder="Lösning, steg åtskilda med ;" aria-label="Lösning '+(i+1)+'" value="'+esc(d.los||'')+'"></div></div>').join('')}
+function mk(pv){const id=E.id.trim()||'ny-uppgift',old=E.orig&&T[E.orig],o={id:id,typ:E.typ,kategori:[E.a,E.d,E.u].join('/'),ocksa:old?(old.ocksa||[]):[],arskurs:E.ak.slice().sort(),svarighet:E.sv,taggar:E.tag.split(',').map(x=>x.trim()).filter(Boolean)};
+if(E.typ=='grupp'){o.instruktion=E.instr;o.delar=E.delar.filter(d=>d.text.trim()).map(d=>Object.assign({text:d.text,facit:d.facit},i2l(d.los)?{losning:i2l(d.los)}:{}))}else{o.text=E.text;o.figur=E.svg.trim()?(pv?'__pv':'figurer/'+id+'.svg'):null;o.figurPlats='under';o.facit=E.facit}
+o.layout={foredragenBredd:E.w,minBredd:Math.min(E.mw,E.w),skrivutrymmeMm:E.mm};if(E.typ=='enkel'&&E.fw&&E.fw!=55)o.layout.figurBreddMm=E.fw;if(E.typ=='enkel'&&E.fk&&E.svg.trim())o.figurKalla=E.fk;if(E.los.trim())o.losning=E.los;if(E.typ=='enkel'&&(E.img||E.bild)){o.bild=pv?'__pvimg':(E.img?'bilder/'+id+'.'+E.img.ext:E.bild);o.bildAlt=E.alt;o.bildPlats=E.bp;o.layout.bildBreddMm=E.bw;if(E.bk.trim())o.bildKalla=E.bk}if(E.typ=='grupp')o.layout.kolumner=4;
+o.forfattare=E.fa;o.skapad=old?old.skapad:new Date().toISOString().slice(0,10);o.genereradAv=old?old.genereradAv:(E.gen||null);return o}
+function rPrev(){const o=mk(true);T['__ed']=o;D.fig['__pv']=E.svg;D.img['__pvimg']=E.img?E.img.dataUrl:(E.bild?(D.img[E.bild]||E.bild):'');const h=blk({t:'u',ref:'__ed',w:E.w,mm:E.mm},-2,'',1).replace(' data-i="-2" draggable="true"','');$('e-pv1').innerHTML='<div class="pvp" style="--fs:12pt;--ff:\'Inter\',system-ui,sans-serif"><div class="gr n-'+S.num+'">'+h+'</div></div><div class="lb" style="margin:12px 0 6px">Facit och lösning</div><div class="card">'+fkEntry(o,1,true)+'</div>'}
+function insTxt(k){let el=EF&&document.body.contains(EF)?EF:$('e-text');if(k=='ul'&&el.tagName!='TEXTAREA')el=$('e-text');const m={ul:['\n* ',3],frac:['$\\frac{}{}$',7],minus:['−',1],sq:['²',1],pi:['π',1],dot:['·',1],sqrt:['√',1]}[k];if(!m)return;const s0=el.selectionStart||0,e0=el.selectionEnd||s0,v=el.value;let ins=m[0],off=m[1];if(k=='ul'&&(s0==0||v[s0-1]=='\n')){ins='* ';off=2}el.value=v.slice(0,s0)+ins+v.slice(e0);const p=s0+off;el.focus();el.setSelectionRange(p,p);el.dispatchEvent(new Event('input',{bubbles:true}))}
+function edSave(asNew){const o=mk(false),ks=o.kategori.split('/'),isNew=!E.orig||asNew;
+const bad=ks.length!=3||!ks[0]||!ks[1]||!ks[2]?'Välj arbetsområde, delområde och uppsättning.':!E.id.trim()?'Uppgiften behöver ett id.':!o.arskurs.length?'Välj minst en årskurs.':o.typ=='enkel'&&!o.text.trim()?'Skriv uppgiftstexten.':o.typ=='grupp'&&!o.delar.length?'Lägg till minst en deluppgift.':isNew&&T[o.id]?'Id:t finns redan. Välj ett annat.':'';
+if(bad){toast(bad);return false}
+const old=isNew?null:T[E.orig];commit(o,old,cleanSvg(E.svg),E.img);try{localStorage.setItem('ub-author',E.fa)}catch(e){}
+E.orig=o.id;E.bild=o.bild||'';E.img=null;$('edt').textContent='Redigerar '+o.id;$('e-id').readOnly=true;$('esn').hidden=false;rTree();all();rPrev();rFiles();toast('Sparade uppgiften '+o.id);return true}
+function edNext(){const p=E;E=EDEF();Object.assign(E,{typ:p.typ,a:p.a,d:p.d,u:p.u,ak:p.ak.slice(),sv:p.sv,w:p.w,mw:p.mw,mm:p.mm,fa:p.fa,tag:p.tag});rSel();E.id=sugId();sync()}
+function addDel(){const n=$('e-nd').value.trim();if(!n)return;const a=D.kat.arbetsomraden.find(x=>x.id==E.a),id=slug(n);if(a.delomraden.some(x=>x.id==id)){toast('Delområdet finns redan.');return}a.delomraden.push({id:id,namn:n,uppsattningar:[]});U.kat.delomraden.push({a:a.id,id:id,namn:n});U.dirty.kat=true;saveU();E.d=id;E.u='';$('e-nd').value='';rSel();if(!E.orig){E.id=sugId();$('e-id').value=E.id}rTree();rFiles();rPrev();toast('La till delområdet '+n)}
+function addUp(){const n=$('e-nu').value.trim();if(!n)return;const a=D.kat.arbetsomraden.find(x=>x.id==E.a),d=a&&a.delomraden.find(x=>x.id==E.d);if(!d){toast('Välj eller skapa ett delområde först.');return}const id=slug(n);if(d.uppsattningar.some(x=>x.id==id)){toast('Uppsättningen finns redan.');return}const o=d.uppsattningar.reduce((m,x)=>Math.max(m,x.ordning||0),0)+1;d.uppsattningar.push({id:id,namn:n,ordning:o});U.kat.uppsattningar.push({path:a.id+'/'+d.id,id:id,namn:n,ordning:o});U.dirty.kat=true;saveU();E.u=id;$('e-nu').value='';rebuildLV();rSel();rTree();rFiles();rPrev();toast('La till uppsättningen '+n)}
+function rFiles(){const dv=U.dirty,it=[];dv.files.forEach(k=>it.push(['f:'+k,'uppgifter/'+k+'.json']));dv.figs.forEach(i=>it.push(['g:'+i,'figurer/'+i+'.svg']));dv.imgs.forEach(i=>it.push(['b:'+i,(T[i]&&T[i].bild)||('bilder/'+i)]));if(dv.kat)it.push(['k:','kategorier.json']);if(dv.idx)it.push(['i:','index.json']);
+$('e-files').innerHTML=it.length?'<div class="lb">Filer att spara i repot</div><p class="mu">Spara varje fil i sin mapp i din repo-klon. Ändringarna ligger kvar i webbläsaren tills du sparat dem.</p>'+it.map(x=>'<div class="row"><span style="flex:1;word-break:break-all">'+esc(x[1])+'</span><button class="bt" data-sf="'+x[0]+'" style="flex:none">Spara</button></div>').join(''):'<p class="mu">Inga osparade ändringar i filerna.</p>'}
+async function sf(key){const t=key[0],k=key.slice(2);let ok=false;
+if(t=='f')ok=await saveJSON(k.split('/')[1]+'.json',{version:1,uppgifter:D.tasks.filter(x=>x.kategori.indexOf(k+'/')==0)},'ub-uppg');
+else if(t=='g')ok=await saveRaw(k+'.svg',D.fig['figurer/'+k+'.svg']||'','ub-fig');
+else if(t=='b'){const p=T[k]&&T[k].bild;if(p&&D.img[p]){const du=D.img[p],mt=du.slice(5,du.indexOf(';')),bs=atob(du.split(',')[1]),u8=Uint8Array.from(bs,c=>c.charCodeAt(0));ok=await saveRaw(p.split('/').pop(),new Blob([u8],{type:mt}),'ub-bild')}}
+else if(t=='k')ok=await saveJSON('kategorier.json',D.kat,'ub-kat');
+else if(t=='i'){const l=D.index.uppgiftsfiler.slice();D.tasks.forEach(x=>{const f='uppgifter/'+x.kategori.split('/').slice(0,2).join('/')+'.json';if(l.indexOf(f)<0)l.push(f)});const ix=Object.assign({},D.index,{uppgiftsfiler:l});ok=await saveJSON('index.json',ix,'ub-idx');if(ok)D.index=ix}
+if(ok){if(t=='f'){U.dirty.files=U.dirty.files.filter(x=>x!=k);if(D.repo)Object.keys(U.tasks).forEach(id=>{if(U.tasks[id].kategori.indexOf(k+'/')==0)delete U.tasks[id]})}if(t=='g'){U.dirty.figs=U.dirty.figs.filter(x=>x!=k);if(D.repo)delete U.figs['figurer/'+k+'.svg']}if(t=='k'){U.dirty.kat=false;if(D.repo)U.kat={delomraden:[],uppsattningar:[]}}if(t=='i')U.dirty.idx=false;if(t=='b'){U.dirty.imgs=U.dirty.imgs.filter(x=>x!=k);if(D.repo&&T[k]&&T[k].bild)delete U.imgs[T[k].bild]}saveU();rFiles()}}
+let DR=null;
+const clrI=()=>document.querySelectorAll('.ins-l,.ins-r,.ins-t,.ins-b').forEach(e=>e.classList.remove('ins-l','ins-r','ins-t','ins-b'));
+const clr=()=>{clrI();document.querySelectorAll('.dragging').forEach(e=>e.classList.remove('dragging'))};
+function tgt(e){const el=e.target.closest?e.target:e.target.parentElement,q=el&&el.closest('#pages .q');if(q){const r=q.getBoundingClientRect(),w=+(q.style.gridColumn.split(' ')[1]||12),wide=w>=9;return{q:q,i:+q.dataset.i,wide:wide,after:wide?e.clientY>r.top+r.height/2:e.clientX>r.left+r.width/2}}return el&&el.closest('#pages')?{}:null}
+document.addEventListener('dragstart',e=>{const el=e.target.closest?e.target:e.target.parentElement,q=el&&el.closest('.q[data-i],[data-dr]');if(!q)return;DR=q.dataset.dr?{k:'u',id:q.dataset.dr}:{k:'b',i:+q.dataset.i};try{e.dataTransfer.setData('text/plain','x');e.dataTransfer.effectAllowed='move'}catch(x){}q.classList.add('dragging')});
+document.addEventListener('dragover',e=>{if(!DR)return;const el=e.target.closest?e.target:e.target.parentElement;if(DR.k=='u'&&el&&el.closest('#tc')){e.preventDefault();return}const g=tgt(e);if(!g)return;e.preventDefault();clrI();if(g.q)g.q.classList.add(g.wide?(g.after?'ins-b':'ins-t'):(g.after?'ins-r':'ins-l'))});
+document.addEventListener('drop',e=>{if(!DR)return;const el=e.target.closest?e.target:e.target.parentElement;if(DR.k=='u'&&el&&el.closest('#tc')){e.preventDefault();if(S.coll.indexOf(DR.id)<0)S.coll.push(DR.id);DR=null;clr();all();return}
+const g=tgt(e);if(!g)return;e.preventDefault();let idx=g.q?g.i+(g.after?1:0):S.b.length;
+if(DR.k=='b'){const from=DR.i,m=S.b.splice(from,1)[0];if(from<idx)idx--;S.b.splice(idx,0,m);S.sel=idx}
+else{const l=T[DR.id].layout;S.b.splice(idx,0,{t:'u',ref:DR.id,w:l.foredragenBredd,mm:l.skrivutrymmeMm});S.sel=idx}
+DR=null;clr();all()});
+document.addEventListener('dragend',()=>{DR=null;clr()});
+document.addEventListener('mousedown',e=>{if(e.target.closest&&e.target.closest('[data-ins]'))e.preventDefault()});
+document.addEventListener('focusin',e=>{const t=e.target;if(t.id=='e-text'||t.id=='e-facit'||t.id=='e-los'||(t.classList&&t.classList.contains('dd')))EF=t});
+document.addEventListener('keydown',e=>{if(e.key=='Enter'&&(e.target.id=='ti'||e.target.id=='ht'))e.preventDefault()});
+rTree();rGenSel();rFtSel();all();setView('bank');if(document.fonts)document.fonts.ready.then(()=>{rSheet();pg()});
+</script>
+<script>
+(async()=>{const b=document.getElementById('boot');try{
+const J=async p=>{const r=await fetch(p,{cache:'no-cache'});if(!r.ok)throw new Error(p+' ('+r.status+')');return r.json()};
+const ix=await J('index.json'),D={index:ix,repo:true};D.kat=await J(ix.kategorier||'kategorier.json');
+D.tasks=[].concat(...(await Promise.all((ix.uppgiftsfiler||[]).map(J))).map(f=>f.uppgifter));
+D.gens=await Promise.all((ix.generatorer||[]).map(J));
+D.fig={};D.img={};await Promise.all(D.tasks.filter(t=>t.figur).map(async t=>{try{const r=await fetch(t.figur);if(r.ok)D.fig[t.figur]=await r.text()}catch(e){}}));
+D.demo=(ix.arbetsblad||[]).length?await J(ix.arbetsblad[0]):{titel:'Nytt arbetsblad',block:[]};
+window.__D=D;const s=document.createElement('script');s.textContent=document.getElementById('app-src').textContent;document.body.appendChild(s);b.remove()}
+catch(e){b.innerHTML='Kunde inte läsa data: '+e.message+'<br><br>Öppna sidan via GitHub Pages eller en lokal server (se README). Den fungerar inte om filen öppnas direkt från mappen.'}})();
+</script>
+</body></html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Matematikfigurer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Sora:wght@400;500;600&display=swap">
+<style>
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:#f6f4ff;color:#100e28;font:15px/1.45 'Sora',sans-serif;min-height:100vh}
+.amb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.5;pointer-events:none;z-index:0}
+.a1{width:440px;height:440px;background:#66C7C2;top:-100px;left:-120px}
+.a2{width:380px;height:380px;background:#F4A261;right:-120px;top:32%}
+.a3{width:420px;height:420px;background:#EC6095;bottom:-160px;left:28%}
+header{position:sticky;top:0;z-index:100;height:64px;display:flex;align-items:center;padding:0 24px;background:linear-gradient(120deg,#66C7C2 0%,#F4A261 50%,#EC6095 100%);box-shadow:0 4px 24px rgba(0,0,0,.18);color:#fff}
+header h1{font:700 20px 'Montserrat',sans-serif;margin:0;color:#fff}
+header span{margin-left:14px;font-size:13px;color:rgba(255,255,255,.9)}
+nav,main{position:relative;z-index:1;max-width:1700px;margin:0 auto}
+nav{display:flex;flex-direction:column;gap:8px;padding:16px 24px 0}
+.row{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-bottom:4px}
+.row>*{flex-shrink:0}
+.grp{font:600 11px 'Montserrat',sans-serif;color:#585078;text-transform:uppercase;letter-spacing:.06em;margin:0 4px 0 8px}
+.tab{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);color:#100e28;padding:0;border-radius:11px;cursor:pointer}
+.col{display:flex;flex-direction:column;gap:16px}
+details{border-top:1px solid #e3def8}details:first-of-type{border-top:0}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:10px 2px;font:700 13px 'Montserrat',sans-serif;color:#100e28;min-height:44px}
+summary::-webkit-details-marker{display:none}summary::after{content:'\25BE';color:#306BF0;transition:transform .2s}details[open]>summary::after{transform:rotate(180deg)}
+details>.dbody{padding:0 2px 10px}
+.tab.on{background:#306BF0;color:#fff;border-color:#306BF0}
+main{display:grid;grid-template-columns:340px 1fr;gap:16px;padding:16px 24px 32px}
+@media(max-width:860px){main{grid-template-columns:1fr}}
+.card{background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.9);border-radius:20px;padding:20px;box-shadow:0 10px 22px rgba(48,107,240,.12),0 2px 6px rgba(16,14,40,.05)}
+h2{font:700 14px 'Montserrat',sans-serif;margin:0 0 8px;color:#100e28}
+h2:not(:first-child){margin-top:20px}
+label{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:6px 0;font-size:13px;color:#585078}
+input[type=text],select{width:150px;min-height:36px;padding:4px 8px;border:1.5px solid #ccc5f0;border-radius:8px;background:#fff;color:#100e28;font:inherit;font-size:13px}
+input[type=color]{width:48px;height:36px;border:1.5px solid #ccc5f0;border-radius:8px;background:#fff;padding:2px}
+input[type=range]{width:150px}
+input[type=checkbox]{width:20px;height:20px;accent-color:#306BF0}
+.pre{display:flex;gap:8px;flex-wrap:wrap}
+.pre{align-items:center}.pre button{width:26px;height:26px;border-radius:50%;border:2px solid #ccc5f0;cursor:pointer;padding:0}
+.tp{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.tp button{min-height:30px;padding:0 8px;border:1.5px solid #ccc5f0;background:#eae6ff;color:#306BF0;border-radius:7px;cursor:pointer;font:600 11px 'Sora',sans-serif}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #306BF0;outline-offset:2px}
+#fig{background:#fff;border-radius:14px;padding:8px;display:flex;justify-content:center;border:1px solid #ccc5f0}
+#fig svg{width:100%;height:auto;touch-action:none}
+.lab{cursor:move;user-select:none;-webkit-user-select:none}.lab:hover{fill:#306BF0}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{min-height:44px;border:0;background:#306BF0;color:#fff;padding:0 20px;border-radius:8px;cursor:pointer;font:600 13px 'Sora',sans-serif}
+.btn.alt{background:#eae6ff;color:#306BF0;border:1.5px solid #ccc5f0}
+#msg{min-height:22px;margin-top:8px;font-size:13px;color:#e02020}
+.d3{display:none}
+.tools{margin-left:auto;display:flex;gap:6px;align-items:center}
+.tools a,.tools button{color:#fff;text-decoration:none;font:600 12px 'Montserrat',sans-serif;padding:0 12px;min-height:36px;display:inline-flex;align-items:center;border-radius:999px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.55);cursor:pointer}
+.tools a.on{background:#fff;color:#100e28;cursor:default}
+@media(max-width:1100px){header span{display:none}}
+#navp{position:fixed;z-index:200;right:16px;top:72px;width:360px;max-width:calc(100vw - 32px);background:rgba(255,255,255,.97);border:1px solid #ccc5f0;border-radius:16px;padding:16px;box-shadow:0 12px 30px rgba(16,14,40,.25);display:none}
+#navp h3{font:700 14px 'Montserrat',sans-serif;margin:0 0 8px;color:#100e28}
+#navp label{display:flex;flex-direction:column;gap:3px;margin:6px 0;font-size:12px;color:#585078}
+#navp input[type=text]{width:100%}
+#navp .row2{display:flex;align-items:center;gap:8px;margin:8px 0}
+body.emb header,body.emb .amb{display:none}
+body.emb nav{padding-top:12px}
+</style>
+</head>
+<body>
+<div class="amb a1"></div><div class="amb a2"></div><div class="amb a3"></div>
+<header><h1>Matematikfigurer</h1><span>Figurer till prov, arbetsblad och presentationer</span><div class="tools" id="tools"></div></header>
+<nav id="tabs"></nav>
+<main>
+<div class="col">
+<div class="card"><h2 title="Tips: skriv enheten efter måttet, till exempel 5 dm, för att få olika enheter på olika sidor.">Mått</h2><div id="fields"></div></div>
+<div class="card">
+<details open><summary>Färger</summary><div class="dbody">
+<label>Färgtema<span class="pre" id="pre"></span></label>
+<label class="d2">Fyllning (2D)<input type="color" id="fill" value="#cdeeec"></label>
+<label class="d2">Fyllning på<input type="checkbox" id="fillon"></label>
+<div id="surf" class="d3"></div>
+<label>Ljushet på färger<input type="range" id="lj" min="0" max="80" step="5" value="0"></label>
+</div></details>
+<details><summary>Linjer och text</summary><div class="dbody">
+<label>Linjefärg<input type="color" id="stroke" value="#100e28"></label>
+<label>Linjetjocklek<input type="range" id="sw" min="1" max="6" step=".5" value="2.5"></label>
+<label>Textstorlek<input type="range" id="fs" min="12" max="28" value="21"></label>
+<label>Storlek på markeringar<input type="range" id="ms" min="10" max="40" value="20"></label>
+<label title="Visar handtag i figuren som du kan dra i för att ändra måtten">Dra i figuren (handtag)<input type="checkbox" id="hon" checked></label>
+<label>Ritytans storlek<select id="cz"><option value="0">Normal</option><option value="1">Stor</option><option value="2">Extra stor</option></select></label>
+</div></details>
+<details><summary>Enheter</summary><div class="dbody">
+<label>Enhet visas<select id="um"><option value="0">Vid måtten</option><option value="1">I parentes ovanför figuren</option></select></label>
+</div></details>
+<details><summary title="Bocka i de etiketter som ska stå i en lista vid sidan. På figuren ersätts de av bokstäver.">Lista vid sidan</summary><div class="dbody">
+<div id="labs"></div>
+<label style="flex-direction:column;align-items:stretch"><span>Egen notering (en rad per post)</span><textarea id="note" rows="3" style="width:100%;border:1.5px solid #ccc5f0;border-radius:8px;padding:6px 8px;font:inherit;font-size:13px"></textarea></label>
+</div></details>
+<details><summary>Utskrift och export</summary><div class="dbody">
+<label>Svartvit utskrift<input type="checkbox" id="bw"></label>
+<label>Genomskinlig bakgrund (PNG/SVG)<input type="checkbox" id="tp"></label>
+<button class="btn alt" id="psv" title="Sparar färger, linjer, textstorlek, enhet och utskriftsval som standard nästa gång du öppnar verktyget">Spara som standard</button><button class="btn alt" id="prs" title="Tar bort det sparade standardutseendet">Återställ standard</button>
+</div></details>
+</div>
+</div>
+<div class="card"><div id="fig" title="Dra i en etikett för att flytta den, till exempel in i figuren."></div><div id="msg"></div>
+<div class="bar"><button class="btn" id="cp">Kopiera bild</button><button class="btn alt" id="png">Ladda ner PNG</button><button class="btn alt" id="svg">Ladda ner SVG</button><button class="btn" id="ub" style="display:none">Använd i uppgiftsbanken</button><button class="btn alt" id="rl" title="Lägger tillbaka alla flyttade etiketter på sina ursprungliga platser">Återställ etikettpositioner</button></div>
+</div>
+</main>
+<script>
+let W=560,H=400;const KC=.5*Math.cos(.7),KS=.5*Math.sin(.7),U=[-KC,1,-KS];
+const PRE=[[null,'#100e28'],['#cdeeec','#1b6f6b'],['#fbe0c6','#9a4f12'],['#fbd3e3','#a42b66'],['#d4e0fc','#1f4cb8'],['#dedede','#100e28']];
+const NONE='linear-gradient(135deg,#fff 44%,#e02020 44% 56%,#fff 56%)',SWC=['#EC6095','#66C7C2','#F4A261','#306BF0','#bfbfbf','#ffffff'];
+const C={base:{on:1,c:'#EC6095'},side:{on:0,c:'#66C7C2'},top:{on:0,c:'#F4A261'},bot:{on:0,c:'#F4A261'}};
+const IC={pyth:'<path d="M10 22h8l-8-8Z"/><path d="M10 22h8v8h-8ZM10 22V14H2v8h8M10 14l8 8 8-8-8-8Z"/>',netbox:'<path d="M12 3h8v8h8v8h-8v8h-8v-8H4v-8h8Z"/><path d="M12 11h8M12 19h8M12 11v8M20 11v8"/>',netprism:'<path d="M3 12h26v10H3ZM11 12v10M19 12v10M11 12l4-8 4 8M11 22l4 8 4-8"/>',netpyr:'<path d="M11 11h10v10H11ZM11 11l5-8 5 8M11 21l5 8 5-8M11 11l-8 5 8 5M21 11l8 5-8 5"/>',netcyl:'<rect x="4" y="12" width="24" height="9"/><circle cx="11" cy="7" r="4.5"/><circle cx="21" cy="26" r="4.5"/>',netcone:'<path d="M16 3L6 17A12 12 0 0 0 26 17Z"/><circle cx="16" cy="26" r="4"/>',circ:'<circle cx="16" cy="16" r="12"/><path d="M16 16L25 9"/>',grid:'<path d="M16 3v26M3 16h26M16 3l-3 4M16 3l3 4M29 16l-4-3M29 16l-4 3M9 14v4M23 14v4M14 9h4M14 23h4"/>',line:'<path d="M3 16h26M29 16l-4-3M29 16l-4 3M8 12v8M16 12v8M24 12v8"/><circle cx="16" cy="16" r="2.5"/>',tri:'<path d="M4 26h24L8 6Z"/><path d="M8 20h6v6"/>',rect:'<rect x="3" y="8" width="26" height="16"/><path d="M3 18h5v6"/>',para:'<path d="M3 24h18l8-16H11Z"/>',trap:'<path d="M3 24h26L22 8H10Z"/>',romb:'<path d="M16 3l11 13-11 13L5 16Z"/>',box:'<path d="M5 12h16v16H5ZM5 12l6-6h16l-6 6M21 12l6-6v16l-6 6"/>',prism:'<path d="M4 26h14l-7-14ZM11 12l10-6M18 26l10-6M21 6l7 14"/>',pyr:'<path d="M4 24h16l8-6H12ZM16 5L4 24M16 5l4 19M16 5l12 13"/>',cyl:'<ellipse cx="16" cy="8" rx="10" ry="4"/><path d="M6 8v16a10 4 0 0 0 20 0V8"/>',cone:'<path d="M6 24a10 4 0 0 0 20 0M16 4L6 24M16 4l10 20"/>',sph:'<circle cx="16" cy="16" r="12"/><path d="M4 16a12 4 0 0 0 24 0"/><path d="M4 16a12 4 0 0 1 24 0" stroke-dasharray="3 3"/>',kite:'<path d="M16 3l11 10-11 16L5 13Z"/>',ngon:'<path d="M16 3l11 6.5v13L16 29 5 22.5v-13Z"/>',angl:'<path d="M5 26h22M5 26l16-16M13 26A8 8 0 0 0 10.7 20.3"/>',parl:'<path d="M3 11h26M3 22h26M10 29L22 4"/>'};
+const $=id=>document.getElementById(id);
+const num=s=>parseFloat(String(s).replace(',','.').replace('−','-'));
+const fmt=n=>String(+n.toFixed(2)).replace('.',',');
+const sub=(a,b)=>a.map((z,i)=>z-b[i]),dot=(a,b)=>a.reduce((s,z,i)=>s+z*b[i],0),cr=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const TK=['Ingen','1 streck','2 streck','3 streck'],AR=['Åt ett håll (höger / uppåt)','Åt båda hållen','Inga pilar'],HM=['Ingen','Inuti / vid kanten','Utanför figuren'];
+const d3=(w,d,h,hm)=>[['w','Bredd',w],['d','Djup',d],['h','Höjd',h],['lw','Etikett bredd','text',''],['ld','Etikett djup','text',''],['lh','Etikett höjd','text',''],['unit','Enhet','text','cm'],['hm','Visa höjd','sel',HM,hm],['tr','Genomskinliga ytor','chk',1],['ml','Måttlinjer','chk',1]];
+const rd=(r,h,hm,ops)=>[['lg','Läge','sel',ops||['Stående','Liggande'],0],['r','Radie',r],['h','Höjd',h],['lr','Etikett radie','text',''],['lh','Etikett höjd','text',''],['unit','Enhet','text','cm'],['hm','Visa höjd','sel',HM,hm],['tr','Genomskinliga ytor','chk',1],['rad','Visa radie','chk',1]];
+const F={
+grid:{n:'Koordinatsystem',f:[['xmin','x från',-6],['xmax','x till',6],['ymin','y från',-6],['ymax','y till',6],['step','Steg',1],['gl','Rutnät','chk',1],['nums','Siffror','chk',1],['arr','Pilar','sel',AR,0],['ff','Fyll ritytan (olika skala på x och y)','chk',0],['gpts','Punkter','text',''],['gcon','Förbind punkterna','sel',['Nej','Linje (öppen)','Månghörning (sluten)'],0],['gcoord','Visa koordinater','chk',0],['glin','Linjer','text',''],['glbw','Svarta linjer','chk',0]],d:grid,
+p:[['Första kvadranten',{xmin:0,xmax:10,ymin:0,ymax:10}],['Fyra kvadranter',{xmin:-10,xmax:10,ymin:-10,ymax:10}],['Rensa',{gpts:'',glin:'',gcon:0}],['Punkter',{gpts:'A(2,3) B(-3,1) C(-2,-4)',glin:'',gcon:0}],['Rät linje',{gpts:'',glin:'y=2x+1',gcon:0}],['Två linjer',{gpts:'',glin:'y=x+2; y=-0.5x+5',gcon:0}],['Triangel',{gpts:'A(1,1) B(5,1) C(3,4)',glin:'',gcon:2}]]},
+line:{n:'Tallinje',f:[['min','Från',-5],['max','Till',5],['step','Steg',1],['pts','Punkter (komma)','text','-2, 3'],['open','Ofyllda punkter','chk',0],['arr','Pilar','sel',AR,0]],d:nline},
+tri:{n:'Triangel',f:[['a','Sida a (BC)',4],['b','Sida b (CA)',3],['c','Sida c (AB)',5],['la','Etikett a','text',''],['lb','Etikett b','text',''],['lc','Etikett c','text',''],['ta','Markering sida a','sel',TK,0],['tb','Markering sida b','sel',TK,0],['tc','Markering sida c','sel',TK,0],['unit','Enhet','text','cm'],['bs','Sida längst ned','sel',['c (AB)','a (BC)','b (CA)'],0],['mir','Spegla','chk',0],['ang','Visa vinklar','chk',0],['vt','Vinkeltexter (A;B;C…)','text',''],['corn','Hörnnamn','chk',1]],d:tri,
+p:[['Liksidig',{a:5,b:5,c:5,ta:1,tb:1,tc:1,bs:0}],['Likbent',{a:5,b:5,c:6,ta:1,tb:1,tc:0,bs:0}],['Rätvinklig 3-4-5',{a:4,b:3,c:5,ta:0,tb:0,tc:0,bs:2}],['Rätvinklig likbent',{a:4,b:4,c:5.657,ta:1,tb:1,tc:0,bs:2}],['30°-60°-90°',{a:5,b:8.66,c:10,ta:0,tb:0,tc:0,bs:2}],['Trubbvinklig',{a:3,b:2.5,c:5,ta:0,tb:0,tc:0,bs:0}]]},
+rect:{n:'Rektangel',f:[['w','Bredd',6],['h','Höjd',4],['lw','Etikett bredd','text',''],['lh','Etikett höjd','text',''],['tw','Markering bredd','sel',TK,0],['th','Markering höjd','sel',TK,0],['unit','Enhet','text','cm'],['ra','Rätvinkelmarkering','chk',1],['corn','Hörnnamn','chk',1]],d:rect},
+para:{n:'Parallellogram',f:[['b','Bas',6],['s','Sida',4],['al','Vinkel vid A (°)',60],['lb','Etikett bas','text',''],['ls','Etikett sida','text',''],['tb','Markering bas','sel',TK,0],['ts','Markering sida','sel',TK,0],['unit','Enhet','text','cm'],['hh','Visa höjd','chk',0],['lh','Etikett höjd','text',''],['par','Parallellmarkering','chk',1],['ang','Visa vinklar','chk',0],['vt','Vinkeltexter (A;B;C…)','text',''],['corn','Hörnnamn','chk',1]],d:para},
+trap:{n:'Parallelltrapets',f:[['a','Nedre bas',8],['c','Övre bas',4],['h','Höjd',3],['d','Förskjutning vänster',2],['la','Etikett nedre bas','text',''],['lc','Etikett övre bas','text',''],['tl','Markering på benen','sel',TK,1],['legs','Visa benens längd','chk',0],['unit','Enhet','text','cm'],['hh','Visa höjd','chk',0],['lh','Etikett höjd','text',''],['par','Parallellmarkering','chk',1],['ang','Visa vinklar','chk',0],['vt','Vinkeltexter (A;B;C…)','text',''],['corn','Hörnnamn','chk',1]],d:trap,
+p:[['Likbent',{a:8,c:4,h:3,d:2,tl:1}],['Rätvinklig',{a:8,c:5,h:3,d:0,tl:0}],['Allmän',{a:8,c:4,h:3,d:1,tl:0}]]},
+romb:{n:'Romb',f:[['s','Sida',5],['al','Vinkel vid A (°)',60],['ls','Etikett sida','text',''],['ts','Likhetsmarkering sidor','sel',TK,1],['unit','Enhet','text','cm'],['diag','Visa diagonaler','chk',0],['par','Parallellmarkering','chk',0],['ang','Visa vinklar','chk',0],['vt','Vinkeltexter (A;B;C…)','text',''],['corn','Hörnnamn','chk',1]],d:romb},
+kite:{n:'Drake',f:[['a','Kort sida',3],['b','Lång sida',5],['al','Vinkel vid A (°)',90],['la','Etikett kort sida','text',''],['lb','Etikett lång sida','text',''],['ta','Markering korta sidor','sel',TK,1],['tb','Markering långa sidor','sel',TK,2],['unit','Enhet','text','cm'],['diag','Visa diagonaler','chk',0],['ang','Visa vinklar','chk',0],['vt','Vinkeltexter (A;B;C…)','text',''],['corn','Hörnnamn','chk',1]],d:kite},
+ngon:{n:'Månghörning',f:[['n','Antal sidor',6],['s','Sida',4],['ls','Etikett sida','text',''],['tk','Likhetsmarkering sidor','sel',TK,1],['unit','Enhet','text','cm'],['sh','Visa','sel',['Inget','Radie','Apotem','Radie och apotem'],0],['lr','Etikett radie','text',''],['lp','Etikett apotem','text',''],['ang','Visa vinklar','chk',0],['vt','Vinkeltexter (A;B;C…)','text',''],['corn','Hörnnamn','chk',0]],d:ngon},
+circ:{n:'Cirkel',f:[['r','Radie',3],['lr','Etikett radie/diameter','text',''],['unit','Enhet','text','cm'],['mt','Visa mått','sel',['Inget','Radie','Diameter'],1],['rs','Radie/diameter','sel',['Heldragen','Streckad'],0],['ra','Riktning på radie/diameter (°)',0],['cs','Cirkelns kant','sel',['Heldragen','Streckad','Dold'],0],['cp','Visa medelpunkt','chk',1],['ch','Korda','chk',0],['c1','Kordans ena ände (°)',50],['c2','Kordans andra ände (°)',160],['lk','Etikett korda','text',''],['tg','Tangent','chk',0],['ta','Tangeringspunkt (°)',300],['sc','Cirkelsektor','chk',0],['s1','Sektor från (°)',20],['s2','Sektor till (°)',110],['lv','Vinkeltext','text',''],['bg','Markera cirkelbågen','chk',0],['corn','Namn på punkter','chk',0]],d:circF},
+pyth:{n:'Pythagoras sats',f:[['a','Katet a',3],['b','Katet b',4],['la','Etikett a','text',''],['lb','Etikett b','text',''],['lc','Etikett c (hypotenusa)','text',''],['unit','Enhet','text','cm'],['uk','Okänd sida','sel',['Ingen','a','b','c'],0],['ya','Text i kvadraterna','sel',['Inget','a², b², c²','Areor'],1],['sq','Färglägg kvadraterna','chk',1],['ra','Rätvinkelmarkering','chk',1],['fm','Visa formeln','chk',0],['corn','Hörnnamn','chk',0]],d:pyth},
+angl:{n:'Vinklar',f:[['a1','Vinkel 1 (°)',40],['a2','Vinkel 2 (°)',50],['a3','Vinkel 3 (°)',0],['rot','Startriktning (°)',20],['l1','Etikett 1','text',''],['l2','Etikett 2','text',''],['l3','Etikett 3','text',''],['deg','Visa gradtal','chk',1],['corn','Namn på punkter','chk',1]],d:angl},
+parl:{n:'Parallella linjer',f:[['th','Vinkel (°)',60],['dist','Avstånd mellan linjerna',3],['lab','Markera vinklar (nr 1–8)','text','1, 5'],['xs','Visa som x (nr)','text','5'],['nr','Numrera alla vinklar','chk',0],['par','Parallellmarkering','chk',1],['corn','Linjenamn (m, n, t)','chk',1]],d:parl},
+box:{n:'Rätblock',f:d3(5,3,4,2),d:box,d3:1},
+prism:{n:'Triangulärt prisma',f:[['lg','Läge','sel',['Stående','Liggande'],0],...d3(4,3,5,2).map(x=>x[0]=='w'?['w','Bredd (triangelns bas)',x[2]]:x[0]=='d'?['d',q=>q.lg?'Djup (prismats längd)':'Djup (triangelns höjd)',x[2]]:x[0]=='h'?['h',q=>q.lg?'Höjd (triangelns höjd)':'Höjd (prismats höjd)',x[2]]:x)],d:prism,d3:1},
+pyr:{n:'Pyramid',f:d3(4,4,5,1),d:pyr,d3:1},
+cyl:{n:'Cylinder',f:rd(3,6,2),d:cyl,d3:1},
+cone:{n:'Kon',f:rd(3,5,1,['Stående','Liggande','Upp och ned']),d:cone,d3:1},
+sph:{n:'Klot',f:[['r','Radie',3],['lr','Etikett','text',''],['unit','Enhet','text','cm'],['mt','Visa mått','sel',['Ingen','Radie','Diameter'],1],['hs','Halvklot','chk',0],['tr','Genomskinliga ytor','chk',1]],d:sph,d3:1},
+netbox:{n:'Nät: rätblock',g:'Nät',d3:1,f:[['w','Bredd',4],['d','Djup',3],['h','Höjd',2],['lw','Etikett bredd','text',''],['ld','Etikett djup','text',''],['lh','Etikett höjd','text',''],['unit','Enhet','text','cm'],['fd','Streckade vikningar','chk',1],['nm','Namnge ytorna','chk',0]],d:netBox},
+netprism:{n:'Nät: triangulärt prisma',g:'Nät',d3:1,f:[['b','Triangelns bas',4],['th','Triangelns höjd',3],['L','Prismats längd',5],['lb','Etikett bas','text',''],['lt','Etikett triangelns höjd','text',''],['ll','Etikett längd','text',''],['ls','Etikett sidolängd','text',''],['unit','Enhet','text','cm'],['sh','Visa triangelns höjd','chk',1],['fd','Streckade vikningar','chk',1],['nm','Namnge ytorna','chk',0]],d:netPrism},
+netpyr:{n:'Nät: pyramid',g:'Nät',d3:1,f:[['w','Basens bredd',4],['d','Basens djup',4],['h','Pyramidens höjd',3],['lw','Etikett bredd','text',''],['ld','Etikett djup','text',''],['lsh','Etikett sidohöjd','text',''],['unit','Enhet','text','cm'],['sh','Visa sidohöjd','chk',1],['fd','Streckade vikningar','chk',1],['nm','Namnge ytorna','chk',0]],d:netPyr},
+netcyl:{n:'Nät: cylinder',g:'Nät',d3:1,f:[['r','Radie',2],['h','Höjd',4],['lr','Etikett radie','text',''],['lh','Etikett höjd','text',''],['lo','Etikett omkrets','text',''],['unit','Enhet','text','cm'],['oc','Visa omkretsen','chk',1],['nm','Namnge ytorna','chk',0]],d:netCyl},
+netcone:{n:'Nät: kon',g:'Nät',d3:1,f:[['r','Radie',3],['h','Höjd',4],['lr','Etikett radie','text',''],['ls','Etikett sidolinje','text',''],['lv','Etikett sektorvinkel','text',''],['unit','Enhet','text','cm'],['sv','Visa sektorvinkeln','chk',1],['nm','Namnge ytorna','chk',0]],d:netCone}};
+const S={};const GS=S;let cur='grid';
+for(const k in F){S[k]={};F[k].f.forEach(x=>S[k][x[0]]=x[2]=='sel'?x[4]:x[2]=='chk'||x[2]=='text'?x[3]:x[2])}
+function tabs(){$('tabs').innerHTML='';let g='',row;for(const k in F){const t=F[k].g||(F[k].d3?'3D':'2D');if(t!=g){g=t;row=document.createElement('div');row.className='row';const s=document.createElement('span');s.className='grp';s.textContent=t;row.appendChild(s);$('tabs').appendChild(row)}
+const b=document.createElement('button');b.className='tab'+(k==cur?' on':'');b.innerHTML=`<svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">${IC[k]}</svg>`;b.title=F[k].n;b.setAttribute('aria-label',F[k].n);b.onclick=()=>{cur=k;tabs();fields();draw()};row.appendChild(b)}}
+function fields(){const el=$('fields');el.innerHTML='';
+if(F[cur].p){const d=document.createElement('div');d.className='tp';F[cur].p.forEach(([n,o])=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>{F[cur].f.forEach(x=>{if(x[2]=='text'&&x[0][0]=='l')S[cur][x[0]]=''});Object.assign(S[cur],o);delete OFF[cur];delete LST[cur];fields();draw()};d.appendChild(b)});el.appendChild(d)}
+F[cur].f.forEach(([id,lb,t,op])=>{const l=document.createElement('label');l.textContent=typeof lb=='function'?lb(S[cur]):lb;let i;
+if(t=='sel'){i=document.createElement('select');op.forEach((x,k)=>i.add(new Option(x,k)));i.value=S[cur][id];i.onchange=()=>{delete OFF[cur];delete LST[cur];S[cur][id]=+i.value;if(id=='lg'){if(cur=='prism'){const t=S[cur].d;S[cur].d=S[cur].h;S[cur].h=t}fields()}draw()}}
+else if(t=='chk'){i=document.createElement('input');i.type='checkbox';i.checked=!!S[cur][id];i.onchange=()=>{delete OFF[cur];delete LST[cur];S[cur][id]=i.checked?1:0;draw()}}
+else{i=document.createElement('input');i.type='text';i.dataset.id=id;i.value=S[cur][id];if(id=='gpts')i.placeholder='A(2,3) B(-1,4.5)';if(id=='glin')i.placeholder='y=2x+1; x=3';if(id=='vt')i.placeholder='tom = gradtal, x = egen text, - = dölj';if(/^l[a-z0-9]$/.test(id))i.placeholder='tom = automatisk, - = dölj';i.oninput=()=>{if(id=='gpts'||id=='glin'||id=='pts'||id=='vt'){delete OFF[cur];delete LST[cur]}S[cur][id]=i.value;draw()}}
+l.appendChild(i);el.appendChild(l)});
+document.querySelectorAll('.d3').forEach(e=>e.style.display=F[cur].d3?'block':'none');document.querySelectorAll('.d2').forEach(e=>e.style.display=F[cur].d3?'none':'flex');document.querySelectorAll('.bot').forEach(e=>e.style.display=cur=='prism'&&S.prism.lg?'flex':'none');if($('note'))$('note').value=NOTE[cur]||''}
+function pre(){PRE.forEach(([f,c])=>{const b=document.createElement('button');b.style.background=f||NONE;b.style.borderColor=c;b.setAttribute('aria-label','Färgtema');b.onclick=()=>{if(f){$('fill').value=f;$('fillon').checked=true}else $('fillon').checked=false;$('stroke').value=c;draw()};$('pre').appendChild(b)})}
+function surf(){[['base','Basyta'],['side','Sidoytor'],['top','Toppyta'],['bot','Yta mot marken (syns när sidoytorna är genomskinliga)']].forEach(([k,n])=>{const l=document.createElement('label'),sp=document.createElement('span'),ci=document.createElement('input');l.textContent=n;if(k=='bot')l.className='bot';sp.className='pre';
+const mb=(bg,fn,t)=>{const b=document.createElement('button');b.style.background=bg;b.setAttribute('aria-label',t);b.onclick=fn;sp.appendChild(b)};
+mb(NONE,()=>{C[k].on=0;draw()},'Genomskinlig');SWC.forEach(c=>mb(c,()=>{C[k]={on:1,c};ci.value=c;draw()},c));
+ci.type='color';ci.value=C[k].c;ci.oninput=()=>{C[k]={on:1,c:ci.value};draw()};sp.appendChild(ci);l.appendChild(sp);$('surf').appendChild(l)})}
+const mix=(c,k)=>{const n=parseInt(c.slice(1),16),f=v=>Math.round(v+(255-v)*k);return'#'+((1<<24)+(f(n>>16)<<16)+(f(n>>8&255)<<8)+f(n&255)).toString(16).slice(1)};
+const hSv=x=>Math.max(.5,Math.round(x*2)/2),hSa=a=>{a=Math.round(a);for(const m of [30,45,60,90,120,135,150])if(Math.abs(a-m)<=3)return m;return Math.min(175,Math.max(5,a))},hSg=a=>((Math.round(a/5)*5)%360+360)%360;
+const hnd=(f,ux,uy,fn,c)=>{if(HON)HND.push({p:f([ux,uy]),q:f,fn,c:c||'move'})};
+const gr=c=>{if(!c||c=='none')return c;const n=parseInt(c.slice(1),16),y=.3*(n>>16)+.59*(n>>8&255)+.11*(n&255),v=Math.round(255-(255-y)*.55);return'#'+(v*65793).toString(16).padStart(6,'0')};
+function st(){const b=$('bw').checked,tn=+$('lj').value/100,q=c=>{if(!c||c=='none')return c;const t=tn?mix(c,tn):c;return b?gr(t):t};return{lj:tn,fill:q($('fillon').checked?$('fill').value:'none'),base:q(C.base.on?C.base.c:'none'),side:q(C.side.on?C.side.c:'none'),top:q(C.top.on?C.top.c:'none'),bot:q(C.bot.on?C.bot.c:'none'),s:b?'#000000':$('stroke').value,w:$('sw').value,fs:$('fs').value,ms:+$('ms').value,bw:b}}
+let TI=0,UM=0,UN='',LABS=[],LIST=[],LOCK=null,HND=[],HON=true;const OFF={},LST={},NOTE={},esc2=q=>String(q).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const uo=q=>String(q==null?'':q).replace(/^\s*[-+\u2212]?[\d.,]+\s*/,'').trim(),fu=(val,raw)=>{const own=uo(raw);return fmt(val)+(own?' '+own:(UM==0&&UN?' '+UN:''))};
+const T=(x,y,t,o,a='middle')=>{const k=TI++;if(t==='-')return'';const f=(OFF[cur]||{})[k]||{dx:0,dy:0},ls=(LST[cur]||{})[k];LABS.push({k,t:String(t)});let tt=t;if(ls){LIST.push([ls,t]);tt=ls}return`<text class="lab" data-k="${k}" x="${(x+f.dx).toFixed(1)}" y="${(y+f.dy).toFixed(1)}" text-anchor="${a}" dominant-baseline="central" font-size="${o.fs}" fill="${o.s}" font-family="Arial,Helvetica,sans-serif">${tt}</text>`};
+const L=(x1,y1,x2,y2,c,w,x='')=>`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${c}" stroke-width="${w}" ${x}/>`;
+const ah=(x,y,dx,dy,o,z=10)=>{const px=-dy,py=dx;return`<path d="M${x} ${y} L${x-dx*z+px*z*.42} ${y-dy*z+py*z*.42} L${x-dx*z-px*z*.42} ${y-dy*z-py*z*.42}Z" fill="${o.s}"/>`};
+function fit(p,pad){if(LOCK&&LOCK.q)return LOCK.q;const xs=p.map(q=>q[0]),ys=p.map(q=>q[1]);const x0=Math.min(...xs),y0=Math.min(...ys),w=Math.max(...xs)-x0,h=Math.max(...ys)-y0;
+const s=Math.min((W-2*pad)/w,(H-2*pad)/h),ox=(W-w*s)/2-x0*s,oy=(H+h*s)/2+y0*s;const q=z=>[ox+z[0]*s,oy-z[1]*s];q.s=s;q.inv=(px,py)=>[(px-ox)/s,(oy-py)/s];return q}
+function tk(p,q,n,o){let r='';if(!n)return r;const dx=q[0]-p[0],dy=q[1]-p[1],l=Math.hypot(dx,dy),ux=dx/l,uy=dy/l,m=[(p[0]+q[0])/2,(p[1]+q[1])/2],h=o.ms*.4;
+for(let i=0;i<n;i++){const k=(i-(n-1)/2)*8,cx=m[0]+ux*k,cy=m[1]+uy*k;r+=L(cx+uy*h,cy-ux*h,cx-uy*h,cy+ux*h,o.s,o.w)}return r}
+function grid(v,o){const x0=num(v.xmin),x1=num(v.xmax),y0=num(v.ymin),y1=num(v.ymax),p=num(v.step)||1,ar=+v.arr;
+if(!(x1>x0&&y1>y0))throw'Kontrollera att "till" är större än "från".';
+const s=Math.min((W-80)/(x1-x0),(H-80)/(y1-y0)),sx=v.ff?(W-80)/(x1-x0):s,sy=v.ff?(H-80)/(y1-y0):s,w=(x1-x0)*sx,h=(y1-y0)*sy,ox=(W-w)/2,oy=(H-h)/2;
+const X=x=>ox+(x-x0)*sx,Y=y=>oy+(y1-y)*sy;let r=`<rect x="${ox}" y="${oy}" width="${w}" height="${h}" fill="${o.fill}"/>`;
+const ax=Math.min(Math.max(0,x0),x1),ay=Math.min(Math.max(0,y0),y1),g=' opacity=".35"',sm={...o,fs:o.fs*.8};
+for(let x=Math.ceil(x0/p)*p;x<=x1+1e-9;x+=p){if(v.gl)r+=L(X(x),oy,X(x),oy+h,o.s,.7,g);
+if(v.nums&&Math.abs(x)>1e-9)r+=L(X(x),Y(ay)-4,X(x),Y(ay)+4,o.s,1)+T(X(x),Y(ay)+16,fmt(x),sm)}
+for(let y=Math.ceil(y0/p)*p;y<=y1+1e-9;y+=p){if(v.gl)r+=L(ox,Y(y),ox+w,Y(y),o.s,.7,g);
+if(v.nums&&Math.abs(y)>1e-9)r+=L(X(ax)-4,Y(y),X(ax)+4,Y(y),o.s,1)+T(X(ax)-16,Y(y),fmt(y),sm)}
+r+=`<rect x="${ox}" y="${oy}" width="${w}" height="${h}" fill="none" stroke="${o.s}" stroke-width=".8" opacity=".5"/>`;
+const xl=ox-(ar==1?14:4),xr=ox+w+14,yt=oy-14,yb=oy+h+(ar==1?14:4);
+r+=L(xl,Y(ay),xr,Y(ay),o.s,o.w)+L(X(ax),yb,X(ax),yt,o.s,o.w);
+if(ar<2)r+=ah(xr,Y(ay),1,0,o)+ah(X(ax),yt,0,-1,o);if(ar==1)r+=ah(xl,Y(ay),-1,0,o)+ah(X(ax),yb,0,1,o);
+r+=plot(v,o,X,Y,x0,x1,y0,y1,ox,oy,w,h);return r+T(xr+14,Y(ay)+2,'x',o)+T(X(ax)+14,yt-6,'y',o)}
+function plot(v,o,X,Y,x0,x1,y0,y1,ox,oy,w,h){let r=`<clipPath id="gc"><rect x="${ox}" y="${oy}" width="${w}" height="${h}"/></clipPath>`;let da='';const cols=['#306BF0','#d6336c','#0e8f87','#e8590c','#7048e8'],cl=(a,b,c,d,col)=>`<g clip-path="url(#gc)">`+L(a,b,c,d,col,o.w,da?`stroke-dasharray="${da}"`:'')+`</g>`;
+String(v.glin).replace(/−/g,'-').replace(/,/g,'.').split(/[;\n]/).map(z=>z.replace(/\s/g,'').toLowerCase()).filter(Boolean).forEach((e,i)=>{da=o.bw?['','7 5','2 4','9 4 2 4','4 3'][i%5]:'';const col=v.glbw||o.bw?o.s:cols[i%cols.length],oc={...o,s:col};let m;
+if(m=e.match(/^x=(-?[\d.]+)$/)){const x=+m[1];r+=cl(X(x),oy,X(x),oy+h,col)+T(X(x)+6,oy+14,e,oc,'start')}
+else if(m=e.match(/^y=(-?[\d.]+)$/)){const y=+m[1];r+=cl(ox,Y(y),ox+w,Y(y),col)+T(ox+w-6,Y(y)-12,e,oc,'end')}
+else if(m=e.match(/^y=(-?[\d.]*)x(?:([+-][\d.]+))?$/)){const k=m[1]===''?1:m[1]==='-'?-1:+m[1],c=m[2]?+m[2]:0;if(!isFinite(k+c))throw'Kunde inte tolka linjen: '+e;
+r+=cl(X(x0),Y(k*x0+c),X(x1),Y(k*x1+c),col);for(let t=0;t<=40;t++){const x=x1-t*(x1-x0)/40,y=k*x+c;if(y>=y0&&y<=y1){r+=T(X(x)-6,Y(y)-14,e,oc,'end');break}}}
+else throw'Kunde inte tolka linjen: '+e+' (skriv till exempel y=2x+1 eller x=3)'});
+const P=[...String(v.gpts).replace(/−/g,'-').matchAll(/([A-Za-zÅÄÖåäö][\w']*)?\s*\(\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)\s*\)/g)].map(m=>({n:m[1]||'',x:+m[2],y:+m[3]}));
+if(+v.gcon&&P.length>1){const pts=P.map(p=>X(p.x).toFixed(1)+','+Y(p.y).toFixed(1)).join(' ');r+=+v.gcon==2?`<polygon points="${pts}" fill="${o.fill}" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`:`<polyline points="${pts}" fill="none" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`}
+P.forEach(p=>{if(p.x<x0||p.x>x1||p.y<y0||p.y>y1)return;const px=X(p.x),py=Y(p.y),t=p.n+(v.gcoord?`(${fmt(p.x)}, ${fmt(p.y)})`:'');r+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="${o.s}"/>`+(t?T(px+8,py-12,t,o,'start'):'')});
+if(HON){const sx=w/(x1-x0),sy=h/(y1-y0),mg=z=>[X(z[0]),Y(z[1])];mg.s=1;mg.inv=(qx,qy)=>[x0+(qx-ox)/sx,y1-(qy-oy)/sy];
+P.forEach((p,i)=>{if(p.x<x0||p.x>x1||p.y<y0||p.y>y1)return;hnd(mg,p.x,p.y,(x,y)=>{P[i].x=Math.round(Math.max(x0,Math.min(x1,x))*2)/2;P[i].y=Math.round(Math.max(y0,Math.min(y1,y))*2)/2;GS.grid.gpts=P.map(q=>(q.n||'')+'('+(+q.x.toFixed(2))+','+(+q.y.toFixed(2))+')').join(' ')},'move')})}
+return r}
+function circF(v,o){const R0=num(v.r);if(!(R0>0))throw'Radien måste vara större än 0.';
+const s=LOCK&&LOCK.s?LOCK.s:Math.min((W-230)/(2*R0),(H-170)/(2*R0)),R=R0*s,cx=W/2,cy=H/2,O=[cx,cy],D=Math.PI/180;
+const P=(a,k)=>{const t=num(a)*D,q=k||R;return[cx+q*Math.cos(t),cy-q*Math.sin(t)]},ln=(a,b,d)=>L(a[0],a[1],b[0],b[1],o.s,o.w,d||''),dot=p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="${o.s}"/>`;
+const a1=num(v.s1)||0,a2=num(v.s2)||0,dl=(((a2-a1)%360)+360)%360,lg=dl>180?1:0;
+const cm=+v.cs;let r=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="${o.fill}" ${cm==2?'stroke="none"':`stroke="${o.s}" stroke-width="${o.w}"${cm==1?' stroke-dasharray="6 5"':''}`}/>`;
+if(v.sc&&dl>0){const A1=P(a1),A2=P(a2),k=o.ms*1.4,B1=P(a1,k),B2=P(a2,k),t=(a1+dl/2)*D,q=k+o.fs*.8+8;
+r+=`<path d="M${cx} ${cy} L${A1[0]} ${A1[1]} A${R} ${R} 0 ${lg} 0 ${A2[0]} ${A2[1]} Z" fill="${o.s}" fill-opacity=".12" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`+`<path d="M${B1[0]} ${B1[1]} A${k} ${k} 0 ${lg} 0 ${B2[0]} ${B2[1]}" fill="none" stroke="${o.s}" stroke-width="${o.w}"/>`+T(cx+q*Math.cos(t),cy-q*Math.sin(t),v.lv||fmt(dl)+'°',o)}
+if(v.bg&&dl>0){const A1=P(a1),A2=P(a2);r+=`<path d="M${A1[0]} ${A1[1]} A${R} ${R} 0 ${lg} 0 ${A2[0]} ${A2[1]}" fill="none" stroke="${o.s}" stroke-width="${o.w*2.6}" stroke-linecap="round"/>`}
+const ra=num(v.ra)||0,pr=P(ra),nv=[Math.sin(ra*D),Math.cos(ra*D)],mt=+v.mt,lp=P(ra,R*.5),lx=lp[0]+nv[0]*14,ly=lp[1]+nv[1]*14;
+const rsd=+v.rs==1?' stroke-dasharray="6 5"':'';if(mt==1)r+=ln(O,pr,rsd)+T(lx,ly,v.lr||'r = '+fu(R0,v.r),o);
+else if(mt==2)r+=ln(P(ra+180),pr,rsd)+T(lx,ly,v.lr||'d = '+fu(2*R0,v.r),o);
+if(v.cp)r+=dot(O);
+if(v.ch){const A=P(v.c1),B=P(v.c2),m=[(A[0]+B[0])/2,(A[1]+B[1])/2],len=2*R0*Math.abs(Math.sin((num(v.c2)-num(v.c1))*D/2)),dx=m[0]-cx,dy=m[1]-cy,dd=Math.hypot(dx,dy),nn=dd>1?[dx/dd,dy/dd]:[0,-1];
+r+=ln(A,B)+dot(A)+dot(B)+T(m[0]+nn[0]*16,m[1]+nn[1]*16,v.lk||fu(len,''),o);if(v.corn){const a=P(v.c1,R+18),b=P(v.c2,R+18);r+=T(a[0],a[1],'A',o)+T(b[0],b[1],'B',o)}}
+if(v.tg){const ta=num(v.ta)||0,Tp=P(ta),t=[Math.sin(ta*D),Math.cos(ta*D)],e1=[Tp[0]-t[0]*R*.9,Tp[1]-t[1]*R*.9],e2=[Tp[0]+t[0]*R*.9,Tp[1]+t[1]*R*.9];
+r+=ln(e1,e2)+ln(O,Tp,' stroke-dasharray="6 5"')+dot(Tp)+mk(Tp,O,[Tp[0]+t[0]*10,Tp[1]+t[1]*10],o,0);if(v.corn){const q=P(ta,R+20);r+=T(q[0],q[1],'T',o)}}
+if(v.corn)r+=T(cx-14,cy+14,'O',o);
+{const f2=z=>[cx+z[0]*s,cy-z[1]*s];f2.s=s;f2.inv=(px,py)=>[(px-cx)/s,(cy-py)/s];const at=a=>[R0*Math.cos(num(a)*D),R0*Math.sin(num(a)*D)],ang=(x,y)=>hSg(Math.atan2(y,x)*180/Math.PI),pa=(a)=>hnd(f2,...at(a[0]),(x,y)=>{GS.circ[a[1]]=ang(x,y)},'move');
+hnd(f2,...at(v.ra),(x,y)=>{GS.circ.r=hSv(Math.hypot(x,y));GS.circ.ra=ang(x,y)},'move');
+if(v.ch){pa([v.c1,'c1']);pa([v.c2,'c2'])}if(v.tg)pa([v.ta,'ta']);if(v.sc||v.bg){pa([v.s1,'s1']);pa([v.s2,'s2'])}}
+return r}
+function fitN(pts,pad){if(LOCK&&LOCK.q)return LOCK.q;const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),s=Math.min((W-2*pad)/((x1-x0)||1),(H-2*pad)/((y1-y0)||1)),ox=(W-(x1-x0)*s)/2-x0*s,oy=(H-(y1-y0)*s)/2-y0*s,f=p=>[ox+p[0]*s,oy+p[1]*s];f.s=s;f.inv=(px,py)=>[(px-ox)/s,(py-oy)/s];return f}
+const spts=(f,pts)=>pts.map(p=>f(p).map(z=>z.toFixed(1)).join(',')).join(' ');
+function netDraw(f,o,v,faces,outline,folds){let r=faces.map(([p,t])=>`<polygon points="${spts(f,p)}" fill="${t=='b'?o.base:o.side}"/>`).join('');
+r+=`<polygon points="${spts(f,outline)}" fill="none" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`;
+folds.forEach(([a,b])=>{const A=f(a),B=f(b);r+=L(A[0],A[1],B[0],B[1],o.s,o.w*(v.fd?.85:1),v.fd?' stroke-dasharray="6 5"':'')});
+if(v.nm)faces.forEach(([p,t])=>{const c=p.reduce((q,z)=>[q[0]+z[0]/p.length,q[1]+z[1]/p.length],[0,0]),q=f(c);r+=T(q[0],q[1],t=='b'?'Basyta':'Sidoyta',{...o,fs:o.fs*.75})});return r}
+function netBox(v,o){const w=num(v.w),d=num(v.d),h=num(v.h);if(!(w>0&&d>0&&h>0))throw'Alla mått måste vara större än 0.';
+const X=[0,h,h+w,2*h+w],Y=[0,d,d+h,2*d+h,2*d+2*h],rc=(a,b,c,e)=>[[X[a],Y[c]],[X[b],Y[c]],[X[b],Y[e]],[X[a],Y[e]]];
+const faces=[[rc(1,2,2,3),'b'],[rc(1,2,0,1),'b'],[rc(1,2,1,2),'s'],[rc(1,2,3,4),'s'],[rc(0,1,2,3),'s'],[rc(2,3,2,3),'s']],
+outline=[[X[1],Y[0]],[X[2],Y[0]],[X[2],Y[2]],[X[3],Y[2]],[X[3],Y[3]],[X[2],Y[3]],[X[2],Y[4]],[X[1],Y[4]],[X[1],Y[3]],[X[0],Y[3]],[X[0],Y[2]],[X[1],Y[2]]],
+folds=[[[X[1],Y[2]],[X[2],Y[2]]],[[X[1],Y[3]],[X[2],Y[3]]],[[X[1],Y[2]],[X[1],Y[3]]],[[X[2],Y[2]],[X[2],Y[3]]],[[X[1],Y[1]],[X[2],Y[1]]]],f=fitN(outline,70);
+let r=netDraw(f,o,v,faces,outline,folds);const at=(x,y,dx,dy)=>{const q=f([x,y]);return[q[0]+dx,q[1]+dy]};
+let a=at((X[1]+X[2])/2,Y[0],0,-16);r+=T(a[0],a[1],v.lw||fu(w,v.w),o);a=at(X[1],(Y[0]+Y[1])/2,-18,0);r+=T(a[0],a[1],v.ld||fu(d,v.d),o,'end');a=at((X[0]+X[1])/2,Y[2],0,-14);r+=T(a[0],a[1],v.lh||fu(h,v.h),o);return r}
+function netPrism(v,o){const b=num(v.b),th=num(v.th),Lg=num(v.L);if(!(b>0&&th>0&&Lg>0))throw'Alla mått måste vara större än 0.';
+const sl=Math.hypot(b/2,th),rc=(x0,x1)=>[[x0,th],[x1,th],[x1,th+Lg],[x0,th+Lg]];
+const faces=[[[[sl,th],[sl+b,th],[sl+b/2,0]],'b'],[[[sl,th+Lg],[sl+b,th+Lg],[sl+b/2,2*th+Lg]],'b'],[rc(sl,sl+b),'s'],[rc(0,sl),'s'],[rc(sl+b,2*sl+b),'s']],
+outline=[[sl+b/2,0],[sl+b,th],[2*sl+b,th],[2*sl+b,th+Lg],[sl+b,th+Lg],[sl+b/2,2*th+Lg],[sl,th+Lg],[0,th+Lg],[0,th],[sl,th]],
+folds=[[[sl,th],[sl,th+Lg]],[[sl+b,th],[sl+b,th+Lg]],[[sl,th],[sl+b,th]],[[sl,th+Lg],[sl+b,th+Lg]]],f=fitN(outline,70);
+let r=netDraw(f,o,v,faces,outline,folds);const at=(x,y,dx,dy)=>{const q=f([x,y]);return[q[0]+dx,q[1]+dy]};
+let a=at(sl+b/2,th,0,-12);r+=T(a[0],a[1],v.lb||fu(b,v.b),o);
+if(v.sh){const A=f([sl+b/2,0]),B=f([sl+b/2,th]);r+=L(A[0],A[1],B[0],B[1],o.s,o.w*.85,' stroke-dasharray="6 5"')+T(A[0]+8,(A[1]+B[1])/2,v.lt||fu(th,v.th),o,'start')}
+a=at(2*sl+b,th+Lg/2,14,0);r+=T(a[0],a[1],v.ll||fu(Lg,v.L),o,'start');a=at(sl/2,th,0,-14);r+=T(a[0],a[1],v.ls||fu(sl,''),o);return r}
+function netPyr(v,o){const w=num(v.w),d=num(v.d),h=num(v.h);if(!(w>0&&d>0&&h>0))throw'Alla mått måste vara större än 0.';
+const h1=Math.hypot(h,d/2),h2=Math.hypot(h,w/2),B=[[h2,h1],[h2+w,h1],[h2+w,h1+d],[h2,h1+d]];
+const faces=[[B,'b'],[[B[0],B[1],[h2+w/2,0]],'s'],[[B[3],B[2],[h2+w/2,2*h1+d]],'s'],[[B[0],B[3],[0,h1+d/2]],'s'],[[B[1],B[2],[2*h2+w,h1+d/2]],'s']],
+outline=[[h2+w/2,0],B[1],[2*h2+w,h1+d/2],B[2],[h2+w/2,2*h1+d],B[3],[0,h1+d/2],B[0]],folds=[[B[0],B[1]],[B[1],B[2]],[B[2],B[3]],[B[3],B[0]]],f=fitN(outline,70);
+let r=netDraw(f,o,v,faces,outline,folds);const at=(x,y,dx,dy)=>{const q=f([x,y]);return[q[0]+dx,q[1]+dy]};
+let a=at(h2+w/2,h1+d,0,-14);r+=T(a[0],a[1],v.lw||fu(w,v.w),o);a=at(h2,h1+d/2,14,0);r+=T(a[0],a[1],v.ld||fu(d,v.d),o,'start');
+if(v.sh){const A=f([h2+w/2,0]),Bb=f([h2+w/2,h1]),C2=f([0,h1+d/2]),D2=f([h2,h1+d/2]);r+=L(A[0],A[1],Bb[0],Bb[1],o.s,o.w*.85,' stroke-dasharray="6 5"')+T(A[0]+8,(A[1]+Bb[1])/2,v.lsh||fu(h1,''),o,'start')+L(C2[0],C2[1],D2[0],D2[1],o.s,o.w*.85,' stroke-dasharray="6 5"')+T((C2[0]+D2[0])/2,C2[1]-12,fu(h2,''),o)}return r}
+function netCyl(v,o){const R0=num(v.r),h=num(v.h);if(!(R0>0&&h>0))throw'Radie och höjd måste vara större än 0.';
+const Lc=2*Math.PI*R0,c1=[Lc*.25,R0],c2=[Lc*.75,3*R0+h],pts=[[0,2*R0],[Lc,2*R0],[Lc,2*R0+h],[0,2*R0+h],[c1[0]-R0,c1[1]],[c1[0]+R0,c1[1]],[c1[0],0],[c2[0]-R0,c2[1]],[c2[0]+R0,c2[1]],[c2[0],4*R0+h]],f=fitN(pts,70),s=f.s,sw=`stroke="${o.s}" stroke-width="${o.w}"`;
+const at=(x,y,dx,dy)=>{const q=f([x,y]);return[q[0]+dx,q[1]+dy]},C1=f(c1),C2=f(c2);
+let r=`<polygon points="${spts(f,pts.slice(0,4))}" fill="${o.side}" ${sw} stroke-linejoin="round"/><circle cx="${C1[0]}" cy="${C1[1]}" r="${R0*s}" fill="${o.base}" ${sw}/><circle cx="${C2[0]}" cy="${C2[1]}" r="${R0*s}" fill="${o.base}" ${sw}/>`;
+r+=L(C1[0],C1[1],C1[0]+R0*s,C1[1],o.s,o.w)+`<circle cx="${C1[0]}" cy="${C1[1]}" r="3" fill="${o.s}"/>`+T(C1[0]+R0*s/2,C1[1]-14,v.lr||'r = '+fu(R0,v.r),o);
+let a=at(0,2*R0+h/2,-14,0);r+=T(a[0],a[1],v.lh||fu(h,v.h),o,'end');
+if(v.oc){a=at(Lc*.25,2*R0+h,0,18);r+=T(a[0],a[1],v.lo||'2πr = '+fu(Lc,v.r),o)}
+if(v.nm){a=at(Lc/2,2*R0+h/2,0,0);r+=T(a[0],a[1],'Sidoyta',{...o,fs:o.fs*.75})+T(C1[0],C1[1]+R0*s*.45,'Basyta',{...o,fs:o.fs*.75})+T(C2[0],C2[1]+R0*s*.45,'Basyta',{...o,fs:o.fs*.75})}return r}
+function netCone(v,o){const R0=num(v.r),h=num(v.h);if(!(R0>0&&h>0))throw'Radie och höjd måste vara större än 0.';
+const sd=Math.hypot(R0,h),th=360*R0/sd,hf=th/2*Math.PI/180,pts=[[0,0],[-R0,sd+R0],[R0,sd+R0],[0,sd+2*R0]];for(let i=0;i<=24;i++){const p=-hf+hf*2*i/24;pts.push([sd*Math.sin(p),sd*Math.cos(p)])}
+const f=fitN(pts,70),s=f.s,S2=sd*s,O=f([0,0]),PL=f([-sd*Math.sin(hf),sd*Math.cos(hf)]),PR=f([sd*Math.sin(hf),sd*Math.cos(hf)]),lg=th>180?1:0,CC=f([0,sd+R0]),sw=`stroke="${o.s}" stroke-width="${o.w}"`;
+let r=`<path d="M${O[0]} ${O[1]} L${PL[0]} ${PL[1]} A${S2} ${S2} 0 ${lg} 0 ${PR[0]} ${PR[1]}Z" fill="${o.side}" ${sw} stroke-linejoin="round"/><circle cx="${CC[0]}" cy="${CC[1]}" r="${R0*s}" fill="${o.base}" ${sw}/>`;
+r+=T((O[0]+PR[0])/2+14,(O[1]+PR[1])/2-8,v.ls||fu(sd,''),o,'start');
+r+=L(CC[0],CC[1],CC[0]+R0*s,CC[1],o.s,o.w)+`<circle cx="${CC[0]}" cy="${CC[1]}" r="3" fill="${o.s}"/>`+T(CC[0]+R0*s/2,CC[1]-14,v.lr||'r = '+fu(R0,v.r),o);
+if(v.sv){const k=o.ms*1.4,A=[O[0]-Math.sin(hf)*k,O[1]+Math.cos(hf)*k],B=[O[0]+Math.sin(hf)*k,O[1]+Math.cos(hf)*k];r+=`<path d="M${A[0]} ${A[1]} A${k} ${k} 0 ${lg} 0 ${B[0]} ${B[1]}" fill="none" ${sw}/>`+T(O[0],O[1]+k+o.fs*.9+4,v.lv||fmt(th)+'°',o)}
+if(v.nm)r+=T(O[0],O[1]+S2*.55,'Sidoyta',{...o,fs:o.fs*.75})+T(CC[0],CC[1]+R0*s*.45,'Basyta',{...o,fs:o.fs*.75});return r}
+const au=(val,raw)=>{const own=uo(raw)||(UM==0?UN:'');return fmt(val)+(own?' '+own+'²':'')};
+function pyth(v,o){const a=num(v.a),b=num(v.b);if(!(a>0&&b>0))throw'Katetrarna måste vara större än 0.';const c=Math.hypot(a,b);
+const C0=[0,0],A=[0,-b],B=[a,0],sa=[C0,B,[a,a],[0,a]],sb=[C0,A,[-b,-b],[-b,0]],sc=[A,B,[a+b,-a],[b,-a-b]],f=fitN([].concat(sa,sb,sc),70),col=['#66C7C2','#F4A261','#EC6095'].map(z=>{z=mix(z,o.lj||0);return o.bw?gr(z):z});
+hnd(f,a,0,x=>{GS.pyth.a=hSv(x)},'ew-resize');hnd(f,0,-b,(x,y)=>{GS.pyth.b=hSv(-y)},'ns-resize');
+const sq=(p,i)=>`<polygon points="${spts(f,p)}" fill="${v.sq?col[i]:o.fill}" fill-opacity="${v.sq?.4:1}" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`;
+let r=sq(sa,0)+sq(sb,1)+sq(sc,2)+`<polygon points="${spts(f,[C0,B,A])}" fill="${o.fill}" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`;
+if(v.ra)r+=mk(f(C0),f(B),f(A),o,0);
+const un=+v.uk,vals=[a,b,c],raws=[v.a,v.b,''],ky=['la','lb','lc'],ls=['a','b','c'],T0=f([a/3,-b/3]),md=(p,q)=>[(p[0]+q[0])/2,(p[1]+q[1])/2];
+const inward=(q,k)=>{const dx=T0[0]-q[0],dy=T0[1]-q[1],d=Math.hypot(dx,dy)||1;return[q[0]+dx/d*k,q[1]+dy/d*k]};
+const cn=Math.hypot(a,b)||1,outs=[[[a/2,a],[0,1]],[[-b,-b/2],[-1,0]],[[(a+2*b)/2,-(2*a+b)/2],[b/cn,-a/cn]]];
+outs.forEach(([pt,dr],i)=>{const q=f(pt),k=16+o.fs*.45;r+=T(q[0]+dr[0]*k,q[1]+dr[1]*k,v[ky[i]]||(un==i+1?'x':fu(vals[i],raws[i])),o)});
+const ya=+v.ya;if(ya)[[sa,0],[sb,1],[sc,2]].forEach(([p,i])=>{const cc=f([(p[0][0]+p[2][0])/2,(p[0][1]+p[2][1])/2]);r+=T(cc[0],cc[1],un==i+1?'x²':ya==1?ls[i]+'²':au(vals[i]*vals[i],raws[i]),o)});
+if(v.corn)[['A',A],['B',B],['C',C0]].forEach(([n,p])=>{const m=inward(f(p),16);r+=T(m[0],m[1],n,o)});
+if(v.fm)r+=T(W/2,H-24,'a² + b² = c²',{...o,fs:o.fs*1.15});
+return r}
+function nline(v,o){const a=num(v.min),b=num(v.max),p=num(v.step)||1,ar=+v.arr;if(!(b>a))throw'Kontrollera att "till" är större än "från".';
+const m=44,s=(W-2*m)/(b-a),X=x=>m+(x-a)*s,y=H/2;let r=L(m-16,y,W-m+16,y,o.s,o.w);
+if(ar<2)r+=ah(W-m+16,y,1,0,o);if(ar==1)r+=ah(m-16,y,-1,0,o);
+for(let x=Math.ceil(a/p)*p;x<=b+1e-9;x+=p)r+=L(X(x),y-7,X(x),y+7,o.s,o.w)+T(X(x),y+26,fmt(x),o);
+String(v.pts).split(',').map(num).filter(isFinite).forEach(x=>{if(x>=a&&x<=b)r+=`<circle cx="${X(x)}" cy="${y}" r="7" fill="${v.open?'#fff':(o.fill=='none'?o.s:o.fill)}" stroke="${o.s}" stroke-width="${o.w}"/>`});return r}
+const un=(a,b)=>{const dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;return[dx/l,dy/l]};
+function mk(V,P1,P2,o,show,txt){const u1=un(V,P1),u2=un(V,P2),d=Math.acos(Math.max(-1,Math.min(1,u1[0]*u2[0]+u1[1]*u2[1])))*180/Math.PI;
+if(Math.abs(d-90)<.05){const k=o.ms;return`<path d="M${V[0]+u1[0]*k} ${V[1]+u1[1]*k} L${V[0]+(u1[0]+u2[0])*k} ${V[1]+(u1[1]+u2[1])*k} L${V[0]+u2[0]*k} ${V[1]+u2[1]*k}" fill="none" stroke="${o.s}" stroke-width="${o.w}"/>`}
+if(!show)return'';const k=o.ms*1.3,sw=u1[0]*u2[1]-u1[1]*u2[0]>0?1:0,bx=u1[0]+u2[0],by=u1[1]+u2[1],bl=Math.hypot(bx,by)||1,t=k+o.fs*.8+4;
+return`<path d="M${V[0]+u1[0]*k} ${V[1]+u1[1]*k} A${k} ${k} 0 0 ${sw} ${V[0]+u2[0]*k} ${V[1]+u2[1]*k}" fill="none" stroke="${o.s}" stroke-width="${o.w}"/>`+T(V[0]+bx/bl*t,V[1]+by/bl*t,txt||fmt(Math.round(d*10)/10)+'°',{...o,fs:o.fs*.85})}
+function chev(p,q,n,o){const[ux,uy]=un(p,q),m=[(p[0]+q[0])/2,(p[1]+q[1])/2],k=o.ms*.35;let r='';for(let i=0;i<n;i++){const t=(i-(n-1)/2)*k*1.2,x=m[0]+ux*t,y=m[1]+uy*t,ax=x-ux*k*.5,ay=y-uy*k*.5,px=uy*k*.8,py=-ux*k*.8;
+r+=`<path d="M${ax+px} ${ay+py} L${x+ux*k*.5} ${y+uy*k*.5} L${ax-px} ${ay-py}" fill="none" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`}return r}
+function shape(Q,o,corn){const n=Q.length,g=[Q.reduce((s,q)=>s+q[0],0)/n,Q.reduce((s,q)=>s+q[1],0)/n],out=(p,d)=>{const dx=p[0]-g[0],dy=p[1]-g[1],l=Math.hypot(dx,dy)||1;return[p[0]+dx/l*d,p[1]+dy/l*d]};
+let r=`<polygon points="${Q.map(q=>q.map(z=>z.toFixed(1)).join(',')).join(' ')}" fill="${o.fill}" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`;
+if(corn)Q.forEach((q,i)=>{const p=out(q,18);r+=T(p[0],p[1],'ABCDEFGHIJKLMNOPQRST'[i],o)});return{r,out}}
+const sl=(S,p,q,t,n,o)=>{const c=S.out([(p[0]+q[0])/2,(p[1]+q[1])/2],24+o.ms*.3);return(t?T(c[0],c[1],t,o):'')+tk(p,q,+n,o)};
+const angs=(Q,o,show,list)=>{const L2=String(list||'').split(';');return Q.map((q,i)=>{const e=(L2[i]||'').trim();if(e=='-')return'';return mk(q,Q[(i+1)%Q.length],Q[(i+Q.length-1)%Q.length],o,show||e!='',e||undefined)}).join('')};
+function hgt(Q,top,f,x,lab,o,F0){const F=f([x,0]),r=L(top[0],top[1],F[0],F[1],o.s,o.w,dash);return r+mk(F,top,[F[0]+10,F[1]],o,0)+T(F[0]+8,(F[1]+top[1])/2,lab,o,'start')}
+function tri(v,o){const a=num(v.a),b=num(v.b),c=num(v.c);if(!(a>0&&b>0&&c>0&&a+b>c&&a+c>b&&b+c>a))throw'Sidorna bildar ingen triangel (två sidor tillsammans måste vara längre än den tredje).';
+const cx=(b*b+c*c-a*a)/(2*c),P0=[[0,0],[c,0],[cx,Math.sqrt(Math.max(0,b*b-cx*cx))]],pq=[[0,1],[1,2],[2,0]][+v.bs],p=P0[pq[0]],q=P0[pq[1]],th=Math.atan2(q[1]-p[1],q[0]-p[0]),co=Math.cos(-th),si=Math.sin(-th);
+let P=P0.map(z=>{const x=z[0]-p[0],y=z[1]-p[1];return[x*co-y*si,x*si+y*co]});
+if(P[(pq[1]+1)%3][1]<0)P=P.map(z=>[z[0],-z[1]]);if(v.mir){const mx=Math.max(...P.map(z=>z[0]));P=P.map(z=>[mx-z[0],z[1]])}
+const ff=fit(P,95),Q=P.map(ff),S=shape(Q,o,v.corn),u=v.unit?' '+v.unit:'';
+if(!+v.bs&&!v.mir){const ax=P0[2][0],ay=P0[2][1];hnd(ff,c,0,x=>{const nc=hSv(x);GS.tri.c=nc;GS.tri.a=hSv(Math.hypot(nc-ax,ay));GS.tri.b=hSv(Math.hypot(ax,ay))},'ew-resize');hnd(ff,ax,ay,(x,y)=>{const yy=Math.max(.3,y);GS.tri.a=hSv(Math.hypot(c-x,yy));GS.tri.b=hSv(Math.hypot(x,yy))},'move')}
+return S.r+sl(S,Q[1],Q[2],v.la||fu(a,v.a),v.ta,o)+sl(S,Q[2],Q[0],v.lb||fu(b,v.b),v.tb,o)+sl(S,Q[0],Q[1],v.lc||fu(c,v.c),v.tc,o)+angs(Q,o,v.ang,v.vt)}
+function para(v,o){const b=num(v.b),s=num(v.s),al=num(v.al);if(!(b>0&&s>0&&al>0&&al<180))throw'Bas och sida måste vara större än 0 och vinkeln mellan 0° och 180°.';
+const rd=al*Math.PI/180,cx=s*Math.cos(rd),hh=s*Math.sin(rd),P=[[0,0],[b,0],[b+cx,hh],[cx,hh]],f=fit(v.hh?P.concat([[cx,0]]):P,100),Q=P.map(f),S=shape(Q,o,v.corn),u=v.unit?' '+v.unit:'';
+hnd(f,b,0,x=>{GS.para.b=hSv(x)},'ew-resize');hnd(f,cx,hh,(x,y)=>{const yy=Math.max(.3,y);GS.para.s=hSv(Math.hypot(x,yy));GS.para.al=hSa(Math.atan2(yy,x)*180/Math.PI)},'move');
+let r=S.r+sl(S,Q[0],Q[1],v.lb||fu(b,v.b),v.tb,o)+sl(S,Q[2],Q[3],'',v.tb,o)+sl(S,Q[1],Q[2],v.ls||fu(s,v.s),v.ts,o)+sl(S,Q[3],Q[0],'',v.ts,o)+angs(Q,o,v.ang,v.vt);
+if(v.par)r+=chev(Q[0],Q[1],1,o)+chev(Q[3],Q[2],1,o)+chev(Q[1],Q[2],2,o)+chev(Q[0],Q[3],2,o);
+if(v.hh&&Math.abs(cx)>1e-9){const F=f([cx,0]);if(cx<0)r+=L(Q[0][0],Q[0][1],F[0],F[1],o.s,1,dash);if(cx>b)r+=L(Q[1][0],Q[1][1],F[0],F[1],o.s,1,dash);r+=hgt(Q,Q[3],f,cx,v.lh||fu(hh,''),o)}return r}
+function trap(v,o){const a=num(v.a),c=num(v.c),h=num(v.h),d=num(v.d)||0;if(!(a>0&&c>0&&h>0))throw'Baser och höjd måste vara större än 0.';
+const P=[[0,0],[a,0],[d+c,h],[d,h]],f=fit(v.hh?P.concat([[d,0]]):P,100),Q=P.map(f),S=shape(Q,o,v.corn),u=v.unit?' '+v.unit:'',ll=Math.hypot(d,h),lr=Math.hypot(a-d-c,h);
+hnd(f,a,0,x=>{GS.trap.a=hSv(x)},'ew-resize');hnd(f,d,h,(x,y)=>{GS.trap.d=Math.round(x*2)/2;GS.trap.h=hSv(y)},'move');hnd(f,d+c,h,(x,y)=>{GS.trap.c=hSv(x-d);GS.trap.h=hSv(y)},'move');
+let r=S.r+sl(S,Q[0],Q[1],v.la||fu(a,v.a),0,o)+sl(S,Q[3],Q[2],v.lc||fu(c,v.c),0,o)+sl(S,Q[1],Q[2],v.legs?fu(lr,''):'',v.tl,o)+sl(S,Q[3],Q[0],v.legs?fu(ll,''):'',v.tl,o)+angs(Q,o,v.ang,v.vt);
+if(v.par)r+=chev(Q[0],Q[1],1,o)+chev(Q[3],Q[2],1,o);
+if(v.hh&&Math.abs(d)>1e-9){const F=f([d,0]);if(d<0)r+=L(Q[0][0],Q[0][1],F[0],F[1],o.s,1,dash);if(d>a)r+=L(Q[1][0],Q[1][1],F[0],F[1],o.s,1,dash);r+=hgt(Q,Q[3],f,d,v.lh||fu(h,v.h),o)}return r}
+function romb(v,o){const s=num(v.s),al=num(v.al);if(!(s>0&&al>0&&al<180))throw'Sidan måste vara större än 0 och vinkeln mellan 0° och 180°.';
+const rd=al*Math.PI/180,cx=s*Math.cos(rd),hh=s*Math.sin(rd),P=[[0,0],[s,0],[s+cx,hh],[cx,hh]],ff=fit(P,100),Q=P.map(ff),S=shape(Q,o,v.corn),u=v.unit?' '+v.unit:'';
+hnd(ff,s,0,x=>{GS.romb.s=hSv(x)},'ew-resize');hnd(ff,cx,hh,(x,y)=>{const yy=Math.max(.3,y);GS.romb.s=hSv(Math.hypot(x,yy));GS.romb.al=hSa(Math.atan2(yy,x)*180/Math.PI)},'move');
+let r=S.r+sl(S,Q[0],Q[1],v.ls||fu(s,v.s),v.ts,o)+sl(S,Q[1],Q[2],'',v.ts,o)+sl(S,Q[2],Q[3],'',v.ts,o)+sl(S,Q[3],Q[0],'',v.ts,o)+angs(Q,o,v.ang,v.vt);
+if(v.par)r+=chev(Q[0],Q[1],1,o)+chev(Q[3],Q[2],1,o)+chev(Q[1],Q[2],2,o)+chev(Q[0],Q[3],2,o);
+if(v.diag){r+=L(Q[0][0],Q[0][1],Q[2][0],Q[2][1],o.s,o.w*.8,dash)+L(Q[1][0],Q[1][1],Q[3][0],Q[3][1],o.s,o.w*.8,dash);const M=[(Q[0][0]+Q[2][0])/2,(Q[0][1]+Q[2][1])/2];r+=mk(M,Q[2],Q[1],o,0)}return r}
+function rect(v,o){const w=num(v.w),h=num(v.h);if(!(w>0&&h>0))throw'Bredd och höjd måste vara större än 0.';
+const f=fit([[0,0],[w,h]],100),a=f([0,h]),b=f([w,0]),u=v.unit?' '+v.unit:'',d=o.fs*.6+o.ms*.4+10;
+hnd(f,w,h,(x,y)=>{GS.rect.w=hSv(x);GS.rect.h=hSv(y)},'nesw-resize');hnd(f,w,h/2,x=>{GS.rect.w=hSv(x)},'ew-resize');hnd(f,w/2,h,(x,y)=>{GS.rect.h=hSv(y)},'ns-resize');
+let r=`<rect x="${a[0]}" y="${a[1]}" width="${b[0]-a[0]}" height="${b[1]-a[1]}" fill="${o.fill}" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`;
+r+=T((a[0]+b[0])/2,b[1]+d,v.lw||fu(w,v.w),o)+T(a[0]-d,(a[1]+b[1])/2,v.lh||fu(h,v.h),o,'end');
+r+=tk([a[0],a[1]],[b[0],a[1]],v.tw,o)+tk([a[0],b[1]],[b[0],b[1]],v.tw,o)+tk([a[0],a[1]],[a[0],b[1]],v.th,o)+tk([b[0],a[1]],[b[0],b[1]],v.th,o);
+if(v.ra){const k=o.ms;[[a[0],b[1],1,-1],[b[0],b[1],-1,-1],[b[0],a[1],-1,1],[a[0],a[1],1,1]].forEach(([x,y,dx,dy])=>r+=`<path d="M${x+dx*k} ${y} l0 ${dy*k} l${-dx*k} 0" fill="none" stroke="${o.s}" stroke-width="${o.w}"/>`)}
+if(v.corn)r+=T(a[0]-14,b[1]+14,'A',o)+T(b[0]+14,b[1]+14,'B',o)+T(b[0]+14,a[1]-14,'C',o)+T(a[0]-14,a[1]-14,'D',o);return r}
+const pr=p=>[p[0]+p[1]*KC,p[2]+p[1]*KS];
+const dash=' stroke-dasharray="6 5"';
+function dimv(xd,yt,yb,tx,bx,lab,o){return L(xd,yt,tx,yt,o.s,1,dash+' opacity=".55"')+L(xd,yb,bx,yb,o.s,1,dash+' opacity=".55"')+L(xd,yt,xd,yb,o.s,o.w)+ah(xd,yt,0,-1,o,9)+ah(xd,yb,0,1,o,9)+T(xd-8,(yt+yb)/2,lab,o,'end')}
+function solid(V,fc,v,o,ht,de,alt,hdl){const [w,d,h]=[num(v.w),num(v.d),num(v.h)];if(!(w>0&&d>0&&h>0))throw'Alla mått måste vara större än 0.';
+const P=V.map(pr),f=fit(P,95),Q=P.map(f),c=V.reduce((a,p)=>a.map((z,i)=>z+p[i]/V.length),[0,0,0]),eh=new Map,u=v.unit?' '+v.unit:'';
+if(hdl)hdl(f);
+const FS=fc.map(([ix,t])=>{const m=ix.reduce((s,i)=>s.map((z,k)=>z+V[i][k]/ix.length),[0,0,0]);let N=cr(sub(V[ix[1]],V[ix[0]]),sub(V[ix[2]],V[ix[0]]));if(dot(N,sub(m,c))<0)N=N.map(z=>-z);const l=Math.hypot(...N);N=N.map(z=>z/l);const vs=dot(N,U)<-1e-9;
+ix.forEach((a,k)=>{const b=ix[(k+1)%ix.length],key=Math.min(a,b)+'-'+Math.max(a,b);eh.set(key,eh.get(key)||vs)});return{ix,t,N,vs}});
+const pt=i=>Q[i].map(z=>z.toFixed(1)).join(',');let r='';
+const see=v.tr||o.side=='none';if(see)FS.filter(x=>(x.t=='b'||x.t=='g')&&!x.vs).forEach(b=>{const cl=b.t=='g'?o.bot:o.base;if(cl&&cl!='none')r+=`<polygon points="${b.ix.map(pt).join(' ')}" fill="${cl}" fill-opacity=".6"/>`});
+FS.filter(x=>x.vs).forEach(x=>{const fl=x.t=='b'?o.base:x.t=='t'?o.top:x.t=='g'&&o.bot&&o.bot!='none'?o.bot:o.side,pp=x.ix.map(pt).join(' ');
+r+=`<polygon points="${pp}" fill="${fl}" fill-opacity="${v.tr?.6:1}" stroke="${o.s}" stroke-width="${o.w}" stroke-linejoin="round"/>`;if(x.N[0]>.25&&fl!='none')r+=`<polygon points="${pp}" fill="#000" fill-opacity=".1"/>`});
+if(see)eh.forEach((vis,k)=>{if(!vis){const[a,b]=k.split('-');r+=L(Q[a][0],Q[a][1],Q[b][0],Q[b][1],o.s,o.w*.75,dash+' opacity=".75"')}});
+const m=(i,j)=>[(Q[i][0]+Q[j][0])/2,(Q[i][1]+Q[j][1])/2],G=[Q.reduce((t,q)=>t+q[0],0)/Q.length,Q.reduce((t,q)=>t+q[1],0)/Q.length];
+const dim=(i,j,lab,fb)=>{const mm=m(i,j);if(!+v.ml)return T(mm[0]+fb[0],mm[1]+fb[1],lab,o,fb[2]);
+const P1=Q[i],P2=Q[j],dx=P2[0]-P1[0],dy=P2[1]-P1[1],l=Math.hypot(dx,dy)||1,e=[dx/l,dy/l];let nn=[-e[1],e[0]];if(nn[0]*(mm[0]-G[0])+nn[1]*(mm[1]-G[1])<0)nn=[-nn[0],-nn[1]];
+const D=24,A=[P1[0]+nn[0]*D,P1[1]+nn[1]*D],B=[P2[0]+nn[0]*D,P2[1]+nn[1]*D],ex='opacity=".55"';
+return L(P1[0]+nn[0]*4,P1[1]+nn[1]*4,A[0]+nn[0]*4,A[1]+nn[1]*4,o.s,1,ex)+L(P2[0]+nn[0]*4,P2[1]+nn[1]*4,B[0]+nn[0]*4,B[1]+nn[1]*4,o.s,1,ex)+L(A[0],A[1],B[0],B[1],o.s,o.w)+ah(A[0],A[1],-e[0],-e[1],o,9)+ah(B[0],B[1],e[0],e[1],o,9)+T((A[0]+B[0])/2+nn[0]*(10+o.fs*.4),(A[1]+B[1])/2+nn[1]*(10+o.fs*.4),lab,o)};
+r+=dim(0,1,v.lw||fu(w,v.w),[0,o.fs*.6+16]);
+if(alt){const A0=Q[2],F0=f(pr([w/2,0,0]));r+=L(A0[0],A0[1],F0[0],F0[1],o.s,o.w,dash)+T((A0[0]+F0[0])/2+10,(A0[1]+F0[1])/2+4,v.ld||fu(d,v.d),o,'start')}
+else{const dd=de||[1,2];r+=dim(dd[0],dd[1],v.ld||fu(d,v.d),[14,14,'start'])}
+const hl=v.lh||fu(h,v.h),hm=+v.hm,ap=ht=='ap'||ht=='tri',ai=ht=='tri'?2:4,fo=ht=='tri'?[w/2,0,0]:[w/2,d/2,0];
+if(hm==2){const yt=ap?Q[ai][1]:Q[ht[1]][1],xd=Math.min(...Q.map(q=>q[0]))-46;r+=dimv(xd,yt,yt+h*f.s,ap?Q[ai][0]:Q[ht[1]][0],ap?(ht=='tri'?Q[0][0]:Q[ai][0]):Q[ht[0]][0],hl,o)}
+else if(hm==1){if(ap){const cb=f(pr(fo));r+=L(Q[ai][0],Q[ai][1],cb[0],cb[1],o.s,o.w,dash)+T(Q[ai][0]+8,(Q[ai][1]+cb[1])/2,hl,o,'start')}else r+=T(Q[ht[0]][0]-10,(Q[ht[0]][1]+Q[ht[1]][1])/2,hl,o,'end')}
+return r}
+function box(v,o){const[w,d,h]=[num(v.w),num(v.d),num(v.h)];return solid([[0,0,0],[w,0,0],[w,d,0],[0,d,0],[0,0,h],[w,0,h],[w,d,h],[0,d,h]],[[[0,1,2,3],'b'],[[4,5,6,7],'t'],[[0,1,5,4],'s'],[[1,2,6,5],'s'],[[2,3,7,6],'s'],[[3,0,4,7],'s']],v,o,[0,4],null,0,f=>{const dep=(X,Z,x0,z0)=>hSv(((X-x0)*KC+(Z-z0)*KS)/(KC*KC+KS*KS));hnd(f,w,h,(X,Z)=>{GS.box.w=hSv(X);GS.box.h=hSv(Z)},'nesw-resize');hnd(f,w,h/2,X=>{GS.box.w=hSv(X)},'ew-resize');hnd(f,w/2,h,(X,Z)=>{GS.box.h=hSv(Z)},'ns-resize');hnd(f,w+d*KC,h+d*KS,(X,Z)=>{GS.box.d=dep(X,Z,w,h)},'move')})}
+function prism(v,o){if(+v.lg)return prismL(v,o);const[w,d,h]=[num(v.w),num(v.d),num(v.h)];return solid([[0,0,0],[w,0,0],[w/2,d,0],[0,0,h],[w,0,h],[w/2,d,h]],[[[0,1,2],'b'],[[3,4,5],'t'],[[0,1,4,3],'s'],[[1,2,5,4],'s'],[[2,0,3,5],'s']],v,o,[0,3],null,1,f=>{const dep=(X,Z,x0,z0)=>hSv(((X-x0)*KC+(Z-z0)*KS)/(KC*KC+KS*KS));hnd(f,w,h,(X,Z)=>{GS.prism.w=hSv(X);GS.prism.h=hSv(Z)},'nesw-resize');hnd(f,0,h,(X,Z)=>{GS.prism.h=hSv(Z)},'ns-resize');hnd(f,w/2+d*KC,d*KS,(X,Z)=>{GS.prism.d=dep(X,Z,w/2,0)},'move')})}
+function prismL(v,o){const[w,d,h]=[num(v.w),num(v.d),num(v.h)];return solid([[0,0,0],[w,0,0],[w/2,0,h],[0,d,0],[w,d,0],[w/2,d,h]],[[[0,1,2],'b'],[[3,4,5],'b'],[[0,1,4,3],'g'],[[1,2,5,4],'s'],[[2,0,3,5],'s']],v,o,'tri',[1,4],0,f=>{const dep=(X,Z,x0,z0)=>hSv(((X-x0)*KC+(Z-z0)*KS)/(KC*KC+KS*KS));hnd(f,w,0,X=>{GS.prism.w=hSv(X)},'ew-resize');hnd(f,w/2,h,(X,Z)=>{GS.prism.h=hSv(Z)},'ns-resize');hnd(f,w+d*KC,d*KS,(X,Z)=>{GS.prism.d=dep(X,Z,w,0)},'move')})}
+function pyr(v,o){const[w,d,h]=[num(v.w),num(v.d),num(v.h)];return solid([[0,0,0],[w,0,0],[w,d,0],[0,d,0],[w/2,d/2,h]],[[[0,1,2,3],'b'],[[0,1,4],'s'],[[1,2,4],'s'],[[2,3,4],'s'],[[3,0,4],'s']],v,o,'ap',null,0,f=>{const dep=(X,Z,x0,z0)=>hSv(((X-x0)*KC+(Z-z0)*KS)/(KC*KC+KS*KS));hnd(f,w,0,X=>{GS.pyr.w=hSv(X)},'ew-resize');hnd(f,w+d*KC,d*KS,(X,Z)=>{GS.pyr.d=dep(X,Z,w,0)},'move');hnd(f,w/2+(d/2)*KC,h+(d/2)*KS,(X,Z)=>{GS.pyr.h=hSv(Z-(d/2)*KS)},'ns-resize')})}
+function round(v,o,cone){if(+v.lg==1)return roundL(v,o,cone);if(cone&&+v.lg==2)return coneInv(v,o);const R=num(v.r),h=num(v.h);if(!(R>0&&h>0))throw'Radie och höjd måste vara större än 0.';
+const s=LOCK&&LOCK.s?LOCK.s:Math.min((W-200)/(2*R),(H-110)/(h+.6*R)),RR=R*s,ry=RR*.3,cx=W/2+(+v.hm==2?24:0),by=LOCK&&LOCK.by!=null?LOCK.by:H/2+h*s/2,ty=by-h*s,u=v.unit?' '+v.unit:'',see=v.tr||o.side=='none',op=v.tr?.6:1,ln=(x1,y1,x2,y2)=>L(x1,y1,x2,y2,o.s,o.w),
+sw=`stroke="${o.s}" stroke-width="${o.w}"`,fr=`<path d="M${cx-RR} ${by} A${RR} ${ry} 0 0 0 ${cx+RR} ${by}" fill="none" ${sw}/>`;
+let r='';if(see)r+=`<ellipse cx="${cx}" cy="${by}" rx="${RR}" ry="${ry}" fill="${o.base}" fill-opacity=".6"/>`;
+r+=cone?`<path d="M${cx-RR} ${by} A${RR} ${ry} 0 0 0 ${cx+RR} ${by} L${cx} ${ty} Z" fill="${o.side}" fill-opacity="${op}"/>`+ln(cx-RR,by,cx,ty)+ln(cx+RR,by,cx,ty)+fr
+:`<path d="M${cx-RR} ${ty} V${by} A${RR} ${ry} 0 0 0 ${cx+RR} ${by} V${ty} Z" fill="${o.side}" fill-opacity="${op}"/>`+ln(cx-RR,ty,cx-RR,by)+ln(cx+RR,ty,cx+RR,by)+fr;
+if(see)r+=`<path d="M${cx-RR} ${by} A${RR} ${ry} 0 0 1 ${cx+RR} ${by}" fill="none" stroke="${o.s}" stroke-width="${o.w*.75}"${dash} opacity=".75"/>`;
+if(!cone)r+=`<ellipse cx="${cx}" cy="${ty}" rx="${RR}" ry="${ry}" fill="${o.top}" fill-opacity="${op}" ${sw}/>`;
+if(v.rad){const y0=cone?by:ty;r+=L(cx,y0,cx+RR,y0,o.s,o.w)+`<circle cx="${cx}" cy="${y0}" r="3" fill="${o.s}"/>`+T(cx+RR/2,y0-14,v.lr||fu(R,v.r),o)}
+const hl=v.lh||fu(h,v.h),hm=+v.hm;
+if(hm==1)r+=L(cx,ty,cx,by,o.s,o.w,dash)+T(cx+8,(ty+by)/2+(v.rad?10:0),hl,o,'start');
+if(hm==2)r+=dimv(cx-RR-46,ty,by,cone?cx:cx-RR,cx-RR,hl,o);{const k=cone?'cone':'cyl',fz=z=>[cx+z[0]*s,by-z[1]*s];fz.s=s;fz.inv=(px,py)=>[(px-cx)/s,(by-py)/s];fz.lk={by};hnd(fz,R,0,x=>{GS[k].r=hSv(x)},'ew-resize');hnd(fz,0,h,(x,y)=>{GS[k].h=hSv(y)},'ns-resize');if(!cone)hnd(fz,R,h,(x,y)=>{GS[k].r=hSv(x);GS[k].h=hSv(y)},'nesw-resize')}
+return r}
+function coneInv(v,o){const R=num(v.r),h=num(v.h);if(!(R>0&&h>0))throw'Radie och höjd måste vara större än 0.';
+const s=LOCK&&LOCK.s?LOCK.s:Math.min((W-200)/(2*R),(H-110)/(h+.6*R)),RR=R*s,ry=RR*.3,cx=W/2+(+v.hm==2?24:0),ya=LOCK&&LOCK.ya!=null?LOCK.ya:H/2+(h*s+ry)/2,yc=ya-h*s,u=v.unit?' '+v.unit:'',op=v.tr?.6:1,ln=(a,b,c,d)=>L(a,b,c,d,o.s,o.w);
+let r=`<path d="M${cx-RR} ${yc} L${cx} ${ya} L${cx+RR} ${yc}Z" fill="${o.side}" fill-opacity="${op}"/>`+ln(cx-RR,yc,cx,ya)+ln(cx+RR,yc,cx,ya);
+r+=`<ellipse cx="${cx}" cy="${yc}" rx="${RR}" ry="${ry}" fill="${o.base}" fill-opacity="${op}" stroke="${o.s}" stroke-width="${o.w}"/>`;
+if(v.rad)r+=ln(cx,yc,cx+RR,yc)+`<circle cx="${cx}" cy="${yc}" r="3" fill="${o.s}"/>`+T(cx+RR/2,yc+14,v.lr||fu(R,v.r),o);
+const hl=v.lh||fu(h,v.h),hm=+v.hm;
+if(hm==1)r+=L(cx,yc,cx,ya,o.s,o.w,dash)+T(cx+8,(yc+ya)/2,hl,o,'start');
+if(hm==2)r+=dimv(cx-RR-46,yc,ya,cx-RR,cx,hl,o);
+{const fz=z=>[cx+z[0]*s,ya-z[1]*s];fz.s=s;fz.inv=(px,py)=>[(px-cx)/s,(ya-py)/s];fz.lk={ya};hnd(fz,R,h,(x,y)=>{GS.cone.r=hSv(x);GS.cone.h=hSv(y)},'nesw-resize');hnd(fz,0,h,(x,y)=>{GS.cone.h=hSv(y)},'ns-resize')}
+return r}
+function roundL(v,o,cone){const R=num(v.r),h=num(v.h);if(!(R>0&&h>0))throw'Radie och längd måste vara större än 0.';
+const s=LOCK&&LOCK.s?LOCK.s:Math.min((W-170)/(h+.6*R),(H-150)/(2*R)),RR=R*s,rx=RR*.3,len=h*s,xL=LOCK&&LOCK.xl!=null?LOCK.xl:W/2-len/2,xR=xL+len,cy=LOCK&&LOCK.cy!=null?LOCK.cy:H/2-(+v.hm==2?16:0),u=v.unit?' '+v.unit:'',see=v.tr||o.side=='none',op=v.tr?.6:1,sw=`stroke="${o.s}" stroke-width="${o.w}"`,ln=(a,b,c,d)=>L(a,b,c,d,o.s,o.w);
+let r='';if(see&&!cone)r+=`<ellipse cx="${xR}" cy="${cy}" rx="${rx}" ry="${RR}" fill="${o.base}" fill-opacity=".6"/>`;
+if(cone)r+=`<path d="M${xL} ${cy-RR} L${xR} ${cy} L${xL} ${cy+RR}Z" fill="${o.side}" fill-opacity="${op}"/>`+ln(xL,cy-RR,xR,cy)+ln(xL,cy+RR,xR,cy);
+else r+=`<path d="M${xL} ${cy-RR} H${xR} A${rx} ${RR} 0 0 1 ${xR} ${cy+RR} H${xL}Z" fill="${o.side}" fill-opacity="${op}"/>`+ln(xL,cy-RR,xR,cy-RR)+ln(xL,cy+RR,xR,cy+RR)+`<path d="M${xR} ${cy-RR} A${rx} ${RR} 0 0 1 ${xR} ${cy+RR}" fill="none" ${sw}/>`;
+if(see&&!cone)r+=`<path d="M${xR} ${cy-RR} A${rx} ${RR} 0 0 0 ${xR} ${cy+RR}" fill="none" stroke="${o.s}" stroke-width="${o.w*.75}"${dash} opacity=".75"/>`;
+r+=`<ellipse cx="${xL}" cy="${cy}" rx="${rx}" ry="${RR}" fill="${o.base}" fill-opacity="${op}" ${sw}/>`;
+if(v.rad)r+=ln(xL,cy,xL,cy-RR)+`<circle cx="${xL}" cy="${cy}" r="3" fill="${o.s}"/>`+T(xL+8,cy-RR/2,v.lr||fu(R,v.r),o,'start');
+const hl=v.lh||fu(h,v.h),hm=+v.hm;
+if(hm==1)r+=L(xL,cy,xR,cy,o.s,o.w,dash)+T((xL+xR)/2,cy+16,hl,o);
+if(hm==2){const y=cy+RR+34;r+=L(xL,cy+RR,xL,y+6,o.s,1,dash+' opacity=".55"')+L(xR,cy+(cone?0:RR),xR,y+6,o.s,1,dash+' opacity=".55"')+L(xL,y,xR,y,o.s,o.w)+ah(xL,y,-1,0,o,9)+ah(xR,y,1,0,o,9)+T((xL+xR)/2,y+16,hl,o)}
+{const k=cone?'cone':'cyl',fz=z=>[xL+z[0]*s,cy-z[1]*s];fz.s=s;fz.inv=(px,py)=>[(px-xL)/s,(cy-py)/s];fz.lk={xl:xL,cy};hnd(fz,h,0,x=>{GS[k].h=hSv(x)},'ew-resize');hnd(fz,0,R,(x,y)=>{GS[k].r=hSv(y)},'ns-resize');if(!cone)hnd(fz,h,R,(x,y)=>{GS[k].h=hSv(x);GS[k].r=hSv(y)},'nesw-resize')}
+return r}
+function cyl(v,o){return round(v,o,0)}function cone(v,o){return round(v,o,1)}
+function sph(v,o){const R=num(v.r);if(!(R>0))throw'Radien måste vara större än 0.';
+const hs=v.hs,s=LOCK&&LOCK.s?LOCK.s:Math.min((W-200)/(2*R),(H-110)/(hs?1.3*R:2*R)),RR=R*s,ry=RR*.3,cx=W/2,cy=LOCK&&LOCK.cy!=null?LOCK.cy:(hs?H/2+RR/2:H/2),u=v.unit?' '+v.unit:'',see=v.tr||o.side=='none',op=v.tr?.6:1,sw=`stroke="${o.s}" stroke-width="${o.w}"`;
+let r='';
+if(hs){if(see)r+=`<ellipse cx="${cx}" cy="${cy}" rx="${RR}" ry="${ry}" fill="${o.base}" fill-opacity=".6"/>`;r+=`<path d="M${cx-RR} ${cy} A${RR} ${RR} 0 0 1 ${cx+RR} ${cy} A${RR} ${ry} 0 0 1 ${cx-RR} ${cy}Z" fill="${o.side}" fill-opacity="${op}" ${sw} stroke-linejoin="round"/>`}
+else r+=`<circle cx="${cx}" cy="${cy}" r="${RR}" fill="${o.side}" fill-opacity="${op}" ${sw}/><path d="M${cx-RR} ${cy} A${RR} ${ry} 0 0 0 ${cx+RR} ${cy}" fill="none" ${sw}/>`;
+if(see)r+=`<path d="M${cx-RR} ${cy} A${RR} ${ry} 0 0 1 ${cx+RR} ${cy}" fill="none" stroke="${o.s}" stroke-width="${o.w*.75}"${dash} opacity=".75"/>`;
+const mt=+v.mt;
+if(mt==1)r+=L(cx,cy,cx+RR,cy,o.s,o.w)+`<circle cx="${cx}" cy="${cy}" r="3" fill="${o.s}"/>`+T(cx+RR/2,cy-14,v.lr||fu(R,v.r),o);
+if(mt==2)r+=L(cx-RR,cy,cx+RR,cy,o.s,o.w)+`<circle cx="${cx}" cy="${cy}" r="3" fill="${o.s}"/>`+T(cx,cy-14,v.lr||fu(2*R,v.r),o);
+{const fz=z=>[cx+z[0]*s,cy-z[1]*s];fz.s=s;fz.inv=(px,py)=>[(px-cx)/s,(cy-py)/s];fz.lk={cy};hnd(fz,R,0,(x,y)=>{GS.sph.r=hSv(Math.hypot(x,y))},'ew-resize')}
+return r}
+function kite(v,o){const a=num(v.a),b=num(v.b),al=num(v.al);if(!(a>0&&b>0&&al>0&&al<180))throw'Sidorna måste vara större än 0 och vinkeln mellan 0° och 180°.';
+const hs=al*Math.PI/360,bx=a*Math.sin(hs);if(b<=bx)throw'Den långa sidan måste vara längre än '+fmt(bx)+' för att figuren ska gå att rita.';
+const P=[[0,0],[-bx,-a*Math.cos(hs)],[0,-a*Math.cos(hs)-Math.sqrt(b*b-bx*bx)],[bx,-a*Math.cos(hs)]],Q=P.map(fit(P,100)),S=shape(Q,o,v.corn),u=v.unit?' '+v.unit:'';
+let r=S.r+sl(S,Q[0],Q[1],v.la||fu(a,v.a),v.ta,o)+sl(S,Q[0],Q[3],'',v.ta,o)+sl(S,Q[1],Q[2],v.lb||fu(b,v.b),v.tb,o)+sl(S,Q[3],Q[2],'',v.tb,o)+angs(Q,o,v.ang,v.vt);
+if(v.diag){r+=L(Q[0][0],Q[0][1],Q[2][0],Q[2][1],o.s,o.w*.8,dash)+L(Q[1][0],Q[1][1],Q[3][0],Q[3][1],o.s,o.w*.8,dash)+mk([Q[0][0],Q[1][1]],Q[0],Q[3],o,0)}return r}
+function ngon(v,o){const n=Math.round(num(v.n)),s=num(v.s);if(!(n>=3&&n<=20&&s>0))throw'Antal sidor måste vara mellan 3 och 20 och sidan större än 0.';
+const Rc=s/(2*Math.sin(Math.PI/n)),ap=Rc*Math.cos(Math.PI/n),P=[...Array(n)].map((_,i)=>{const t=-Math.PI/2-Math.PI/n+2*Math.PI*i/n;return[Rc*Math.cos(t),Rc*Math.sin(t)]}),f=fit(P,100),Q=P.map(f),S=shape(Q,o,v.corn),u=v.unit?' '+v.unit:'',O=f([0,0]),sh=+v.sh;
+let r=S.r+sl(S,Q[0],Q[1],v.ls||fu(s,v.s),v.tk,o);for(let i=1;i<n;i++)r+=sl(S,Q[i],Q[(i+1)%n],'',v.tk,o);r+=angs(Q,o,v.ang,v.vt);
+if(sh==1||sh==3)r+=L(O[0],O[1],Q[1][0],Q[1][1],o.s,o.w)+T((O[0]+Q[1][0])/2+12,(O[1]+Q[1][1])/2-12,v.lr||fu(Rc,''),o,'start');
+if(sh>=2){const M=[(Q[0][0]+Q[1][0])/2,(Q[0][1]+Q[1][1])/2];r+=L(O[0],O[1],M[0],M[1],o.s,o.w,dash)+mk(M,O,Q[1],o,0)+T(M[0]+8,(O[1]+M[1])/2,v.lp||fu(ap,''),o,'start')}
+return r+`<circle cx="${O[0]}" cy="${O[1]}" r="3" fill="${o.s}"/>`}
+function angl(v,o){const A=[num(v.a1),num(v.a2),num(v.a3)].map(z=>z||0),rot=num(v.rot)||0;if(A.some(z=>z<0)||A[0]<=0||A.reduce((x,y)=>x+y,0)>360)throw'Vinklarna måste vara positiva och högst 360° tillsammans.';
+const th=[rot];A.forEach(z=>{if(z>0)th.push(th[th.length-1]+z)});
+const P=[[0,0],...th.map(t=>[Math.cos(t*Math.PI/180),Math.sin(t*Math.PI/180)])],Q=P.map(fit(P,90)),O=Q[0],lab=[v.l1,v.l2,v.l3];let r='';
+Q.slice(1).forEach((q,k)=>{r+=L(O[0],O[1],q[0],q[1],o.s,o.w)+(v.corn?T(q[0]+(q[0]-O[0])*.08,q[1]+(q[1]-O[1])*.08,'ABCD'[k],o):'')});
+for(let k=0;k<th.length-1;k++)r+=mk(O,Q[k+1],Q[k+2],o,v.deg||lab[k],lab[k]||'');
+return r+`<circle cx="${O[0]}" cy="${O[1]}" r="3" fill="${o.s}"/>`+(v.corn?T(O[0]-12,O[1]+14,'O',o):'')}
+function parl(v,o){const th=num(v.th),dist=num(v.dist);if(!(th>0&&th<180&&dist>0))throw'Vinkeln måste vara mellan 0° och 180° och avståndet större än 0.';
+const rd=th*Math.PI/180,c=Math.cos(rd),sn=Math.sin(rd),P1=[dist*c/sn,dist],e=1.3,x0=Math.min(P1[0],0)-2.2,x1=Math.max(P1[0],0)+2.2,
+pts=[[x0,0],[x1,0],[x0,dist],[x1,dist],[-c*e,-sn*e],[P1[0]+c*e,dist+sn*e]],f=fit(pts,70),Q=pts.map(f),V1=f(P1),V2=f([0,0]),md=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+let r=L(Q[0][0],Q[0][1],Q[1][0],Q[1][1],o.s,o.w)+L(Q[2][0],Q[2][1],Q[3][0],Q[3][1],o.s,o.w)+L(Q[4][0],Q[4][1],Q[5][0],Q[5][1],o.s,o.w);
+if(v.par)r+=chev(Q[0],md(Q[0],Q[1]),1,o)+chev(Q[2],md(Q[2],Q[3]),1,o);
+const reg=[[0,th],[th,180],[180,180+th],[180+th,360]],lab=String(v.lab).split(',').map(x=>+x.trim()),xs=String(v.xs).split(',').map(x=>+x.trim());
+for(let k=0;k<8;k++){const V=k<4?V1:V2,j=k%4,[d1,d2]=reg[j],dir=d=>[V[0]+Math.cos(d*Math.PI/180)*20,V[1]-Math.sin(d*Math.PI/180)*20];
+if(lab.includes(k+1))r+=mk(V,dir(d1),dir(d2),o,1,xs.includes(k+1)?'x':fmt([th,180-th,th,180-th][j])+'°');
+if(v.nr){const m=(d1+d2)/2*Math.PI/180,t=o.ms*1.6+10;r+=T(V[0]+Math.cos(m)*t,V[1]-Math.sin(m)*t,String(k+1),{...o,fs:o.fs*.75})}}
+if(v.corn)r+=T(Q[2][0]-14,Q[2][1],'m',o)+T(Q[0][0]-14,Q[0][1],'n',o)+T(Q[5][0]+12,Q[5][1]-8,'t',o);return r}
+let last='';
+function draw(){TI=0;LABS=[];LIST=[];HND=[];HON=$('hon')?$('hon').checked:true;$('msg').textContent='';try{UN=S[cur].unit||'';UM=+$('um').value;const body=F[cur].d(S[cur],st()),bg=$('tp').checked?'':'<rect width="'+W+'" height="'+H+'" fill="#fff"/>';
+last=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${bg}<g id="fg">${body}</g></svg>`;
+const note=String(NOTE[cur]||'').split('\n').map(z=>z.trim()).filter(Boolean),lines=LIST.map(([a,t])=>a+' = '+t).concat(note),needU=UM==1&&UN;
+if(needU||lines.length){let bb=null;try{$('fig').innerHTML=last;const g=$('fig').querySelector('#fg');bb=g?g.getBBox():null}catch(e){}
+const ok=bb&&bb.width>0,o=st();let ex='';
+if(needU)ex+=T(ok?Math.min(W-8,bb.x+bb.width):W-30,ok?Math.max(16,bb.y-14):26,'('+UN+')',o,'end');
+if(lines.length){const k=TI++,f=(OFF[cur]||{})[k]||{dx:0,dy:0},wd=Math.max(...lines.map(z=>z.length))*o.fs*.6,x=(ok?Math.min(bb.x+bb.width+18,W-wd-8):W-wd-12)+f.dx,y=(ok?Math.max(16,bb.y+12):40)+f.dy;
+ex+=`<text class="lab" data-k="${k}" font-size="${o.fs}" fill="${o.s}" font-family="Arial,Helvetica,sans-serif" dominant-baseline="central">`+lines.map((z,i)=>`<tspan x="${x.toFixed(1)}" y="${(y+i*o.fs*1.4).toFixed(1)}">${esc2(z)}</tspan>`).join('')+'</text>'}
+last=last.replace('</svg>',ex+'</svg>')}}catch(e){if(typeof e!='string')throw e;$('msg').textContent=e}$('fig').innerHTML=HND.length?last.replace('</svg>',HND.map((h,i)=>`<circle class="hnd" data-h="${i}" cx="${h.p[0].toFixed(1)}" cy="${h.p[1].toFixed(1)}" r="8" fill="#fff" stroke="#306BF0" stroke-width="2.5" style="cursor:${h.c}"/>`).join('')+'</svg>'):last;labPanel()}
+let lastSig='';
+function labPanel(){const el=$('labs');if(!el)return;const list=['grid','line'].includes(cur)?[]:LABS.filter(l=>!l.t.startsWith('(')),m=LST[cur]||{},sig=cur+JSON.stringify(m)+list.map(l=>l.k+':'+l.t).join('|');if(sig==lastSig)return;lastSig=sig;el.innerHTML='';
+list.forEach(l=>{const lb=document.createElement('label'),i=document.createElement('input');lb.textContent=(m[l.k]?m[l.k]+' = ':'')+l.t;i.type='checkbox';i.checked=!!m[l.k];i.onchange=()=>{const mm=LST[cur]||(LST[cur]={});if(i.checked){const used=Object.values(mm);mm[l.k]=[...'abcdefghijklmnopqrstuvwxyz'].find(c=>!used.includes(c))||'x'+l.k}else delete mm[l.k];draw()};lb.appendChild(i);el.appendChild(lb)})}
+function toPng(cb){const img=new Image(),u=URL.createObjectURL(new Blob([last],{type:'image/svg+xml'}));img.onload=()=>{const c=document.createElement('canvas');c.width=W*3;c.height=H*3;c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(cb)};img.src=u}
+function dl(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()}
+$('png').onclick=()=>toPng(b=>dl(b,cur+'.png'));
+$('svg').onclick=()=>dl(new Blob([last],{type:'image/svg+xml'}),cur+'.svg');
+$('cp').onclick=()=>toPng(async b=>{try{await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);$('cp').textContent='Kopierad!'}catch(e){$('cp').textContent='Gick inte – ladda ner istället'}setTimeout(()=>$('cp').textContent='Kopiera bild',2200)});
+['fill','fillon','stroke','sw','fs','ms','bw','tp','um','lj','hon'].forEach(i=>$(i).oninput=draw);
+let dg=null;const fg=$('fig'),pt2=e=>{const sv=fg.querySelector('svg'),p=sv.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(sv.getScreenCTM().inverse());return[q.x,q.y]};
+fg.addEventListener('pointerdown',e=>{const t=e.target.closest?e.target.closest('.lab'):null;if(!t)return;const o=OFF[cur]||(OFF[cur]={}),k=t.dataset.k,f=o[k]||(o[k]={dx:0,dy:0});dg={f,p:pt2(e),dx:f.dx,dy:f.dy};fg.setPointerCapture(e.pointerId);e.preventDefault()});
+fg.addEventListener('pointermove',e=>{if(!dg)return;const p=pt2(e);dg.f.dx=dg.dx+p[0]-dg.p[0];dg.f.dy=dg.dy+p[1]-dg.p[1];draw()});
+['pointerup','pointercancel'].forEach(v=>fg.addEventListener(v,()=>dg=null));
+let hd=null;const syncFields=()=>{$('fields').querySelectorAll('input[type=text][data-id]').forEach(i=>{const v=S[cur][i.dataset.id];if(v!=null&&document.activeElement!==i)i.value=v})};
+fg.addEventListener('pointerdown',e=>{const h=e.target.closest?e.target.closest('.hnd'):null;if(!h)return;const H0=HND[+h.dataset.h];if(!H0)return;LOCK={q:H0.q,s:H0.q.s,...(H0.q.lk||{})};hd={H0};fg.setPointerCapture(e.pointerId);e.preventDefault()});
+fg.addEventListener('pointermove',e=>{if(!hd)return;const p=pt2(e),u=hd.H0.q.inv(p[0],p[1]);hd.H0.fn(u[0],u[1]);draw();syncFields()});
+['pointerup','pointercancel'].forEach(v=>fg.addEventListener(v,()=>{if(hd){hd=null;LOCK=null;draw();fields()}}));
+$('rl').onclick=()=>{delete OFF[cur];draw()};
+$('note').oninput=()=>{NOTE[cur]=$('note').value;draw()};
+const getP=()=>({stroke:$('stroke').value,sw:$('sw').value,fs:$('fs').value,ms:$('ms').value,um:$('um').value,lj:$('lj').value,cz:$('cz').value,bw:$('bw').checked,tp:$('tp').checked,fill:$('fill').value,fillon:$('fillon').checked,C:JSON.parse(JSON.stringify(C)),unit:(S[cur]&&S[cur].unit!=null)?S[cur].unit:'cm'});
+const applyP=p=>{['stroke','sw','fs','ms','um','fill','lj','cz'].forEach(k=>{if(p[k]!=null)$(k).value=p[k]});['bw','tp','fillon'].forEach(k=>{if(p[k]!=null)$(k).checked=p[k]});if(p.C)for(const k in p.C)if(C[k])C[k]={...C[k],...p.C[k]};if(p.unit!=null)for(const k in S)if(S[k].unit!=null)S[k].unit=p.unit};
+const P0=getP();let sp0=null;try{sp0=JSON.parse(localStorage.getItem('mf_prefs'))}catch(e){}if(sp0)applyP(sp0);
+$('psv').onclick=()=>{let ok=1;try{localStorage.setItem('mf_prefs',JSON.stringify(getP()))}catch(e){ok=0}$('psv').textContent=ok?'Sparat som standard!':'Kunde inte spara';setTimeout(()=>$('psv').textContent='Spara som standard',2200)};
+$('prs').onclick=()=>{try{localStorage.removeItem('mf_prefs')}catch(e){}applyP(P0);$('surf').innerHTML='';surf();fields();draw();$('prs').textContent='Standard återställd!';setTimeout(()=>$('prs').textContent='Återställ standard',2200)};
+const CZS=[[560,400],[840,600],[1120,800]];{const z=CZS[+$('cz').value]||CZS[0];W=z[0];H=z[1]}
+$('cz').onchange=()=>{const z=CZS[+$('cz').value];W=z[0];H=z[1];draw()};
+pre();surf();tabs();fields();draw();
+
+// ===== UB-EMBED v1 (Uppgiftsbanken) – behåll detta block när verktyget uppdateras =====
+// Aktivt bara när sidan öppnas inbäddad med ?embed=1. Kräver knappen #ub och adaptern längst ned i blocket.
+(function(A){if(!/[?&]embed/.test(location.search)||window.parent===window)return;document.body.classList.add('emb');
+const b=document.getElementById('ub');
+if(b){b.style.display='';b.onclick=()=>{try{const r=A.hamta();parent.postMessage({type:'ub-figur',svg:r.svg,kalla:{verktyg:A.id,v:1,tillstand:r.tillstand}},'*')}catch(e){alert('Kunde inte skicka figuren: '+e.message)}}}
+addEventListener('message',e=>{const m=e.data;if(!m||m.type!='ub-ladda'||!m.kalla||m.kalla.verktyg!=A.id)return;try{A.satt(m.kalla.tillstand)}catch(x){alert('Kunde inte läsa in figurens inställningar (verktyget kan ha uppdaterats).')}});
+parent.postMessage({type:'ub-redo',verktyg:A.id,v:1},'*')})({id:'2dfigurer',
+hamta:()=>{const cp=o=>JSON.parse(JSON.stringify(o));return{svg:last,tillstand:{typ:cur,matt:cp(S[cur]),stil:getP(),etikettpos:cp(OFF[cur]||{}),lista:cp(LST[cur]||{}),notering:NOTE[cur]||''}}},
+satt:k=>{if(!F[k.typ])throw 0;if(k.stil)applyP(k.stil);cur=k.typ;Object.assign(S[cur],k.matt||{});if(k.etikettpos)OFF[cur]=k.etikettpos;else delete OFF[cur];if(k.lista)LST[cur]=k.lista;else delete LST[cur];NOTE[cur]=k.notering||'';$('surf').innerHTML='';surf();tabs();fields();draw()}});
+// ===== slut UB-EMBED =====
+
+(function(){const ME='figurer',DEF=[['figurer','Matematikfigurer','https://patricktegnefur.github.io/PPTools/ritafigurer/2dfigurer/index.html'],['sammansatta','Sammansatta figurer','https://patricktegnefur.github.io/PPTools/ritafigurer/sammansatta2d/index.html'],['kroppar','Sammansatta kroppar','https://patricktegnefur.github.io/PPTools/ritafigurer/sammansatta3d/index.html']];
+const GH=/github\.io$/.test(location.hostname);let cfg={same:GH,urls:{}};try{const c=JSON.parse(localStorage.getItem('pt_nav'));if(c)cfg={same:!!c.same,urls:c.urls||{}}}catch(e){}
+const box=document.getElementById('tools');if(!box)return;
+const pn=document.createElement('div');pn.id='navp';document.body.appendChild(pn);
+function build(){box.innerHTML='';DEF.forEach(([k,n,u])=>{const a=document.createElement('a');a.textContent=n;if(k==ME){a.className='on';a.setAttribute('aria-current','page')}else{a.href=cfg.urls[k]||u;if(!cfg.same){a.target='_blank';a.rel='noopener'}}box.appendChild(a)});
+const g=document.createElement('button');g.textContent='\u2699';g.title='Ändra länkarna till verktygen, till exempel till dina GitHub Pages-adresser';g.setAttribute('aria-label','Ändra länkar');g.onclick=()=>{pn.style.display=pn.style.display=='block'?'none':'block';if(pn.style.display=='block')panel()};box.appendChild(g)}
+function panel(){pn.innerHTML='<h3>Länkar mellan verktygen</h3>'+DEF.map(([k,n,u])=>`<label>${n}<input type="text" data-k="${k}" value="${(cfg.urls[k]||u).replace(/"/g,'&quot;')}"></label>`).join('')+`<div class="row2"><input type="checkbox" id="navsame"${cfg.same?' checked':''}><span>Öppna i samma flik</span></div><div><button class="btn" id="navsv">Spara</button><button class="btn alt" id="navrs">Standard</button><button class="btn alt" id="navcl">Stäng</button></div>`;
+pn.querySelector('#navsv').onclick=()=>{const urls={};pn.querySelectorAll('input[data-k]').forEach(i=>{if(i.value.trim())urls[i.dataset.k]=i.value.trim()});cfg={same:pn.querySelector('#navsame').checked,urls};try{localStorage.setItem('pt_nav',JSON.stringify(cfg))}catch(e){}build();pn.style.display='none'};
+pn.querySelector('#navrs').onclick=()=>{cfg={same:GH,urls:{}};try{localStorage.removeItem('pt_nav')}catch(e){}build();panel()};
+pn.querySelector('#navcl').onclick=()=>{pn.style.display='none'}}
+build()})();
+</script>
+</body>
+</html>
