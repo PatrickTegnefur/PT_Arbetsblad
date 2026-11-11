@@ -39,8 +39,10 @@ Områden som går in i varandra hanteras med `ocksa`: en lista extra sökvägar 
 | `instruktion` + `delar` (grupp) | Gemensam instruktion och delar a), b), c)… med egen text och facit. |
 | `figur`, `figurPlats` | Sökväg till SVG. `figurPlats` är `under` (förval). |
 | `facit` | Visas bara när arbetsbladet har `visaFacit: true`. |
+| `kalla` | Valfri. Varifrån uppgiften kommer (bok eller prov och uppgiftsnummer). |
 | `losning` | Valfri. Lösningsförslag som text, en beräkning per rad. Gruppuppgifter kan även ha `losning` på varje del. Visas på facitbladet. |
-| `bild`, `bildAlt`, `bildPlats`, `bildKalla` | Valfria. Tematisk bild (PNG eller JPG) i mappen `bilder/`, med bildtext, placering (`under` eller `hoger`) och källa eller licens. Bredden anges i `layout.bildBreddMm` (förval 45). |
+| `bild`, `bildAlt`, `bildPlats`, `bildJustera`, `bildKalla` | Valfria. Tematisk bild (PNG eller JPG) i mappen `bilder/`, med bildtext, placering (som för figur: `under`, `over`, `vanster`, `hoger`), justering och källa eller licens. Bredden anges i `layout.bildBreddMm` (förval 45). |
+| `figurPlats`, `figurJustera` | Figurens placering: `under` (förval), `over`, `vanster` eller `hoger` (flyter bredvid texten). `figurJustera` (`vanster`, `mitten` eller `hoger`) anger justeringen när figuren ligger över eller under texten. Bredd i `layout.figurBreddMm`. |
 | `figurKalla` | Valfri. Inställningarna i figurverktyget (verktyg, figurtyp, mått, stil) så att figuren kan redigeras igen. Skapas av *Rita figur…* i editorn. |
 | `layout` | Utgångsvärden: `foredragenBredd` (1–12), `minBredd` (tröskel för radbryt), `skrivutrymmeMm`, `kolumner` för grupp och `figurBreddMm` (figurens största bredd, förval 55). |
 | `forfattare`, `skapad`, `genereradAv` | Ursprung. `genereradAv` är ett generatornamn eller `null`. |
@@ -93,6 +95,9 @@ En generator är en liten JSON-fil som beskriver hur en uppgiftstyp slumpas fram
 2. Ändrad uppgiftstext slår igenom i arbetsblad som refererar till uppgiften, om inte blocket har `textOverride`.
 3. En generator är knuten till en uppsättning och skapar vanliga uppgifter i just den. Enda spåret är `genereradAv`.
 4. Kunskapsmål per årskurs kan läggas till senare som en egen lista (`kunskapsmal.json`) och en valfri koppling från uppgifter, utan att övrigt ändras.
+
+## Import från PDF, Word eller foto
+Importen sker via en AI-assistent som läser källfilen och svarar med JSON, och verktyget granskar resultatet innan något sparas. Fliken *Skapa › Importera uppgifter* ger dig instruktionen till assistenten (`docs/import-instruktion.md` är samma text) och tar emot svaret, som text eller fil. Formatet är ett paket `{ "version": 1, "kalla": "...", "uppgifter": [...] }` där varje uppgift har samma fält som en vanlig uppgift (`typ`, `kategori`, `ocksa`, `arskurs`, `svarighet`, `text` eller `instruktion` och `delar`, `facit`, `losning`, `kalla`), samt två extra: `figur` (`{"beskrivning","sida"}`, en beskrivning eftersom bilder inte kan skickas) och `anmarkningar` (sådant du bör kontrollera). Paketet blir utkast som du kan redigera, spara eller kasta. Okända kategorier markeras, och inget skrivs över.
 
 ## Facitblad
 Facitbladet skapas av arbetsbladet: en post per uppgift i arbetsbladets ordning, med numrering som på bladet, svar och lösningsförslag. Det skrivs ut som ett vanligt dokument (flera sidor vid behov).
